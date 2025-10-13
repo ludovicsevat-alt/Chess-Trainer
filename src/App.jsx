@@ -1,6 +1,7 @@
-// src/App.jsx
-import UseEngineDemo from "./UseEngineDemo.jsx";
+import ChessBoardUI from "./components/MainLayout";
 
-export default function App() {
-  return <UseEngineDemo />;
+function App() {
+  return <ChessBoardUI />;
 }
+
+export default App;

@@ -7,10 +7,18 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "npm run dev",
+    "clean": "rd /s /q dist && echo Dossier dist supprimé",
+    "zip": "powershell Compress-Archive -Path . -DestinationPath ../chess-trainer-v2_backup_$(Get-Date -f yyyy-MM-dd_HH-mm).zip",
+    "checkpoint": "git add . && git commit -m \"Checkpoint auto\" && git push",
+    "reset": "git fetch origin main && git reset --hard origin/main && git clean -fd",
+    "forcepush": "git add . && git commit -m \"Force push\" && git push -f origin main",
+    "update-readme": "git add README.md && git commit -m \"Mise à jour du README\" && git push"
   },
   "dependencies": {
     "chess.js": "^1.4.0",
+    "framer-motion": "^12.23.24",
     "react": "^19.1.1",
     "react-chessboard": "^5.6.2",
     "react-dom": "^19.1.1",
