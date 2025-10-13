@@ -1,16 +1,27 @@
-# React + Vite
+# ♟️ Chess-Trainer V2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Une application React de formation aux ouvertures d’échecs utilisant **Stockfish** intégré localement en Web Worker.  
+Le moteur est embarqué directement dans le navigateur, sans dépendance externe ni WebAssembly distant.
 
-Currently, two official plugins are available:
+## 🚀 Fonctionnalités
+- Moteur **Stockfish** fonctionnel via sous-worker.  
+- Interface React + Vite + Tailwind CSS.  
+- Sauvegarde Git et scripts d’automatisation.  
+- Version stable vérifiée (13 octobre 2025).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Scripts disponibles
+| Commande | Action |
+|-----------|--------|
+| `npm run dev` | Lancer le serveur de développement |
+| `npm run build` | Compiler le projet pour production |
+| `npm run preview` | Prévisualiser la version buildée |
+| `npm run checkpoint` | Commit + push rapide |
+| `npm run zip` | Crée une sauvegarde compressée |
+| `npm run clean` | Nettoie le dossier `dist` |
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 💾 Installation rapide
+```bash
+git clone https://github.com/ludovicsevat-alt/Chess-Trainer.git
+cd Chess-Trainer
+npm install
+npm run dev
