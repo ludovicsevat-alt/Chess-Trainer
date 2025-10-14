@@ -1,9 +1,13 @@
-import { Chessboard } from "react-chessboard";
+import { Chessboard } from "../lib/react-chessboard/Chessboard.tsx";
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import PlayLocal from "../pages/PlayLocal";
 
 export default function MainLayout() {
   const hoverSound = useRef(null);
+  const scrollSound = useRef(null);
+  const [activePage, setActivePage] = useState("home"); // "home" ou "local"
+  const [fadeOut, setFadeOut] = useState(false);
 
   const playHoverSound = () => {
     if (hoverSound.current) {
@@ -12,10 +16,28 @@ export default function MainLayout() {
     }
   };
 
+  const switchPage = (target) => {
+    // jouer le son de parchemin et lancer le fondu
+    if (scrollSound.current) {
+      scrollSound.current.currentTime = 0;
+      scrollSound.current.play().catch(() => {});
+    }
+    setFadeOut(true);
+    setTimeout(() => {
+      setActivePage(target);
+      setFadeOut(false);
+    }, 700);
+  };
+
   return (
-    <div className="flex min-h-screen bg-[#0d1117] text-gray-100 overflow-hidden font-[Cinzel]">
-      {/* ======== SON MÉDIÉVAL ======== */}
+    <div
+      className={`flex min-h-screen bg-[#0d1117] text-gray-100 overflow-hidden font-[Cinzel] transition-opacity duration-700 ${
+        fadeOut ? "opacity-0" : "opacity-100"
+      }`}
+    >
+      {/* ======== SONS MÉDIÉVAUX ======== */}
       <audio ref={hoverSound} src="/sounds/hover.mp3" preload="auto"></audio>
+      <audio ref={scrollSound} src="/sounds/scroll.mp3" preload="auto"></audio>
 
       {/* ======== MENU GAUCHE ======== */}
       <motion.aside
@@ -43,7 +65,7 @@ export default function MainLayout() {
           {/* Menu gauche aligné */}
           <ul className="space-y-4 text-lg tracking-wide">
             {[
-              { symbol: "♜", text: "Accueil" },
+              { symbol: "♜", text: "Accueil", action: "home" },
               { symbol: "♞", text: "Ouvertures" },
               { symbol: "♛", text: "Entraînement" },
               { symbol: "♝", text: "Statistiques" },
@@ -52,6 +74,7 @@ export default function MainLayout() {
               <motion.li
                 key={i}
                 onMouseEnter={playHoverSound}
+                onClick={() => switchPage(item.action || "home")}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
@@ -66,38 +89,39 @@ export default function MainLayout() {
           </ul>
         </div>
 
-        <p className="text-xs text-gray-500 text-center mt-4">
-          v2.0 — Dev Mode
-        </p>
+        <p className="text-xs text-gray-500 text-center mt-4">v2.0 — Dev Mode</p>
       </motion.aside>
 
-      {/* ======== ÉCHIQUIER ======== */}
+      {/* ======== CONTENU CENTRAL ======== */}
       <motion.main
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.6 }}
         className="flex-1 flex justify-center items-center"
       >
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
-          className="flex justify-center items-center w-full h-screen"
-        >
-          <div className="h-[90vh] aspect-square rounded-2xl shadow-[0_15px_50px_rgba(0,0,0,0.6)] backdrop-blur-[2px] relative">
-            <Chessboard
-              id="MainBoard"
-              customDarkSquareStyle={{ backgroundColor: "#3a4a55" }}
-              customLightSquareStyle={{ backgroundColor: "#e0d7b6" }}
-              arePiecesDraggable={false}
-            />
-            {/* Couche invisible pour bloquer toute interaction */}
-            <div
-              className="absolute inset-0 z-10 pointer-events-auto cursor-default"
-              style={{ backgroundColor: "transparent" }}
-            ></div>
-          </div>
-        </motion.div>
+        {activePage === "home" ? (
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
+            className="flex justify-center items-center w-full h-screen"
+          >
+            <div className="h-[90vh] aspect-square rounded-2xl shadow-[0_15px_50px_rgba(0,0,0,0.6)] backdrop-blur-[2px] relative">
+              <Chessboard
+                id="MainBoard"
+                customDarkSquareStyle={{ backgroundColor: "#3a4a55" }}
+                customLightSquareStyle={{ backgroundColor: "#e0d7b6" }}
+                arePiecesDraggable={false}
+              />
+              <div
+                className="absolute inset-0 z-10 pointer-events-auto cursor-default"
+                style={{ backgroundColor: "transparent" }}
+              ></div>
+            </div>
+          </motion.div>
+        ) : (
+          <PlayLocal onBack={() => switchPage("home")} />
+        )}
       </motion.main>
 
       {/* ======== MENU DROIT ======== */}
@@ -115,12 +139,13 @@ export default function MainLayout() {
           {[
             { symbol: "⚔", text: "Jouer en ligne" },
             { symbol: "♟", text: "Jouer contre l’IA" },
-            { symbol: "⚜", text: "Jouer avec un ami" },
+            { symbol: "⚜", text: "Jouer avec un ami", action: "local" },
             { symbol: "👑", text: "Variantes d’échecs" },
           ].map((item, i) => (
             <motion.li
               key={i}
               onMouseEnter={playHoverSound}
+              onClick={() => switchPage(item.action || "home")}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.6 + i * 0.1 }}
@@ -143,12 +168,7 @@ export default function MainLayout() {
         }
 
         .group-hover\\:shine:hover {
-          background: linear-gradient(
-            90deg,
-            #bfa433 0%,
-            #fff4c2 50%,
-            #bfa433 100%
-          );
+          background: linear-gradient(90deg,#bfa433 0%,#fff4c2 50%,#bfa433 100%);
           background-size: 200%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
