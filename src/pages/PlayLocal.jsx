@@ -7,8 +7,13 @@ export default function PlayLocal({ onBack }) {
   const [fen, setFen] = useState(chessRef.current.fen());
   const [turn, setTurn] = useState("white");
   const [fadeOut, setFadeOut] = useState(false);
-  const scrollSound = useRef(null);
-  const moveSound = useRef(null);
+
+  // --- sons ---
+  const moveSound = useRef(new Audio("/assets/sounds/chess/Move.mp3"));
+  const captureSound = useRef(new Audio("/assets/sounds/chess/Capture.mp3"));
+  const checkSound = useRef(new Audio("/assets/sounds/chess/Check.mp3"));
+  const mateSound = useRef(new Audio("/assets/sounds/chess/Checkmate.mp3"));
+  const scrollSound = useRef(new Audio("/sounds/scroll.mp3"));
 
   // --- gestion des déplacements ---
   function onPieceDrop({ sourceSquare, targetSquare }) {
@@ -18,17 +23,40 @@ export default function PlayLocal({ onBack }) {
       promotion: "q",
     });
 
-    if (!move) return false; // coup illégal → la pièce revient
+    if (!move) return false; // coup illégal
 
-    setFen(chessRef.current.fen());
-    setTurn(chessRef.current.turn() === "w" ? "white" : "black");
+    // --- sons immédiats et différés ---
+    if (chessRef.current.isGameOver()) {
+      // échec et mat → seul ce son compte
+      mateSound.current.currentTime = 0;
+      mateSound.current.play().catch(() => {});
+    } else if (move.flags.includes("c")) {
+      // capture
+      captureSound.current.currentTime = 0;
+      captureSound.current.play().catch(() => {});
 
-    if (moveSound.current) {
+      // capture + échec
+      if (chessRef.current.inCheck()) {
+        setTimeout(() => {
+          checkSound.current.currentTime = 0;
+          checkSound.current.play().catch(() => {});
+        }, 120);
+      }
+    } else if (chessRef.current.inCheck()) {
+      // échec seul
+      checkSound.current.currentTime = 0;
+      checkSound.current.play().catch(() => {});
+    } else {
+      // déplacement normal : jouer avant la mise à jour du FEN
       moveSound.current.currentTime = 0;
       moveSound.current.play().catch(() => {});
     }
 
-    return true; // coup validé
+    // mise à jour du plateau après le son
+    setFen(chessRef.current.fen());
+    setTurn(chessRef.current.turn() === "w" ? "white" : "black");
+
+    return true;
   }
 
   // --- options du plateau ---
@@ -49,10 +77,8 @@ export default function PlayLocal({ onBack }) {
 
   // --- retour menu ---
   const handleBack = () => {
-    if (scrollSound.current) {
-      scrollSound.current.currentTime = 0;
-      scrollSound.current.play().catch(() => {});
-    }
+    scrollSound.current.currentTime = 0;
+    scrollSound.current.play().catch(() => {});
     setFadeOut(true);
     setTimeout(() => onBack(), 700);
   };
@@ -70,10 +96,6 @@ export default function PlayLocal({ onBack }) {
         fadeOut ? "opacity-0" : "opacity-100"
       }`}
     >
-      {/* sons */}
-      <audio ref={scrollSound} src="/sounds/scroll.mp3" preload="auto"></audio>
-      <audio ref={moveSound} src="/sounds/move.mp3" preload="auto"></audio>
-
       {/* bouton retour */}
       <button
         onClick={handleBack}
@@ -86,7 +108,6 @@ export default function PlayLocal({ onBack }) {
         {turn === "white" ? "⚪ Tour des Blancs" : "⚫ Tour des Noirs"}
       </h1>
 
-      {/* plateau */}
       <div className="h-[90vh] aspect-square rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.6)] backdrop-blur-sm">
         <Chessboard options={chessboardOptions} />
       </div>
