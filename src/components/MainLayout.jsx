@@ -2,11 +2,12 @@ import { Chessboard } from "../lib/react-chessboard/Chessboard.tsx";
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import PlayLocal from "../pages/PlayLocal";
+import PlayVsAI from "../pages/PlayVsAI";
 
 export default function MainLayout() {
   const hoverSound = useRef(null);
   const scrollSound = useRef(null);
-  const [activePage, setActivePage] = useState("home"); // "home" ou "local"
+  const [activePage, setActivePage] = useState("home"); // "home" | "local" | "ai"
   const [fadeOut, setFadeOut] = useState(false);
 
   const playHoverSound = () => {
@@ -99,29 +100,32 @@ export default function MainLayout() {
         transition={{ duration: 0.8, delay: 0.6 }}
         className="flex-1 flex justify-center items-center"
       >
-        {activePage === "home" ? (
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
-            className="flex justify-center items-center w-full h-screen"
-          >
-            <div className="h-[90vh] aspect-square rounded-2xl shadow-[0_15px_50px_rgba(0,0,0,0.6)] backdrop-blur-[2px] relative">
-              <Chessboard
-                id="MainBoard"
-                customDarkSquareStyle={{ backgroundColor: "#3a4a55" }}
-                customLightSquareStyle={{ backgroundColor: "#e0d7b6" }}
-                arePiecesDraggable={false}
-              />
-              <div
-                className="absolute inset-0 z-10 pointer-events-auto cursor-default"
-                style={{ backgroundColor: "transparent" }}
-              ></div>
-            </div>
-          </motion.div>
-        ) : (
-          <PlayLocal onBack={() => switchPage("home")} />
-        )}
+{activePage === "home" ? (
+  <motion.div
+    initial={{ y: 20, opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
+    className="flex justify-center items-center w-full h-screen"
+  >
+    <div className="h-[90vh] aspect-square rounded-2xl shadow-[0_15px_50px_rgba(0,0,0,0.6)] backdrop-blur-[2px] relative">
+      <Chessboard
+        id="MainBoard"
+        customDarkSquareStyle={{ backgroundColor: "#3a4a55" }}
+        customLightSquareStyle={{ backgroundColor: "#e0d7b6" }}
+        arePiecesDraggable={false}
+      />
+      <div
+        className="absolute inset-0 z-10 pointer-events-auto cursor-default"
+        style={{ backgroundColor: "transparent" }}
+      ></div>
+    </div>
+  </motion.div>
+) : activePage === "ai" ? (
+  <PlayVsAI onBack={() => switchPage("home")} />
+) : (
+  <PlayLocal onBack={() => switchPage("home")} />
+)}
+
       </motion.main>
 
       {/* ======== MENU DROIT ======== */}
@@ -138,7 +142,7 @@ export default function MainLayout() {
         <ul className="space-y-5 text-lg">
           {[
             { symbol: "⚔", text: "Jouer en ligne" },
-            { symbol: "♟", text: "Jouer contre l’IA" },
+            { symbol: "♟", text: "Jouer contre l’IA", action: "ai"  },
             { symbol: "⚜", text: "Jouer avec un ami", action: "local" },
             { symbol: "👑", text: "Variantes d’échecs" },
           ].map((item, i) => (
