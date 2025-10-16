@@ -4,5 +4,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/chess-trainer/", // ← ex: "/chess-trainer-v2/"
+  base: "/Chess-Trainer/", 
 });
