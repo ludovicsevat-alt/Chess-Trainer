@@ -9,11 +9,11 @@ export default function PlayLocal({ onBack }) {
   const [fadeOut, setFadeOut] = useState(false);
 
   // --- sons ---
-  const moveSound = useRef(new Audio("/assets/sounds/chess/Move.mp3"));
-  const captureSound = useRef(new Audio("/assets/sounds/chess/Capture.mp3"));
-  const checkSound = useRef(new Audio("/assets/sounds/chess/Check.mp3"));
-  const mateSound = useRef(new Audio("/assets/sounds/chess/Checkmate.mp3"));
-  const scrollSound = useRef(new Audio("/sounds/scroll.mp3"));
+  const moveSound = useRef(new Audio("../assets/sounds/chess/Move.mp3"));
+  const captureSound = useRef(new Audio("../assets/sounds/chess/Capture.mp3"));
+  const checkSound = useRef(new Audio("../assets/sounds/chess/Check.mp3"));
+  const mateSound = useRef(new Audio("../assets/sounds/chess/Checkmate.mp3"));
+  const scrollSound = useRef(new Audio("../sounds/scroll.mp3"));
 
   // --- gestion des déplacements ---
   function onPieceDrop({ sourceSquare, targetSquare }) {

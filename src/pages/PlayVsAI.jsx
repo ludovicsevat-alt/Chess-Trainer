@@ -11,11 +11,11 @@ export default function PlayVsAI({ onBack }) {
   const [fen, setFen] = useState(() => game.fen());
   const [flags, setFlags] = useState({ playingMove: false });
 
-  const moveSound = useRef(new Audio("/assets/sounds/chess/Move.mp3"));
-  const captureSound = useRef(new Audio("/assets/sounds/chess/Capture.mp3"));
-  const checkSound = useRef(new Audio("/assets/sounds/chess/Check.mp3"));
-  const mateSound = useRef(new Audio("/assets/sounds/chess/Checkmate.mp3"));
-  const illegalSound = useRef(new Audio("/assets/sounds/chess/Illegal.mp3"));
+  const moveSound = useRef(new Audio("../assets/sounds/chess/Move.mp3"));
+  const captureSound = useRef(new Audio("../assets/sounds/chess/Capture.mp3"));
+  const checkSound = useRef(new Audio("../assets/sounds/chess/Check.mp3"));
+  const mateSound = useRef(new Audio("../assets/sounds/chess/Checkmate.mp3"));
+  const illegalSound = useRef(new Audio("../assets/sounds/chess/Illegal.mp3"));
 
   const { ready, thinking, go, onceBestMove, newGame } = useStockfish({ level });
   const turnColor = useMemo(() => (game.turn() === "w" ? "white" : "black"), [game]);
