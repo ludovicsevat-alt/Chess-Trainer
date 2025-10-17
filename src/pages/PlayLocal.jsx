@@ -7,13 +7,14 @@ export default function PlayLocal({ onBack }) {
   const [fen, setFen] = useState(game.fen());
   const [turn, setTurn] = useState("white");
 
-  // 🔊 Chemins absolus (depuis /public/)
-  const moveSound = useRef(new Audio("/sounds/chess/Move.mp3"));
-  const captureSound = useRef(new Audio("/sounds/chess/Capture.mp3"));
-  const checkSound = useRef(new Audio("/sounds/chess/Check.mp3"));
-  const mateSound = useRef(new Audio("/sounds/chess/Checkmate.mp3"));
-  const illegalSound = useRef(new Audio("/sounds/chess/Illegal.mp3"));
-  const scrollSound = useRef(new Audio("/sounds/scroll.mp3"));
+  const basePath =
+    import.meta.env.MODE === "production" ? "/Chess-Trainer" : "";
+
+  const moveSound = useRef(new Audio(`${basePath}/assets/sounds/chess/Move.mp3`));
+  const captureSound = useRef(new Audio(`${basePath}/assets/sounds/chess/Capture.mp3`));
+  const checkSound = useRef(new Audio(`${basePath}/assets/sounds/chess/Check.mp3`));
+  const mateSound = useRef(new Audio(`${basePath}/assets/sounds/chess/Checkmate.mp3`));
+  const illegalSound = useRef(new Audio(`${basePath}/assets/sounds/chess/Illegal.mp3`));
 
   const makeMove = (sourceSquare, targetSquare) => {
     const g = new Chess(game.fen());

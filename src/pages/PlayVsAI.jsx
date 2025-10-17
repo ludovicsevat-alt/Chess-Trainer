@@ -10,12 +10,14 @@ export default function PlayVsAI({ onBack }) {
   const [fen, setFen] = useState(() => game.fen());
   const [flags, setFlags] = useState({ playingMove: false });
 
-  // 🔊 Sons depuis /public/sounds/chess/
-  const moveSound = useRef(new Audio("/sounds/chess/Move.mp3"));
-  const captureSound = useRef(new Audio("/sounds/chess/Capture.mp3"));
-  const checkSound = useRef(new Audio("/sounds/chess/Check.mp3"));
-  const mateSound = useRef(new Audio("/sounds/chess/Checkmate.mp3"));
-  const illegalSound = useRef(new Audio("/sounds/chess/Illegal.mp3"));
+  const basePath =
+    import.meta.env.MODE === "production" ? "/Chess-Trainer" : "";
+
+  const moveSound = useRef(new Audio(`${basePath}/assets/sounds/chess/Move.mp3`));
+  const captureSound = useRef(new Audio(`${basePath}/assets/sounds/chess/Capture.mp3`));
+  const checkSound = useRef(new Audio(`${basePath}/assets/sounds/chess/Check.mp3`));
+  const mateSound = useRef(new Audio(`${basePath}/assets/sounds/chess/Checkmate.mp3`));
+  const illegalSound = useRef(new Audio(`${basePath}/assets/sounds/chess/Illegal.mp3`));
 
   const { ready, thinking, go, onceBestMove, newGame } = useStockfish({ level });
   const turnColor = useMemo(() => (game.turn() === "w" ? "white" : "black"), [game]);
@@ -32,22 +34,13 @@ export default function PlayVsAI({ onBack }) {
   const playSoundForMove = (move, { isMate, isCheck }) => {
     if (!move) {
       illegalSound.current.currentTime = 0;
-      illegalSound.current.play().catch(() => {});
+      illegalSound.current.play();
       return;
     }
-    if (move.flags && (move.flags.includes("c") || move.captured)) {
-      captureSound.current.currentTime = 0;
-      captureSound.current.play().catch(() => {});
-    } else if (isMate) {
-      mateSound.current.currentTime = 0;
-      mateSound.current.play().catch(() => {});
-    } else if (isCheck) {
-      checkSound.current.currentTime = 0;
-      checkSound.current.play().catch(() => {});
-    } else {
-      moveSound.current.currentTime = 0;
-      moveSound.current.play().catch(() => {});
-    }
+    if (move.captured) captureSound.current.play();
+    else if (isMate) mateSound.current.play();
+    else if (isCheck) checkSound.current.play();
+    else moveSound.current.play();
   };
 
   const makeHumanMove = ({ sourceSquare, targetSquare }) => {
@@ -100,9 +93,7 @@ export default function PlayVsAI({ onBack }) {
   useEffect(() => {
     if (!ready) return;
     const g = new Chess(fen);
-    if (humanSide === "black" && g.turn() === "w") {
-      triggerEngine(fen);
-    }
+    if (humanSide === "black" && g.turn() === "w") triggerEngine(fen);
   }, [ready, humanSide, fen]);
 
   return (
@@ -146,11 +137,7 @@ export default function PlayVsAI({ onBack }) {
           </select>
         </label>
         <span className="ml-4 text-sm opacity-70">
-          {ready
-            ? thinking
-              ? "L’IA réfléchit…"
-              : "IA prête"
-            : "Initialisation IA…"}
+          {ready ? (thinking ? "L’IA réfléchit…" : "IA prête") : "Initialisation IA…"}
         </span>
       </div>
 

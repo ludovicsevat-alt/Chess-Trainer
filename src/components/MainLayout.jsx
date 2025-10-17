@@ -10,7 +10,6 @@ export default function MainLayout() {
   const [activePage, setActivePage] = useState("home");
   const [fadeOut, setFadeOut] = useState(false);
 
-  // Gère automatiquement les bons chemins selon l’environnement
   const basePath =
     import.meta.env.MODE === "production" ? "/Chess-Trainer" : "";
 
@@ -52,7 +51,7 @@ export default function MainLayout() {
         preload="auto"
       />
 
-      {/* --- MENU GAUCHE --- */}
+      {/* MENU GAUCHE */}
       <motion.aside
         initial={{ x: -80, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -102,7 +101,7 @@ export default function MainLayout() {
         <p className="text-xs text-gray-500 text-center mt-4">v2.0 — Dev Mode</p>
       </motion.aside>
 
-      {/* --- CONTENU CENTRAL --- */}
+      {/* CONTENU CENTRAL */}
       <motion.main
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -132,7 +131,7 @@ export default function MainLayout() {
         )}
       </motion.main>
 
-      {/* --- MENU DROIT --- */}
+      {/* MENU DROIT */}
       <motion.aside
         initial={{ x: 80, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
