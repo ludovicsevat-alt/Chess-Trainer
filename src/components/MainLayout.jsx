@@ -1,4 +1,5 @@
-import titre from "../assets/images/titre.png";
+// Image du titre chargée depuis le dossier public
+const titre = "/assets/images/titre.png";
 
 export default function MainLayout({ children }) {
   return (
