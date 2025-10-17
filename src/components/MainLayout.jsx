@@ -10,17 +10,23 @@ export default function MainLayout() {
   const [activePage, setActivePage] = useState("home");
   const [fadeOut, setFadeOut] = useState(false);
 
+  // Gère automatiquement les bons chemins selon l’environnement
+  const basePath =
+    import.meta.env.MODE === "production" ? "/Chess-Trainer" : "";
+
   const playHoverSound = () => {
-    if (hoverSound.current) {
-      hoverSound.current.currentTime = 0;
-      hoverSound.current.play().catch(() => {});
+    const snd = hoverSound.current;
+    if (snd) {
+      snd.currentTime = 0;
+      snd.play().catch(() => {});
     }
   };
 
   const switchPage = (target) => {
-    if (scrollSound.current) {
-      scrollSound.current.currentTime = 0;
-      scrollSound.current.play().catch(() => {});
+    const snd = scrollSound.current;
+    if (snd) {
+      snd.currentTime = 0;
+      snd.play().catch(() => {});
     }
     setFadeOut(true);
     setTimeout(() => {
@@ -35,15 +41,22 @@ export default function MainLayout() {
         fadeOut ? "opacity-0" : "opacity-100"
       }`}
     >
-      {/* ======== SONS ======== */}
-      <audio ref={hoverSound} src="/assets/sounds/hover.mp3" preload="auto" />
-      <audio ref={scrollSound} src="/assets/sounds/scroll.mp3" preload="auto" />
+      <audio
+        ref={hoverSound}
+        src={`${basePath}/assets/sounds/hover.mp3`}
+        preload="auto"
+      />
+      <audio
+        ref={scrollSound}
+        src={`${basePath}/assets/sounds/scroll.mp3`}
+        preload="auto"
+      />
 
-      {/* ======== MENU GAUCHE ======== */}
+      {/* --- MENU GAUCHE --- */}
       <motion.aside
         initial={{ x: -80, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.6 }}
         className="w-[280px] bg-[#161b22] p-5 flex flex-col justify-between border-r border-gray-800"
       >
         <div>
@@ -54,10 +67,9 @@ export default function MainLayout() {
             className="flex justify-center mb-6 animate-shine-slow"
           >
             <img
-              src="/assets/images/titre.png"
+              src={`${basePath}/assets/images/titre.png`}
               alt="Chess Trainer"
               className="w-full max-w-[260px] object-contain select-none pointer-events-none"
-              style={{ backgroundColor: "transparent" }}
             />
           </motion.div>
 
@@ -90,7 +102,7 @@ export default function MainLayout() {
         <p className="text-xs text-gray-500 text-center mt-4">v2.0 — Dev Mode</p>
       </motion.aside>
 
-      {/* ======== CONTENU CENTRAL ======== */}
+      {/* --- CONTENU CENTRAL --- */}
       <motion.main
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -120,17 +132,16 @@ export default function MainLayout() {
         )}
       </motion.main>
 
-      {/* ======== MENU DROIT ======== */}
+      {/* --- MENU DROIT --- */}
       <motion.aside
         initial={{ x: 80, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
         className="w-[280px] bg-[#161b22] p-10 border-l border-gray-800 flex flex-col justify-start"
       >
         <h2 className="text-2xl font-semibold mb-8 text-gray-200 text-center">
           Jouer aux échecs
         </h2>
-
         <ul className="space-y-5 text-lg">
           {[
             { symbol: "⚔", text: "Jouer en ligne" },
@@ -155,29 +166,6 @@ export default function MainLayout() {
           ))}
         </ul>
       </motion.aside>
-
-      {/* ======== EFFETS VISUELS ======== */}
-      <style>{`
-        @keyframes shineAnimation {
-          0% { background-position: -200%; }
-          100% { background-position: 200%; }
-        }
-        .group-hover\\:shine:hover {
-          background: linear-gradient(90deg,#bfa433 0%,#fff4c2 50%,#bfa433 100%);
-          background-size: 200%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: shineAnimation 2s linear infinite;
-        }
-        @keyframes logoShine {
-          0% { filter: brightness(1); }
-          50% { filter: brightness(1.4); }
-          100% { filter: brightness(1); }
-        }
-        .animate-shine-slow {
-          animation: logoShine 3s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 }
