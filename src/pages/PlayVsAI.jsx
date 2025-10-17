@@ -1,8 +1,14 @@
-// src/pages/PlayVsAI.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Chessboard } from "../lib/react-chessboard/Chessboard.tsx";
+import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import { useStockfish } from "../hooks/useStockfish";
+
+// Import des sons pour GitHub Pages
+import moveSoundFile from "../assets/sounds/chess/Move.mp3";
+import captureSoundFile from "../assets/sounds/chess/Capture.mp3";
+import checkSoundFile from "../assets/sounds/chess/Check.mp3";
+import mateSoundFile from "../assets/sounds/chess/Checkmate.mp3";
+import illegalSoundFile from "../assets/sounds/chess/Illegal.mp3";
 
 export default function PlayVsAI({ onBack }) {
   const [level, setLevel] = useState(3);
@@ -11,11 +17,11 @@ export default function PlayVsAI({ onBack }) {
   const [fen, setFen] = useState(() => game.fen());
   const [flags, setFlags] = useState({ playingMove: false });
 
-  const moveSound = useRef(new Audio("../assets/sounds/chess/Move.mp3"));
-  const captureSound = useRef(new Audio("../assets/sounds/chess/Capture.mp3"));
-  const checkSound = useRef(new Audio("../assets/sounds/chess/Check.mp3"));
-  const mateSound = useRef(new Audio("../assets/sounds/chess/Checkmate.mp3"));
-  const illegalSound = useRef(new Audio("../assets/sounds/chess/Illegal.mp3"));
+  const moveSound = useRef(new Audio(moveSoundFile));
+  const captureSound = useRef(new Audio(captureSoundFile));
+  const checkSound = useRef(new Audio(checkSoundFile));
+  const mateSound = useRef(new Audio(mateSoundFile));
+  const illegalSound = useRef(new Audio(illegalSoundFile));
 
   const { ready, thinking, go, onceBestMove, newGame } = useStockfish({ level });
   const turnColor = useMemo(() => (game.turn() === "w" ? "white" : "black"), [game]);
@@ -50,7 +56,6 @@ export default function PlayVsAI({ onBack }) {
     }
   };
 
-  // ta lib locale envoie { sourceSquare, targetSquare }
   const makeHumanMove = ({ sourceSquare, targetSquare }) => {
     if (turnColor !== humanSide) return false;
 
@@ -64,8 +69,8 @@ export default function PlayVsAI({ onBack }) {
     setGame(g);
     setFen(g.fen());
 
-    const isMate = g.isGameOver() && (g.isCheckmate?.() || g.in_checkmate?.());
-    const isCheck = g.inCheck?.() || g.in_check?.();
+    const isMate = g.isGameOver() && g.isCheckmate();
+    const isCheck = g.inCheck();
     playSoundForMove(move, { isMate, isCheck });
 
     if (!g.isGameOver()) triggerEngine(g.fen());
@@ -76,9 +81,9 @@ export default function PlayVsAI({ onBack }) {
     if (!ready || flags.playingMove) return;
     setFlags((f) => ({ ...f, playingMove: true }));
 
-    const waitBest = onceBestMove(); // écouteur AVANT go
+    const waitBest = onceBestMove();
     go(fenForEngine);
-    const uciMove = await waitBest; // ex: "e7e5"
+    const uciMove = await waitBest;
 
     const g = new Chess(fenForEngine);
     const move = g.move({
@@ -90,8 +95,8 @@ export default function PlayVsAI({ onBack }) {
     if (move) {
       setGame(g);
       setFen(g.fen());
-      const isMate = g.isGameOver() && (g.isCheckmate?.() || g.in_checkmate?.());
-      const isCheck = g.inCheck?.() || g.in_check?.();
+      const isMate = g.isGameOver() && g.isCheckmate();
+      const isCheck = g.inCheck();
       playSoundForMove(move, { isMate, isCheck });
     }
 
@@ -105,21 +110,6 @@ export default function PlayVsAI({ onBack }) {
       triggerEngine(fen);
     }
   }, [ready, humanSide, fen]);
-
-  const chessboardOptions = useMemo(
-    () => ({
-      id: "ai-board",
-      position: fen,
-      onPieceDrop: makeHumanMove,
-      arePiecesDraggable: turnColor === humanSide && !game.isGameOver(),
-      boardOrientation: humanSide,
-      animationDuration: 150,
-      customLightSquareStyle: { backgroundColor: "#e0d7b6" },
-      customDarkSquareStyle: { backgroundColor: "#3a4a55" },
-      showBoardNotation: true,
-    }),
-    [fen, turnColor, humanSide, game]
-  );
 
   return (
     <div className="w-full h-full flex flex-col items-center gap-4 p-4">
@@ -156,8 +146,14 @@ export default function PlayVsAI({ onBack }) {
         </span>
       </div>
 
-      <div className="h-[90vh] aspect-square rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.6)] backdrop-blur-sm">
-        <Chessboard options={chessboardOptions} />
+      <div className="w-full max-w-[min(92vh,92vw)] aspect-square">
+        <Chessboard
+          position={fen}
+          arePiecesDraggable={turnColor === humanSide && !game.isGameOver()}
+          onPieceDrop={makeHumanMove}
+          customBoardStyle={{ width: "100%", height: "100%" }}
+          animationDuration={150}
+        />
       </div>
     </div>
   );
