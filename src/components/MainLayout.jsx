@@ -1,4 +1,4 @@
-import { Chessboard } from "../lib/react-chessboard/Chessboard.tsx";
+import { Chessboard } from "react-chessboard";
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import PlayLocal from "../pages/PlayLocal";
@@ -7,7 +7,7 @@ import PlayVsAI from "../pages/PlayVsAI";
 export default function MainLayout() {
   const hoverSound = useRef(null);
   const scrollSound = useRef(null);
-  const [activePage, setActivePage] = useState("home"); // "home" | "local" | "ai"
+  const [activePage, setActivePage] = useState("home");
   const [fadeOut, setFadeOut] = useState(false);
 
   const playHoverSound = () => {
@@ -18,7 +18,6 @@ export default function MainLayout() {
   };
 
   const switchPage = (target) => {
-    // jouer le son de parchemin et lancer le fondu
     if (scrollSound.current) {
       scrollSound.current.currentTime = 0;
       scrollSound.current.play().catch(() => {});
@@ -36,9 +35,9 @@ export default function MainLayout() {
         fadeOut ? "opacity-0" : "opacity-100"
       }`}
     >
-      {/* ======== SONS MÉDIÉVAUX ======== */}
-      <audio ref={hoverSound} src="/sounds/hover.mp3" preload="auto"></audio>
-      <audio ref={scrollSound} src="/sounds/scroll.mp3" preload="auto"></audio>
+      {/* ======== SONS ======== */}
+      <audio ref={hoverSound} src="/assets/sounds/hover.mp3" preload="auto" />
+      <audio ref={scrollSound} src="/assets/sounds/scroll.mp3" preload="auto" />
 
       {/* ======== MENU GAUCHE ======== */}
       <motion.aside
@@ -48,23 +47,20 @@ export default function MainLayout() {
         className="w-[280px] bg-[#161b22] p-5 flex flex-col justify-between border-r border-gray-800"
       >
         <div>
-          {/* Logo avec brillance animée */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="flex justify-center mb-6 animate-shine-slow"
           >
-            {/* ← Chemin corrigé pour GitHub Pages / build Vite */}
             <img
               src="/assets/images/titre.png"
               alt="Chess Trainer"
-              className="w-full max-w-[280px] object-contain select-none pointer-events-none"
+              className="w-full max-w-[260px] object-contain select-none pointer-events-none"
               style={{ backgroundColor: "transparent" }}
             />
           </motion.div>
 
-          {/* Menu gauche aligné */}
           <ul className="space-y-4 text-lg tracking-wide">
             {[
               { symbol: "♜", text: "Accueil", action: "home" },
@@ -80,7 +76,7 @@ export default function MainLayout() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
-                className="flex items-center gap-3 cursor-pointer transition leading-none group"
+                className="flex items-center gap-3 cursor-pointer group"
               >
                 <span className="text-yellow-600 text-xl w-6 text-center group-hover:shine">
                   {item.symbol}
@@ -108,17 +104,13 @@ export default function MainLayout() {
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
             className="flex justify-center items-center w-full h-screen"
           >
-            <div className="h-[90vh] aspect-square rounded-2xl shadow-[0_15px_50px_rgba(0,0,0,0.6)] backdrop-blur-[2px] relative">
+            <div className="h-[90vh] aspect-square rounded-2xl shadow-[0_15px_50px_rgba(0,0,0,0.6)] relative">
               <Chessboard
                 id="MainBoard"
                 customDarkSquareStyle={{ backgroundColor: "#3a4a55" }}
                 customLightSquareStyle={{ backgroundColor: "#e0d7b6" }}
                 arePiecesDraggable={false}
               />
-              <div
-                className="absolute inset-0 z-10 pointer-events-auto cursor-default"
-                style={{ backgroundColor: "transparent" }}
-              ></div>
             </div>
           </motion.div>
         ) : activePage === "ai" ? (
@@ -153,7 +145,7 @@ export default function MainLayout() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.6 + i * 0.1 }}
-              className="flex items-center gap-3 leading-none cursor-pointer transition group"
+              className="flex items-center gap-3 cursor-pointer group"
             >
               <span className="text-yellow-600 text-xl w-6 text-center group-hover:shine">
                 {item.symbol}
@@ -170,7 +162,6 @@ export default function MainLayout() {
           0% { background-position: -200%; }
           100% { background-position: 200%; }
         }
-
         .group-hover\\:shine:hover {
           background: linear-gradient(90deg,#bfa433 0%,#fff4c2 50%,#bfa433 100%);
           background-size: 200%;
@@ -178,13 +169,11 @@ export default function MainLayout() {
           -webkit-text-fill-color: transparent;
           animation: shineAnimation 2s linear infinite;
         }
-
         @keyframes logoShine {
           0% { filter: brightness(1); }
           50% { filter: brightness(1.4); }
           100% { filter: brightness(1); }
         }
-
         .animate-shine-slow {
           animation: logoShine 3s ease-in-out infinite;
         }
