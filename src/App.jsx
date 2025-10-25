@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Chess } from "chess.js";
-import { Chessboard } from "react-chessboard";
 import MainLayout from "./MainLayout";
 import CenterBoard from "./components/CenterBoard";
 import StaticBoard from "./components/StaticBoard";
+import { initOnUserGesture, play } from "./audio/SoundManager";
 
 export default function App() {
   const [game, setGame] = useState(new Chess());
@@ -13,7 +13,12 @@ export default function App() {
   const [engineReady, setEngineReady] = useState(false);
   const pendingBestMoveRef = useRef(null);
 
-  // Initialise le moteur Stockfish (Worker lite-single dans public/engine)
+  // Audio (préchargement au premier clic)
+  useEffect(() => {
+    initOnUserGesture();
+  }, []);
+
+  // Initialise le moteur Stockfish (Worker lite-single)
   useEffect(() => {
     let closed = false;
 
@@ -29,9 +34,9 @@ export default function App() {
         pendingBestMoveRef.current = parts[1] || null;
       }
     };
-    let worker = null;
+
     try {
-      worker = new Worker("/engine/stockfish-17.1-lite-single-03e3232.js");
+      const worker = new Worker("/engine/stockfish-17.1-lite-single-03e3232.js");
       engineRef.current = worker;
       const onMsg = (e) => handleLine(e.data);
       worker.addEventListener("message", onMsg);
@@ -47,9 +52,7 @@ export default function App() {
         engineRef.current = null;
         setEngineReady(false);
       };
-    } catch (err) {
-      console.error("Impossible de démarrer le Worker Stockfish (lite-single)", err);
-    }
+    } catch (_) {}
 
     return () => {
       closed = true;
@@ -67,13 +70,20 @@ export default function App() {
       to: targetSquare,
       promotion: "q",
     });
-
     if (move === null) return false;
 
     setPosition(game.fen());
-    console.log("Coup joué:", move);
+    const isCapture = move?.flags?.includes("c") || move?.flags?.includes("e");
+    if (game.isCheckmate()) {
+      play("checkmate");
+    } else if (game.inCheck()) {
+      play("check");
+    } else if (isCapture) {
+      play("capture");
+    } else {
+      play("move");
+    }
 
-    // Small delay before engine reply
     setTimeout(() => makeEngineMove(game.fen()), 400);
     return true;
   }
@@ -81,15 +91,20 @@ export default function App() {
   function makeRandomMove() {
     const possibleMoves = game.moves();
     if (game.isGameOver() || possibleMoves.length === 0) return;
-
-    const randomMove =
-      possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-    game.move(randomMove);
+    const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+    const res = game.move(randomMove);
     setPosition(game.fen());
-    console.log("IA (aléatoire) joue:", randomMove);
+    if (game.isCheckmate()) {
+      play("checkmate");
+    } else if (game.inCheck()) {
+      play("check");
+    } else if (res?.flags?.includes("c") || res?.flags?.includes("e")) {
+      play("capture");
+    } else {
+      play("move");
+    }
   }
 
-  // Ask Stockfish for a best move from a FEN, apply it when received.
   function makeEngineMove(fen) {
     if (!engineRef.current || !engineReady) {
       makeRandomMove();
@@ -97,12 +112,10 @@ export default function App() {
     }
 
     pendingBestMoveRef.current = null;
-
     try {
       engineRef.current.postMessage(`position fen ${fen}`);
       engineRef.current.postMessage("go movetime 600");
     } catch (_) {
-      // Engine not responding as UCI, fallback
       makeRandomMove();
       return;
     }
@@ -116,10 +129,18 @@ export default function App() {
           const from = best.slice(0, 2);
           const to = best.slice(2, 4);
           const promo = best.slice(4) || undefined;
-          game.move({ from, to, promotion: promo });
+          const res = game.move({ from, to, promotion: promo });
           setPosition(game.fen());
-          console.log("Stockfish joue:", best);
-        } catch (err) {
+          if (game.isCheckmate()) {
+            play("checkmate");
+          } else if (game.inCheck()) {
+            play("check");
+          } else if (res?.flags?.includes("c") || res?.flags?.includes("e")) {
+            play("capture");
+          } else {
+            play("move");
+          }
+        } catch (_) {
           makeRandomMove();
         }
         return;
@@ -137,54 +158,30 @@ export default function App() {
     const newGame = new Chess();
     setGame(newGame);
     setPosition(newGame.fen());
-
     if (engineRef.current) {
-      try {
-        engineRef.current.postMessage("stop");
-      } catch (_) {}
+      try { engineRef.current.postMessage("stop"); } catch (_) {}
     }
   }
 
-  return (<>
-    <MainLayout
-      selectedView={view}
-      onSelectView={setView}
-      center={
-        view === "engine" ? (
-          <CenterBoard
-            position={position}
-            onDrop={onDrop}
-            resetBoard={resetBoard}
-            engineReady={engineReady}
-          />
-        ) : (
-          <StaticBoard position={position} />
-        )
-      }
-    />
-    {/* Ancien rendu du board conserve en commentaire */}
-    {/*
   return (
-    <div style={{ width: "480px", margin: "auto", paddingTop: "40px" }}>
-      <button
-        onClick={resetBoard}
-        style={{
-          display: "block",
-          margin: "0 auto 10px",
-          padding: "6px 12px",
-          cursor: "pointer",
-        }}
-      >
-        Nouvelle partie
-      </button>
-      <Chessboard position={position} onPieceDrop={onDrop} />
-      <div style={{ textAlign: "center", marginTop: 8, color: engineReady ? "#2e7d32" : "#9e9e9e" }}>
-        {engineReady ? "Stockfish prêt" : "Moteur non prêt – utilisation aléatoire"}
-      </div>
-    </div>
+    <>
+      <MainLayout
+        selectedView={view}
+        onSelectView={setView}
+        center={
+          view === "engine" ? (
+            <CenterBoard
+              position={position}
+              onDrop={onDrop}
+              resetBoard={resetBoard}
+              engineReady={engineReady}
+            />
+          ) : (
+            <StaticBoard position={position} />
+          )
+        }
+      />
+    </>
   );
 }
 
-    */}
-  </>)
-}
