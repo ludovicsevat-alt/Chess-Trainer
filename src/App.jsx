@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import MainLayout from "./MainLayout";
 import CenterBoard from "./components/CenterBoard";
@@ -8,17 +8,16 @@ import { initOnUserGesture, play } from "./audio/SoundManager";
 export default function App() {
   const [game, setGame] = useState(new Chess());
   const [position, setPosition] = useState(game.fen());
-  const [view, setView] = useState("static"); // 'static' | 'engine'
+  const [view, setView] = useState("static");
+  const [selectedMenu, setSelectedMenu] = useState("overview");
   const engineRef = useRef(null);
   const [engineReady, setEngineReady] = useState(false);
   const pendingBestMoveRef = useRef(null);
 
-  // Audio (préchargement au premier clic)
   useEffect(() => {
     initOnUserGesture();
   }, []);
 
-  // Initialise le moteur Stockfish (Worker lite-single)
   useEffect(() => {
     let closed = false;
 
@@ -47,7 +46,9 @@ export default function App() {
         closed = true;
         if (worker) {
           worker.removeEventListener("message", onMsg);
-          try { worker.terminate(); } catch {}
+          try {
+            worker.terminate();
+          } catch {}
         }
         engineRef.current = null;
         setEngineReady(false);
@@ -57,12 +58,31 @@ export default function App() {
     return () => {
       closed = true;
       if (engineRef.current && engineRef.current.terminate) {
-        try { engineRef.current.terminate(); } catch {}
+        try {
+          engineRef.current.terminate();
+        } catch {}
       }
       engineRef.current = null;
       setEngineReady(false);
     };
   }, []);
+
+  function handleMenuSelect(id) {
+    setSelectedMenu(id);
+    switch (id) {
+      case "overview":
+        setView("static");
+        break;
+      case "ai":
+        setView("engine");
+        break;
+      case "local":
+        setView("static");
+        break;
+      default:
+        break;
+    }
+  }
 
   function onDrop(sourceSquare, targetSquare) {
     const move = game.move({
@@ -159,15 +179,17 @@ export default function App() {
     setGame(newGame);
     setPosition(newGame.fen());
     if (engineRef.current) {
-      try { engineRef.current.postMessage("stop"); } catch (_) {}
+      try {
+        engineRef.current.postMessage("stop");
+      } catch {}
     }
   }
 
   return (
     <>
       <MainLayout
-        selectedView={view}
-        onSelectView={setView}
+        selectedMenu={selectedMenu}
+        onSelectMenu={handleMenuSelect}
         center={
           view === "engine" ? (
             <CenterBoard
@@ -184,4 +206,3 @@ export default function App() {
     </>
   );
 }
-

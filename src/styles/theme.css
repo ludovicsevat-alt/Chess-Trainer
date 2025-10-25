@@ -151,3 +151,85 @@ h1, h2, h3, .brand-text, .btn, .menu-item { font-family: 'Cinzel', serif; }
 .panel-title { font-family: 'Cinzel', serif; font-weight: 600; color: var(--color-accent); margin-bottom: 8px; }
 .icon { width: 18px; height: 18px; fill: currentColor; }
 
+
+.left-menu {
+  background: linear-gradient(180deg, #1b1b1b 0%, #101010 100%);
+  border: 1px solid #2f2f2f;
+  box-shadow: inset 0 0 25px rgba(0,0,0,0.75), 0 12px 20px rgba(0,0,0,0.4);
+  padding: 20px 18px;
+}
+
+.brand-logo {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #2f2f2f;
+  background: linear-gradient(145deg, rgba(32,32,32,0.95), rgba(10,10,10,0.95));
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+}
+
+.nav-card.active {
+  border-color: var(--color-accent-light);
+  box-shadow: 0 0 18px rgba(202,167,92,0.35);
+}
+
+.nav-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--color-accent-light);
+  background: radial-gradient(circle at top, rgba(255,255,255,0.08), transparent),
+    linear-gradient(145deg, rgba(30,30,30,0.95), rgba(12,12,12,0.95));
+  text-shadow: 0 0 6px rgba(202,167,92,0.6);
+}
+
+.nav-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.nav-title {
+  font-weight: 600;
+  color: var(--color-accent-light);
+}
+
+.nav-subtitle {
+  font-size: 0.72rem;
+  color: rgba(229,205,150,0.85);
+}
+
+.nav-footer {
+  margin-top: auto;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  opacity: 0.85;
+}
