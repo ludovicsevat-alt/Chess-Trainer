@@ -1,11 +1,11 @@
 ﻿const NAV_ITEMS = [
   { id: "overview", icon: "♜", title: "Accueil", subtitle: "Aperçu échiquier" },
   { id: "ai", icon: "⚡", title: "Jouer contre l'IA", subtitle: "Stockfish" },
-  { id: "local", icon: "⚔", title: "Jouer en local", subtitle: "Mode pass & play" },
+  { id: "local", icon: "⚔️", title: "Jouer en local", subtitle: "Mode pass & play" },
   { id: "training", icon: "🎯", title: "Entraînement", subtitle: "Tactiques & finales" },
   { id: "puzzle", icon: "🧩", title: "Casse-tête", subtitle: "Défis quotidiens" },
-  { id: "stats", icon: "👑", title: "Statistiques", subtitle: "Progression & ELO" },
-  { id: "settings", icon: "⚙", title: "Paramètres", subtitle: "Sons & thème" }
+  { id: "stats", icon: "📊", title: "Statistiques", subtitle: "Progression & ELO" },
+  { id: "settings", icon: "⚙️", title: "Paramètres", subtitle: "Sons & thème" },
 ];
 
 export default function LeftMenu({ selected = "overview", onSelect }) {
