@@ -1,6 +1,7 @@
 ﻿import { useEffect, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import getHumanizedMove from "../engine/HumanizedStockfish";
+import { play as playSound } from "../audio/SoundManager";
 
 const LEVELS = [
   { max: 800, label: "Débutant" },
@@ -17,9 +18,27 @@ function formatHistory(game) {
     const id = Math.floor(i / 2) + 1;
     const white = history[i] ?? "";
     const black = history[i + 1] ?? "";
-    rows.push(`${id}. ${white}${black ? ` ${black}` : ""}`);
+    rows.push(`${id}. ${white}${black ? " " + black : ""}`);
   }
   return rows;
+}
+
+function triggerSound(move) {
+  if (!move) return;
+  const san = move.san ?? "";
+  if (san.includes("#")) {
+    playSound("checkmate");
+    return;
+  }
+  if (san.includes("+")) {
+    playSound("check");
+    return;
+  }
+  if (move.captured || move.flags?.includes("c") || move.flags?.includes("e")) {
+    playSound("capture");
+    return;
+  }
+  playSound("move");
 }
 
 export default function useAiGame() {
@@ -70,12 +89,17 @@ export default function useAiGame() {
 
   const makeEngineMove = async () => {
     try {
-      const suggestion = await getHumanizedMove(engineRef.current, gameRef.current, elo);
-      gameRef.current.move({
+      const suggestion = await getHumanizedMove(
+        engineRef.current,
+        gameRef.current,
+        elo
+      );
+      const move = gameRef.current.move({
         from: suggestion.from,
         to: suggestion.to,
         promotion: suggestion.promotion || "q",
       });
+      triggerSound(move);
       setPosition(gameRef.current.fen());
       updateHistory();
       checkGameOver();
@@ -83,9 +107,13 @@ export default function useAiGame() {
       console.warn("Humanized move failed, fallback random", err);
       const moves = gameRef.current.moves();
       if (moves.length) {
-        gameRef.current.move(moves[Math.floor(Math.random() * moves.length)]);
+        const move = gameRef.current.move(
+          moves[Math.floor(Math.random() * moves.length)]
+        );
+        triggerSound(move);
         setPosition(gameRef.current.fen());
         updateHistory();
+        checkGameOver();
       }
     }
   };
@@ -124,6 +152,7 @@ export default function useAiGame() {
 
     if (move === null) return false;
 
+    triggerSound(move);
     setPosition(game.fen());
     updateHistory();
     if (checkGameOver()) return true;
@@ -203,3 +232,4 @@ export default function useAiGame() {
     getLevelLabelText,
   };
 }
+

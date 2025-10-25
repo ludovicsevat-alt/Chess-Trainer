@@ -460,3 +460,35 @@ h1, h2, h3, .brand-text, .btn, .menu-item { font-family: 'Cinzel', serif; }
 .btn-secondary:hover {
   border-color: var(--color-accent-light);
 }
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.form-field label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-bottom: 4px;
+}
+.form-field input,
+.form-field select,
+.time-grid select {
+  background: #101010;
+  border: 1px solid #2f2f2f;
+  border-radius: 8px;
+  color: var(--color-text);
+  padding: 8px;
+  font-family: 'Cinzel', serif;
+}
+.form-field input:focus,
+.form-field select:focus,
+.time-grid select:focus {
+  outline: none;
+  border-color: var(--color-accent-light);
+  box-shadow: 0 0 6px rgba(202,167,92,0.5);
+}
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}

@@ -15,6 +15,11 @@ function renderContent(menu, aiGame) {
         center: <PlayVsAI aiGame={aiGame} />,
         right: <RightMenu selectedMenu={menu} aiGame={aiGame} />,
       };
+    case "online":
+      return {
+        center: <PlayLocal />,
+        right: <RightMenu selectedMenu={menu} />,
+      };
     case "local":
       return { center: <PlayLocal />, right: <RightMenu selectedMenu={menu} /> };
     case "training":

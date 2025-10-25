@@ -1,5 +1,6 @@
 ﻿const NAV_ITEMS = [
   { id: "overview", icon: "♜", title: "Accueil", subtitle: "Aperçu échiquier" },
+  { id: 'online', icon: '🌐', title: 'Jouer en ligne', subtitle: 'Match classé' },
   { id: "ai", icon: "⚡", title: "Jouer contre l'IA", subtitle: "Stockfish" },
   { id: "local", icon: "⚔️", title: "Jouer en local", subtitle: "Mode pass & play" },
   { id: "training", icon: "🎯", title: "Entraînement", subtitle: "Tactiques & finales" },
@@ -37,3 +38,4 @@ export default function LeftMenu({ selected = "overview", onSelect }) {
     </div>
   );
 }
+
