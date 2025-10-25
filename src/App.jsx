@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
+import MainLayout from "./MainLayout";
+import CenterBoard from "./components/CenterBoard";
+import StaticBoard from "./components/StaticBoard";
 
 export default function App() {
   const [game, setGame] = useState(new Chess());
   const [position, setPosition] = useState(game.fen());
+  const [view, setView] = useState("static"); // 'static' | 'engine'
   const engineRef = useRef(null);
   const [engineReady, setEngineReady] = useState(false);
   const pendingBestMoveRef = useRef(null);
@@ -141,6 +145,25 @@ export default function App() {
     }
   }
 
+  return (<>
+    <MainLayout
+      selectedView={view}
+      onSelectView={setView}
+      center={
+        view === "engine" ? (
+          <CenterBoard
+            position={position}
+            onDrop={onDrop}
+            resetBoard={resetBoard}
+            engineReady={engineReady}
+          />
+        ) : (
+          <StaticBoard position={position} />
+        )
+      }
+    />
+    {/* Ancien rendu du board conserve en commentaire */}
+    {/*
   return (
     <div style={{ width: "480px", margin: "auto", paddingTop: "40px" }}>
       <button
@@ -160,4 +183,8 @@ export default function App() {
       </div>
     </div>
   );
+}
+
+    */}
+  </>)
 }
