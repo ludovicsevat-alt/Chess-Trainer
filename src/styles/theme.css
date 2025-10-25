@@ -31,6 +31,13 @@ body {
   background-size: 6px 6px;
 }
 
+/* Curseur doré global (desktop‑only) */
+@media (hover: hover) and (pointer: fine) {
+  html, body {
+    cursor: url('/assets/cursor-golden.png'), pointer;
+  }
+}
+
 /* Titres et éléments de marque */
 h1, h2, h3, .brand-text, .btn, .menu-item { font-family: 'Cinzel', serif; }
 
