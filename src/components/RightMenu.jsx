@@ -20,31 +20,24 @@ export default function RightMenu() {
     setVolumeState(v);
   };
 
-  const iconStyle = {
-    width: 32,
-    height: 'auto',
-    maxWidth: 32,
-    filter: 'brightness(1.2) sepia(1) hue-rotate(20deg) saturate(2)'
-  };
-
   return (
     <div className="aside">
       <div className="panel-title">Jouer aux échecs</div>
       <div className="menu">
         <button className="menu-item">
-          <img src="/assets/icons/icon-online.png" alt="Jouer en ligne" style={iconStyle} />
+          <img src="/assets/icons/icon-online.png" alt="Jouer en ligne" className="icon-golden" />
           <span>Jouer en ligne</span>
         </button>
         <button className="menu-item">
-          <img src="/assets/icons/icon-engine.png" alt="Jouer contre l'IA" style={iconStyle} />
+          <img src="/assets/icons/icon-engine.png" alt="Jouer contre l'IA" className="icon-golden" />
           <span>Jouer contre l'IA</span>
         </button>
         <button className="menu-item">
-          <img src="/assets/icons/icon-friends.png" alt="Jouer avec un ami" style={iconStyle} />
+          <img src="/assets/icons/icon-friends.png" alt="Jouer avec un ami" className="icon-golden" />
           <span>Jouer avec un ami</span>
         </button>
         <button className="menu-item">
-          <img src="/assets/icons/icon-variants.png" alt="Variantes d'échecs" style={iconStyle} />
+          <img src="/assets/icons/icon-variants.png" alt="Variantes d'échecs" className="icon-golden" />
           <span>Variantes d'échecs</span>
         </button>
       </div>
@@ -62,4 +55,3 @@ export default function RightMenu() {
     </div>
   );
 }
-

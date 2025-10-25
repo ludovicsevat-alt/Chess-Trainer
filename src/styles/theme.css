@@ -94,6 +94,13 @@ h1, h2, h3, .brand-text, .btn, .menu-item { font-family: 'Cinzel', serif; }
   transition: all 0.2s ease-in-out;
 }
 
+.icon-golden {
+  width: 32px;
+  height: auto;
+  max-width: 32px;
+  filter: brightness(1.2) sepia(1) hue-rotate(20deg) saturate(2);
+}
+
 .menu-item:hover,
 .btn:hover {
   border-color: var(--color-accent-light);
