@@ -1,5 +1,6 @@
-﻿import { useEffect, useRef, useState } from "react";
+﻿﻿import { useEffect, useRef, useState } from "react";
 import GameModal from "./GameModal";
+import LocalGamePanel from "./LocalGamePanel";
 
 const COLOR_CHOICES = [
   { id: "white", label: "Blanc", icon: "⚪" },
@@ -42,6 +43,8 @@ export default function RightMenu({ selectedMenu = "overview", aiGame }) {
       )}
 
       {isAi && aiGame && <AiControls aiGame={aiGame} historyRef={aiHistoryRef} />}
+
+      {selectedMenu === "local" && <LocalGamePanel />}
 
       {isOnline && <OnlineControls />}
     </div>
