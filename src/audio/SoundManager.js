@@ -44,8 +44,8 @@ export async function play(name) {
     const a = base.cloneNode();
     a.volume = volume;
     await a.play();
-  } catch (_) {
-    // probablement bloqué par l’autoplay; attendre un geste utilisateur
+  } catch {
+    // probablement bloque par l'autoplay; attendre un geste utilisateur
   }
 }
 

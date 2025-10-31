@@ -1,48 +1,41 @@
-﻿﻿import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import GameModal from "./GameModal";
 import LocalGamePanel from "./LocalGamePanel";
+import GameHistoryPanel from "./GameHistoryPanel";
+import { getLevelLabel } from "../constants/levels";
+import { useSettings } from "../contexts/SettingsContext";
 
 const COLOR_CHOICES = [
-  { id: "white", label: "Blanc", icon: "⚪" },
-  { id: "black", label: "Noir", icon: "⚫" },
-  { id: "random", label: "Aléatoire", icon: "🎲" },
+  { id: "white", icon: "\u2654" },
+  { id: "black", icon: "\u265A" },
+  { id: "random", icon: "\u2680" },
 ];
-
-const LEVELS = [
-  { max: 800, label: "Débutant" },
-  { max: 1200, label: "Intermédiaire" },
-  { max: 1800, label: "Avancé" },
-  { max: 2400, label: "Maître" },
-  { max: 3300, label: "Grand maître" },
-];
-
-const defaultLabel = (elo) =>
-  (LEVELS.find((lvl) => elo <= lvl.max) ?? LEVELS.at(-1))?.label ??
-  "Personnalisé";
 
 export default function RightMenu({ selectedMenu = "overview", aiGame }) {
-  const aiHistoryRef = useRef(null);
+  const { messages } = useSettings();
   const isAi = selectedMenu === "ai" && Boolean(aiGame);
   const isOnline = selectedMenu === "online";
-
-  useEffect(() => {
-    if (!isAi || !aiHistoryRef.current) return;
-    aiHistoryRef.current.scrollTop = aiHistoryRef.current.scrollHeight;
-  }, [isAi, aiGame?.history]);
 
   return (
     <div className="aside right-menu">
       {!isAi && !isOnline && selectedMenu === "overview" && (
         <div className="panel" style={{ padding: 16, textAlign: "center" }}>
-          <img src="/assets/icons/logo-horse.png" alt="Chess Trainer" style={{ width: 64, marginBottom: 12 }} />
-          <div className="panel-title">Bienvenue</div>
-          <div className="muted" style={{ color: "var(--color-accent-light)" }}>
-            Sélectionnez un mode à gauche pour commencer.
+          <img
+            src="/assets/icons/logo-horse.png"
+            alt="Chess Trainer"
+            style={{ width: 64, marginBottom: 12 }}
+          />
+          <div className="panel-title">{messages.welcomeTitle}</div>
+          <div
+            className="muted"
+            style={{ color: "var(--color-accent-light)" }}
+          >
+            {messages.welcomeHint}
           </div>
         </div>
       )}
 
-      {isAi && aiGame && <AiControls aiGame={aiGame} historyRef={aiHistoryRef} />}
+      {isAi && aiGame && <AiControls aiGame={aiGame} />}
 
       {selectedMenu === "local" && <LocalGamePanel />}
 
@@ -51,45 +44,41 @@ export default function RightMenu({ selectedMenu = "overview", aiGame }) {
   );
 }
 
-function AiControls({ aiGame, historyRef }) {
-  const {
-    colorChoice,
-    setColorChoice,
-    elo,
-    setElo,
-    locked,
-    startGame,
-    history,
-    abandonGame,
+function AiControls({ aiGame }) {
+  const { messages } = useSettings();
+  const { colorChoice, setColorChoice, elo, setElo, locked, startGame, history, abandonGame,
     modal,
     closeModal,
     rematch,
     engineReady,
-    getLevelLabelText = defaultLabel,
+    getLevelLabelText = getLevelLabel,
   } = aiGame;
+  const currentPly = aiGame.currentPly ?? 0;
 
   return (
     <>
-      <div className="ai-title">Partie contre IA</div>
+      <div className="ai-title">{messages.aiTitle}</div>
 
       <div className="config-panel">
-        <div className="section-label">Choisissez votre camp</div>
+        <div className="section-label">{messages.chooseSideLabel}</div>
         <div className="color-grid">
           {COLOR_CHOICES.map((choice) => (
             <button
               key={choice.id}
-              className={`choice-btn ${colorChoice === choice.id ? "active" : ""}`}
+              className={`choice-btn ${
+                colorChoice === choice.id ? "active" : ""
+              }`}
               onClick={() => setColorChoice(choice.id)}
               disabled={locked}
             >
               <span>{choice.icon}</span>
-              {choice.label}
+              {messages.colorLabels?.[choice.id] ?? choice.id}
             </button>
           ))}
         </div>
 
         <div className="section-label" style={{ marginTop: 16 }}>
-          Niveau de l'IA
+          {messages.aiLevelTitle}
         </div>
         <div className="elo-card">
           <input
@@ -98,12 +87,12 @@ function AiControls({ aiGame, historyRef }) {
             max="3200"
             step="50"
             value={elo}
-            onChange={(e) => setElo(Number(e.target.value))}
+            onChange={(event) => setElo(Number(event.target.value))}
             disabled={locked}
           />
-          <div className="elo-value">
-            Niveau actuel : IA {elo} ({getLevelLabelText(elo)})
-          </div>
+        <div className="elo-value">
+          {messages.aiLevelTitle}: {elo} ({getLevelLabelText(elo)})
+        </div>
         </div>
 
         <button
@@ -111,26 +100,14 @@ function AiControls({ aiGame, historyRef }) {
           onClick={startGame}
           disabled={locked || !engineReady}
         >
-          Lancer la partie
+          {messages.aiLaunchButton}
         </button>
       </div>
 
-      <div className="history-panel">
-        <div className="section-label">Historique des coups</div>
-        <div className="history-list" ref={historyRef}>
-          {history.length === 0 && (
-            <div className="history-empty">Aucun coup pour le moment.</div>
-          )}
-          {history.map((entry, idx) => (
-            <div key={idx} className="history-item">
-              {entry}
-            </div>
-          ))}
-        </div>
-      </div>
+      <GameHistoryPanel history={history} activePly={currentPly} />
 
       <button className="btn-danger" onClick={abandonGame} disabled={!locked}>
-        Abandonner
+        {messages.resign}
       </button>
 
       <GameModal
@@ -145,90 +122,93 @@ function AiControls({ aiGame, historyRef }) {
 }
 
 function OnlineControls() {
+  const { messages } = useSettings();
   const [colorChoice, setColorChoice] = useState("white");
-  const [playerOne, setPlayerOne] = useState("Joueur 1");
-  const [playerTwo, setPlayerTwo] = useState("Joueur 2");
+  const [playerOne, setPlayerOne] = useState("");
+  const [playerTwo, setPlayerTwo] = useState("");
   const [timeChoice, setTimeChoice] = useState("none");
   const [incrementChoice, setIncrementChoice] = useState("0");
   const [history, setHistory] = useState([]);
-  const historyRef = useRef(null);
-
-  useEffect(() => {
-    historyRef.current?.scrollTo({
-      top: historyRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [history]);
 
   const startMatch = () => {
+    const whiteName = playerOne.trim() || messages.playerOne;
+    const blackName = playerTwo.trim() || messages.playerTwo;
     setHistory((prev) => [
       ...prev,
-      `Nouvelle partie — ${playerOne} vs ${playerTwo} (${formatControl(
-        timeChoice,
-        incrementChoice
-      )})`,
+      messages.onlineNewGame
+        .replace("{playerOne}", whiteName)
+        .replace("{playerTwo}", blackName)
+        .replace("{control}", formatControl(timeChoice, incrementChoice, messages)),
     ]);
   };
 
   const abandonMatch = () => {
-    setHistory((prev) => [...prev, `⚑ Partie interrompue par ${playerOne}`]);
+    const whiteName = playerOne.trim() || messages.playerOne;
+    setHistory((prev) => [
+      ...prev,
+      messages.onlineInterrupted.replace("{player}", whiteName),
+    ]);
   };
 
   return (
     <>
-      <div className="ai-title">Partie en ligne</div>
+      <div className="ai-title">{messages.onlineTitle}</div>
 
       <div className="config-panel">
-        <div className="section-label">Choisissez votre camp</div>
+        <div className="section-label">{messages.chooseSideLabel}</div>
         <div className="color-grid">
           {COLOR_CHOICES.map((choice) => (
             <button
               key={choice.id}
-              className={`choice-btn ${colorChoice === choice.id ? "active" : ""}`}
+              className={`choice-btn ${
+                colorChoice === choice.id ? "active" : ""
+              }`}
               onClick={() => setColorChoice(choice.id)}
             >
               <span>{choice.icon}</span>
-              {choice.label}
+              {messages.colorLabels?.[choice.id] ?? choice.id}
             </button>
           ))}
         </div>
 
         <div className="section-label" style={{ marginTop: 16 }}>
-          Noms des joueurs
+          {messages.playerNamesTitle}
         </div>
         <div className="form-field">
-          <label>Joueur 1</label>
+          <label>{messages.playerOne}</label>
           <input
             type="text"
             value={playerOne}
-            onChange={(e) => setPlayerOne(e.target.value)}
+            placeholder={messages.playerOne}
+            onChange={(event) => setPlayerOne(event.target.value)}
           />
         </div>
         <div className="form-field">
-          <label>Joueur 2</label>
+          <label>{messages.playerTwo}</label>
           <input
             type="text"
             value={playerTwo}
-            onChange={(e) => setPlayerTwo(e.target.value)}
+            placeholder={messages.playerTwo}
+            onChange={(event) => setPlayerTwo(event.target.value)}
           />
         </div>
 
         <div className="section-label" style={{ marginTop: 16 }}>
-          Contrôle du temps
+          {messages.timeControlTitle}
         </div>
         <div className="time-grid">
           <select
             value={timeChoice}
-            onChange={(e) => setTimeChoice(e.target.value)}
+            onChange={(event) => setTimeChoice(event.target.value)}
           >
-            <option value="none">Aucun chrono</option>
-            <option value="5">5 minutes</option>
-            <option value="10">10 minutes</option>
-            <option value="15">15 minutes</option>
+            <option value="none">{messages.timeNoClock}</option>
+            <option value="5">5 min</option>
+            <option value="10">10 min</option>
+            <option value="15">15 min</option>
           </select>
           <select
             value={incrementChoice}
-            onChange={(e) => setIncrementChoice(e.target.value)}
+            onChange={(event) => setIncrementChoice(event.target.value)}
           >
             <option value="0">+0 s</option>
             <option value="5">+5 s</option>
@@ -237,36 +217,39 @@ function OnlineControls() {
         </div>
 
         <div className="elo-value" style={{ marginTop: 8 }}>
-          Temps sélectionné : {formatControl(timeChoice, incrementChoice)}
+          {messages.timeSelectedPrefix} :{" "}
+          {formatControl(timeChoice, incrementChoice, messages)}
         </div>
 
         <button className="btn-primary" onClick={startMatch}>
-          Nouvelle partie
+          {messages.startMatch}
         </button>
       </div>
 
-      <div className="history-panel">
-        <div className="section-label">Coups joués</div>
-        <div className="history-list" ref={historyRef}>
-          {history.length === 0 && (
-            <div className="history-empty">En attente des premiers coups.</div>
-          )}
-          {history.map((entry, idx) => (
-            <div key={idx} className="history-item">
-              {entry}
-            </div>
-          ))}
-        </div>
-      </div>
+      <GameHistoryPanel
+        history={history}
+        title={messages.movesTitle}
+        emptyMessage={messages.movesEmpty}
+      />
 
       <button className="btn-danger" onClick={abandonMatch}>
-        Abandonner
+        {messages.resign}
       </button>
     </>
   );
 }
 
-function formatControl(time, inc) {
-  if (time === "none") return "Sans chrono";
+function formatControl(time, inc, messages) {
+  if (time === "none") return messages.timeNoClock;
   return `${time}' + ${inc}s`;
 }
+
+
+
+
+
+
+
+
+
+

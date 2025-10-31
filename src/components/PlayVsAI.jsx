@@ -1,6 +1,10 @@
-﻿import { Chessboard } from "react-chessboard";
+import BoardView from "./BoardView";
+import { useSettings } from "../contexts/SettingsContext";
+import MoveNavigator from "./MoveNavigator";
 
 export default function PlayVsAI({ aiGame }) {
+  const { settings, messages, boardThemeConfig } = useSettings();
+
   if (!aiGame) {
     return (
       <div className="content">
@@ -9,27 +13,64 @@ export default function PlayVsAI({ aiGame }) {
     );
   }
 
-  const { position, boardOrientation, handleDrop, engineReady, locked } = aiGame;
+  const {
+    position,
+    boardOrientation,
+    handleDrop,
+    engineReady,
+    locked,
+    history,
+    positions,
+    currentPly,
+    isOnLatestPly,
+    stepBackward,
+    stepForward,
+    goToStart,
+    goToEnd,
+  } = aiGame;
+  const lastMove =
+    history && currentPly > 0 && history[currentPly - 1]
+      ? history[currentPly - 1]
+      : undefined;
+  const lastMoveSquares = lastMove ? [lastMove.from, lastMove.to] : undefined;
+  const animationDuration = settings.animationEnabled
+    ? settings.animationDuration
+    : 0;
+  const statusMessage = isOnLatestPly
+    ? engineReady
+      ? messages.aiStatusReady
+      : messages.aiStatusLoading
+    : `Mode replay - coup ${currentPly}/${Math.max(positions.length - 1, 0)}`;
+  const hintMessage =
+    locked && !isOnLatestPly
+      ? undefined
+      : locked
+        ? undefined
+        : messages.aiHint;
 
   return (
-    <div className="content">
-      <div className="board-wrap">
-        <Chessboard
-          position={position}
-          onPieceDrop={handleDrop}
-          boardOrientation={boardOrientation}
-          arePiecesDraggable={locked}
-          animationDuration={300}
-        />
-      </div>
-      <div className="muted" style={{ marginTop: 8 }}>
-        {engineReady ? "Stockfish prêt" : "Moteur non prêt – utilisation aléatoire"}
-      </div>
-      {!locked && (
-        <div className="muted" style={{ marginTop: 4 }}>
-          Configurez la partie à droite puis lancez-la.
-        </div>
-      )}
-    </div>
+    <BoardView
+      position={position}
+      onPieceDrop={handleDrop}
+      boardOrientation={boardOrientation}
+      arePiecesDraggable={locked && isOnLatestPly}
+      statusMessage={statusMessage}
+      hintMessage={hintMessage}
+      lastMoveSquares={
+        settings.highlightLastMove ? lastMoveSquares : undefined
+      }
+      animationDuration={animationDuration}
+      boardThemeColors={boardThemeConfig}
+    >
+      <MoveNavigator
+        currentPly={currentPly}
+        maxPly={Math.max(positions.length - 1, 0)}
+        onStart={goToStart}
+        onPrev={stepBackward}
+        onNext={stepForward}
+        onEnd={goToEnd}
+        isLatest={isOnLatestPly}
+      />
+    </BoardView>
   );
 }

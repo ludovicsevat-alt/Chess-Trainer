@@ -1,31 +1,13 @@
-﻿import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import getHumanizedMove from "../engine/HumanizedStockfish";
 import { play as playSound } from "../audio/SoundManager";
-
-const LEVELS = [
-  { max: 800, label: "Débutant" },
-  { max: 1200, label: "Intermédiaire" },
-  { max: 1800, label: "Avancé" },
-  { max: 2400, label: "Maître" },
-  { max: 3300, label: "Grand maître" },
-];
-
-function formatHistory(game) {
-  const history = game.history();
-  const rows = [];
-  for (let i = 0; i < history.length; i += 2) {
-    const id = Math.floor(i / 2) + 1;
-    const white = history[i] ?? "";
-    const black = history[i + 1] ?? "";
-    rows.push(`${id}. ${white}${black ? " " + black : ""}`);
-  }
-  return rows;
-}
+import { getLevelLabel } from "../constants/levels";
 
 function triggerSound(move) {
   if (!move) return;
   const san = move.san ?? "";
+
   if (san.includes("#")) {
     playSound("checkmate");
     return;
@@ -45,7 +27,8 @@ export default function useAiGame() {
   const engineRef = useRef(null);
   const gameRef = useRef(new Chess());
 
-  const [position, setPosition] = useState(gameRef.current.fen());
+  const initialFen = gameRef.current.fen();
+  const [position, setPosition] = useState(initialFen);
   const [engineReady, setEngineReady] = useState(false);
   const [locked, setLocked] = useState(false);
   const [playerColor, setPlayerColor] = useState("white");
@@ -54,13 +37,19 @@ export default function useAiGame() {
   const [elo, setElo] = useState(1200);
   const [history, setHistory] = useState([]);
   const [modal, setModal] = useState({ open: false, title: "", message: "" });
+  const [positions, setPositions] = useState([initialFen]);
+  const [currentPly, setCurrentPly] = useState(0);
 
-  const updateHistory = () => setHistory(formatHistory(gameRef.current));
+  const updateHistory = () =>
+    setHistory(gameRef.current.history({ verbose: true }));
 
   const resetGameState = () => {
     gameRef.current = new Chess();
-    setPosition(gameRef.current.fen());
-    updateHistory();
+    const fen = gameRef.current.fen();
+    setPosition(fen);
+    setHistory([]);
+    setPositions([fen]);
+    setCurrentPly(0);
     setLocked(false);
     setModal({ open: false, title: "", message: "" });
   };
@@ -72,19 +61,20 @@ export default function useAiGame() {
 
   const checkGameOver = () => {
     const game = gameRef.current;
-    if (game.isGameOver()) {
-      if (game.isCheckmate()) {
-        const playerWon = game.turn() === (playerColor === "white" ? "b" : "w");
-        declareResult(
-          playerWon ? "Victoire !" : "Échec et mat !",
-          playerWon ? "Vous avez vaincu Stockfish." : "L'IA gagne cette partie."
-        );
-      } else if (game.isDraw()) {
-        declareResult("Match nul", "Partie nulle — pat ou répétition.");
-      }
-      return true;
+    if (!game.isGameOver()) return false;
+
+    if (game.isCheckmate()) {
+      const playerWon = game.turn() === (playerColor === "white" ? "b" : "w");
+      declareResult(
+        playerWon ? "Victoire !" : "Echec et mat !",
+        playerWon
+          ? "Vous avez vaincu Stockfish."
+          : "L'IA gagne cette partie."
+      );
+    } else if (game.isDraw()) {
+      declareResult("Match nul", "Partie nulle - pat ou repetition.");
     }
-    return false;
+    return true;
   };
 
   const makeEngineMove = async () => {
@@ -100,37 +90,39 @@ export default function useAiGame() {
         promotion: suggestion.promotion || "q",
       });
       triggerSound(move);
+    } catch (error) {
+      console.warn("Humanized move failed, fallback random", error);
+      const moves = gameRef.current.moves();
+      if (!moves.length) return;
+      const move = gameRef.current.move(
+        moves[Math.floor(Math.random() * moves.length)]
+      );
+      triggerSound(move);
+    } finally {
       setPosition(gameRef.current.fen());
       updateHistory();
+      setPositions((prev) => [...prev, gameRef.current.fen()]);
+      setCurrentPly((prev) => prev + 1);
       checkGameOver();
-    } catch (err) {
-      console.warn("Humanized move failed, fallback random", err);
-      const moves = gameRef.current.moves();
-      if (moves.length) {
-        const move = gameRef.current.move(
-          moves[Math.floor(Math.random() * moves.length)]
-        );
-        triggerSound(move);
-        setPosition(gameRef.current.fen());
-        updateHistory();
-        checkGameOver();
-      }
     }
   };
 
   useEffect(() => {
     const worker = new Worker("/engine/stockfish-17.1-lite-single-03e3232.js");
     engineRef.current = worker;
-    const listener = (e) => {
-      const line = e.data;
+
+    const listener = (event) => {
+      const line = event.data;
       if (typeof line !== "string") return;
       if (line.includes("readyok")) {
         setEngineReady(true);
       }
     };
+
     worker.addEventListener("message", listener);
     worker.postMessage("uci");
     worker.postMessage("isready");
+
     return () => {
       worker.removeEventListener("message", listener);
       worker.terminate();
@@ -140,6 +132,7 @@ export default function useAiGame() {
 
   const handleDrop = (sourceSquare, targetSquare) => {
     if (!locked) return false;
+    if (currentPly !== positions.length - 1) return false;
     const game = gameRef.current;
     const playerTurn = playerColor === "white" ? "w" : "b";
     if (game.turn() !== playerTurn) return false;
@@ -155,9 +148,11 @@ export default function useAiGame() {
     triggerSound(move);
     setPosition(game.fen());
     updateHistory();
+    setPositions((prev) => [...prev, game.fen()]);
+    setCurrentPly((prev) => prev + 1);
     if (checkGameOver()) return true;
 
-    setTimeout(() => makeEngineMove(), 400);
+    setTimeout(makeEngineMove, 400);
     return true;
   };
 
@@ -175,7 +170,7 @@ export default function useAiGame() {
     setLocked(true);
 
     if (resolved === "black") {
-      setTimeout(() => makeEngineMove(), 600);
+      setTimeout(makeEngineMove, 600);
     }
   };
 
@@ -185,7 +180,7 @@ export default function useAiGame() {
     setModal({
       open: true,
       title: "L'IA remporte la partie",
-      message: "Vous avez abandonné. Rejouez pour prendre votre revanche.",
+      message: "Vous avez abandonne. Rejouez pour prendre votre revanche.",
     });
   };
 
@@ -207,10 +202,27 @@ export default function useAiGame() {
     setPlayerColor("white");
   };
 
-  const getLevelLabelText = () => {
-    const lvl = LEVELS.find((l) => elo <= l.max) ?? LEVELS.at(-1);
-    return lvl?.label ?? "Personnalisé";
+  const goToPly = (index) => {
+    const clamped = Math.max(0, Math.min(index, positions.length - 1));
+    setCurrentPly(clamped);
+    setPosition(positions[clamped]);
   };
+
+  const stepBackward = () => {
+    if (currentPly === 0) return;
+    goToPly(currentPly - 1);
+  };
+
+  const stepForward = () => {
+    if (currentPly >= positions.length - 1) return;
+    goToPly(currentPly + 1);
+  };
+
+  const goToStart = () => goToPly(0);
+
+  const goToEnd = () => goToPly(positions.length - 1);
+
+  const isOnLatestPly = currentPly === positions.length - 1;
 
   return {
     position,
@@ -229,7 +241,14 @@ export default function useAiGame() {
     closeModal,
     rematch,
     resetMode,
-    getLevelLabelText,
+    getLevelLabelText: getLevelLabel,
+    positions,
+    currentPly,
+    isOnLatestPly,
+    goToPly,
+    goToStart,
+    goToEnd,
+    stepBackward,
+    stepForward,
   };
 }
-

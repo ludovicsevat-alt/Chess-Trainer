@@ -1,7 +1,8 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import MainLayout from "./MainLayout";
 import useAiGame from "./hooks/useAiGame";
-import { LocalGameProvider } from "./contexts/LocalGameContext"; // ← import ajouté
+import { LocalGameProvider } from "./contexts/LocalGameContext";
+import { SettingsProvider } from "./contexts/SettingsContext";
 
 export default function App() {
   const [selectedMenu, setSelectedMenu] = useState("overview");
@@ -14,10 +15,8 @@ export default function App() {
     }
   };
 
-  // --- Rendu conditionnel ---
-  // On enveloppe MainLayout avec LocalGameProvider uniquement pour le mode local
-  if (selectedMenu === "local") {
-    return (
+  const content =
+    selectedMenu === "local" ? (
       <LocalGameProvider>
         <MainLayout
           selectedMenu={selectedMenu}
@@ -25,15 +24,14 @@ export default function App() {
           aiGame={aiGame}
         />
       </LocalGameProvider>
+    ) : (
+      <MainLayout
+        selectedMenu={selectedMenu}
+        onSelectMenu={handleSelect}
+        aiGame={aiGame}
+      />
     );
-  }
 
-  // --- Pour tous les autres modes ---
-  return (
-    <MainLayout
-      selectedMenu={selectedMenu}
-      onSelectMenu={handleSelect}
-      aiGame={aiGame}
-    />
-  );
+  return <SettingsProvider>{content}</SettingsProvider>;
 }
+

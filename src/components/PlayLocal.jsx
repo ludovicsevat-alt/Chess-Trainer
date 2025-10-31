@@ -1,24 +1,62 @@
-﻿import { Chessboard } from 'react-chessboard';
-import { useLocalGame } from '../contexts/LocalGameContext';
+import { useLocalGame } from "../contexts/LocalGameContext";
+import { useSettings } from "../contexts/SettingsContext";
+import BoardView from "./BoardView";
+import MoveNavigator from "./MoveNavigator";
 
 export default function PlayLocal() {
-  // On récupère l'état et les fonctions depuis le contexte partagé.
-  const { position, onPieceDrop, gameStatus } = useLocalGame();
+  const {
+    position,
+    onPieceDrop,
+    gameStatus,
+    history,
+    positions,
+    currentPly,
+    isOnLatestPly,
+    stepBackward,
+    stepForward,
+    goToStart,
+    goToEnd,
+  } = useLocalGame();
+  const { settings, boardThemeConfig } = useSettings();
 
-  // Ce composant ne gère plus la mise en page globale, seulement son contenu central.
+  const effectiveMoveIndex = Math.min(
+    Math.max(currentPly - 1, 0),
+    history.length - 1
+  );
+  const lastMove =
+    history && effectiveMoveIndex >= 0
+      ? history[effectiveMoveIndex]
+      : undefined;
+  const lastMoveSquares = lastMove ? [lastMove.from, lastMove.to] : undefined;
+  const animationDuration = settings.animationEnabled
+    ? settings.animationDuration
+    : 0;
+  const liveStatus = gameStatus.message;
+  const replayStatus = `Mode replay - coup ${currentPly}/${Math.max(
+    positions.length - 1,
+    0
+  )}`;
+  const statusMessage = isOnLatestPly ? liveStatus : replayStatus;
+
   return (
-    <div className="content">
-      <div className="board-wrap">
-        <Chessboard
-          position={position}
-          onPieceDrop={onPieceDrop}
-          arePiecesDraggable={!gameStatus.isGameOver}
-          animationDuration={300}
-        />
-      </div>
-      <div className="muted" style={{ marginTop: 8, textAlign: 'center' }}>
-        {gameStatus.message}
-      </div>
-    </div>
+    <BoardView
+      position={position}
+      onPieceDrop={onPieceDrop}
+      arePiecesDraggable={!gameStatus.isGameOver && isOnLatestPly}
+      statusMessage={statusMessage}
+      lastMoveSquares={settings.highlightLastMove ? lastMoveSquares : undefined}
+      animationDuration={animationDuration}
+      boardThemeColors={boardThemeConfig}
+    >
+      <MoveNavigator
+        currentPly={currentPly}
+        maxPly={Math.max(positions.length - 1, 0)}
+        onStart={goToStart}
+        onPrev={stepBackward}
+        onNext={stepForward}
+        onEnd={goToEnd}
+        isLatest={isOnLatestPly}
+      />
+    </BoardView>
   );
 }
