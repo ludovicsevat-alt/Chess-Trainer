@@ -63,6 +63,7 @@ export function initOnUserGesture() {
       load("capture"),
       load("check"),
       load("checkmate"),
+      load("castle"),
     ]);
     window.removeEventListener("pointerdown", handler);
     window.removeEventListener("click", handler);

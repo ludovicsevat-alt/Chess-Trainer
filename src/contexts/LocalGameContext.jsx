@@ -61,6 +61,8 @@ export function LocalGameProvider({ children }) {
 
         if (move.flags.includes("c")) {
           playSound("capture");
+        } else if (move.flags.includes("k") || move.flags.includes("q")) {
+          playSound("castle");
         } else {
           playSound("move");
         }

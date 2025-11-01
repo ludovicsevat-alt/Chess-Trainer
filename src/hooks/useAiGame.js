@@ -20,6 +20,10 @@ function triggerSound(move) {
     playSound("capture");
     return;
   }
+  if (move.flags?.includes("k") || move.flags?.includes("q")) {
+    playSound("castle");
+    return;
+  }
   playSound("move");
 }
 
