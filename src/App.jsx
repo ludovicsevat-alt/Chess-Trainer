@@ -15,8 +15,8 @@ export default function App() {
     }
   };
 
-  const content =
-    selectedMenu === "local" ? (
+  return (
+    <SettingsProvider>
       <LocalGameProvider>
         <MainLayout
           selectedMenu={selectedMenu}
@@ -24,14 +24,7 @@ export default function App() {
           aiGame={aiGame}
         />
       </LocalGameProvider>
-    ) : (
-      <MainLayout
-        selectedMenu={selectedMenu}
-        onSelectMenu={handleSelect}
-        aiGame={aiGame}
-      />
-    );
-
-  return <SettingsProvider>{content}</SettingsProvider>;
+    </SettingsProvider>
+  );
 }
 

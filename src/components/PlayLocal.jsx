@@ -1,5 +1,6 @@
 import { useLocalGame } from "../contexts/LocalGameContext";
 import { useSettings } from "../contexts/SettingsContext";
+import PlayerInfoPanel from "./PlayerInfoPanel";
 import BoardView from "./BoardView";
 import MoveNavigator from "./MoveNavigator";
 
@@ -16,8 +17,10 @@ export default function PlayLocal() {
     stepForward,
     goToStart,
     goToEnd,
+    capturedPieces,
+    materialAdvantage,
   } = useLocalGame();
-  const { settings, boardThemeConfig } = useSettings();
+  const { settings, boardThemeConfig, messages } = useSettings();
 
   const effectiveMoveIndex = Math.min(
     Math.max(currentPly - 1, 0),
@@ -37,26 +40,48 @@ export default function PlayLocal() {
     0
   )}`;
   const statusMessage = isOnLatestPly ? liveStatus : replayStatus;
-
+  const orientation = "white";
+  const isLive = isOnLatestPly;
+  const activeColor = isLive ? gameStatus.turn : null;
+  const colorLabels = messages.colorLabels ?? {};
+  const whitePlayer = {
+    label: colorLabels.white ?? "Blancs",
+    captured: capturedPieces?.w ?? [],
+    advantage: materialAdvantage ?? 0,
+    active: activeColor === "w",
+  };
+  const blackPlayer = {
+    label: colorLabels.black ?? "Noirs",
+    captured: capturedPieces?.b ?? [],
+    advantage: materialAdvantage ?? 0,
+    active: activeColor === "b",
+  };
   return (
     <BoardView
       position={position}
       onPieceDrop={onPieceDrop}
+      topContent={
+        <PlayerInfoPanel
+          position="top"
+          orientation={orientation}
+          white={whitePlayer}
+          black={blackPlayer}
+        />
+      }
+      bottomContent={
+        <PlayerInfoPanel
+          position="bottom"
+          orientation={orientation}
+          white={whitePlayer}
+          black={blackPlayer}
+        />
+      }
       arePiecesDraggable={!gameStatus.isGameOver && isOnLatestPly}
-      statusMessage={statusMessage}
-      lastMoveSquares={settings.highlightLastMove ? lastMoveSquares : undefined}
+      lastMoveSquares={
+        settings.highlightLastMove ? lastMoveSquares : undefined
+      }
       animationDuration={animationDuration}
       boardThemeColors={boardThemeConfig}
-    >
-      <MoveNavigator
-        currentPly={currentPly}
-        maxPly={Math.max(positions.length - 1, 0)}
-        onStart={goToStart}
-        onPrev={stepBackward}
-        onNext={stepForward}
-        onEnd={goToEnd}
-        isLatest={isOnLatestPly}
-      />
-    </BoardView>
+    />
   );
 }

@@ -1,7 +1,5 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -37,6 +35,18 @@
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
+.right-menu .move-navigator {
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.player-tray {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background-color: var(--color-panel-sunken);
+  color: var(--color-text-light);
+  width: 100%;
 }

@@ -12,6 +12,8 @@ export default function BoardView({
   hintStyle,
   lastMoveSquares,
   boardThemeColors,
+  topContent,
+  bottomContent,
   children,
 }) {
   const boardColors = boardThemeColors ?? {
@@ -30,41 +32,53 @@ export default function BoardView({
       }, {})
     : undefined;
 
+  const hasFooterContent =
+    bottomContent || statusMessage || hintMessage || children;
+
   return (
     <div className="content">
-      <div className="board-wrap">
-        <Chessboard
-          position={position}
-          onPieceDrop={onPieceDrop}
-          boardOrientation={boardOrientation}
-          arePiecesDraggable={arePiecesDraggable}
-          animationDuration={animationDuration}
-          customSquareStyles={lastMoveStyles}
-          customLightSquareStyle={{ backgroundColor: boardColors.light }}
-          customDarkSquareStyle={{ backgroundColor: boardColors.dark }}
-          customBoardStyle={{
-            borderRadius: "calc(var(--board-radius) - 4px)",
-            overflow: "hidden",
-          }}
-        />
+      {topContent}
+      <div className="board-area">
+        <div className="board-wrap">
+          <div className="board-inner">
+            <Chessboard
+              position={position}
+              onPieceDrop={onPieceDrop}
+              boardOrientation={boardOrientation}
+              arePiecesDraggable={arePiecesDraggable}
+              animationDuration={animationDuration}
+              customSquareStyles={lastMoveStyles}
+              customLightSquareStyle={{ backgroundColor: boardColors.light }}
+              customDarkSquareStyle={{ backgroundColor: boardColors.dark }}
+              customBoardStyle={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "calc(var(--board-radius) - 4px)",
+                overflow: "hidden",
+              }}
+            />
+          </div>
+        </div>
       </div>
-      {statusMessage && (
-        <div
-          className="muted board-status"
-          style={{ marginTop: 8, textAlign: "center", ...statusStyle }}
-        >
-          {statusMessage}
+      {hasFooterContent && (
+        <div className="player-accessories">
+          {bottomContent}
+          {statusMessage && (
+            <div
+              className="muted board-status"
+              style={{ textAlign: "center", ...statusStyle }}
+            >
+              {statusMessage}
+            </div>
+          )}
+          {hintMessage && (
+            <div className="muted" style={{ textAlign: "center", ...hintStyle }}>
+              {hintMessage}
+            </div>
+          )}
+          {children}
         </div>
       )}
-      {hintMessage && (
-        <div
-          className="muted"
-          style={{ marginTop: 4, textAlign: "center", ...hintStyle }}
-        >
-          {hintMessage}
-        </div>
-      )}
-      {children}
     </div>
   );
 }

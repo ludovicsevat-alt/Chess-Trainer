@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -23,6 +24,33 @@ export function LocalGameProvider({ children }) {
   const [history, setHistory] = useState([]);
   const [positions, setPositions] = useState([initialFen]);
   const [currentPly, setCurrentPly] = useState(0);
+
+  const captureInfo = useMemo(() => {
+    const values = { p: 1, n: 3, b: 3, r: 5, q: 9 };
+    const captured = { w: [], b: [] };
+    let whiteScore = 0;
+    let blackScore = 0;
+
+    for (let i = 0; i < currentPly; i += 1) {
+      const move = history[i];
+      if (!move || typeof move !== "object") continue;
+      if (!move.captured) continue;
+
+      const captor = move.color; // w ou b
+      const pieceType = move.captured;
+      captured[captor].push(pieceType);
+      if (captor === "w") {
+        whiteScore += values[pieceType] ?? 0;
+      } else {
+        blackScore += values[pieceType] ?? 0;
+      }
+    }
+
+    return {
+      capturedPieces: captured,
+      materialAdvantage: whiteScore - blackScore,
+    };
+  }, [history, currentPly]);
 
   const updateStatus = useCallback(() => {
     const turn = game.current.turn();
@@ -137,6 +165,8 @@ export function LocalGameProvider({ children }) {
     stepForward,
     onPieceDrop,
     resetGame,
+    capturedPieces: captureInfo.capturedPieces,
+    materialAdvantage: captureInfo.materialAdvantage,
   };
 
   return (
@@ -154,3 +184,9 @@ export function useLocalGame() {
   }
   return context;
 }
+
+
+
+
+
+

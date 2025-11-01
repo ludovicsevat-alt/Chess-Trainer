@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import getHumanizedMove from "../engine/HumanizedStockfish";
 import { play as playSound } from "../audio/SoundManager";
@@ -43,6 +43,57 @@ export default function useAiGame() {
   const [modal, setModal] = useState({ open: false, title: "", message: "" });
   const [positions, setPositions] = useState([initialFen]);
   const [currentPly, setCurrentPly] = useState(0);
+  const [gameStatus, setGameStatus] = useState({
+    turn: "w",
+    message: "Tour des blancs",
+    isGameOver: false,
+  });
+
+  const updateStatus = () => {
+    const turn = gameRef.current.turn();
+    let message = turn === "w" ? "Tour des blancs" : "Tour des noirs";
+    let isGameOver = false;
+
+    if (gameRef.current.isCheckmate()) {
+      message = `${turn === "w" ? "Les noirs" : "Les blancs"} gagnent par echec et mat.`;
+      isGameOver = true;
+      playSound("checkmate");
+    } else if (gameRef.current.isDraw()) {
+      message = "Partie nulle.";
+      isGameOver = true;
+    } else if (gameRef.current.isCheck()) {
+      message += " (echec)";
+      if (!isGameOver) playSound("check");
+    }
+    setGameStatus({ turn, message, isGameOver });
+  };
+
+  const captureInfo = useMemo(() => {
+    const values = { p: 1, n: 3, b: 3, r: 5, q: 9 };
+    const captured = { w: [], b: [] };
+    let whiteScore = 0;
+    let blackScore = 0;
+
+    for (let i = 0; i < currentPly; i += 1) {
+      const move = history[i];
+      if (!move || typeof move !== "object") continue;
+      if (!move.captured) continue;
+
+      const captor = move.color;
+      const type = move.captured;
+      captured[captor].push(type);
+      if (captor === "w") {
+        whiteScore += values[type] ?? 0;
+      } else {
+        blackScore += values[type] ?? 0;
+      }
+    }
+
+    return {
+      capturedPieces: captured,
+      materialAdvantage: whiteScore - blackScore,
+    };
+  }, [history, currentPly]);
 
   const updateHistory = () =>
     setHistory(gameRef.current.history({ verbose: true }));
@@ -56,6 +107,7 @@ export default function useAiGame() {
     setCurrentPly(0);
     setLocked(false);
     setModal({ open: false, title: "", message: "" });
+    updateStatus();
   };
 
   const declareResult = (title, message) => {
@@ -107,6 +159,7 @@ export default function useAiGame() {
       updateHistory();
       setPositions((prev) => [...prev, gameRef.current.fen()]);
       setCurrentPly((prev) => prev + 1);
+      updateStatus();
       checkGameOver();
     }
   };
@@ -154,6 +207,7 @@ export default function useAiGame() {
     updateHistory();
     setPositions((prev) => [...prev, game.fen()]);
     setCurrentPly((prev) => prev + 1);
+    updateStatus();
     if (checkGameOver()) return true;
 
     setTimeout(makeEngineMove, 400);
@@ -172,6 +226,7 @@ export default function useAiGame() {
     setBoardOrientation(resolved === "black" ? "black" : "white");
     resetGameState();
     setLocked(true);
+    updateStatus();
 
     if (resolved === "black") {
       setTimeout(makeEngineMove, 600);
@@ -230,6 +285,7 @@ export default function useAiGame() {
 
   return {
     position,
+    gameStatus,
     engineReady,
     boardOrientation,
     handleDrop,
@@ -254,5 +310,7 @@ export default function useAiGame() {
     goToEnd,
     stepBackward,
     stepForward,
+    capturedPieces: captureInfo.capturedPieces,
+    materialAdvantage: captureInfo.materialAdvantage,
   };
 }
