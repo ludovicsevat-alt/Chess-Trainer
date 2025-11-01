@@ -1,10 +1,3 @@
-import {
-  FaAngleDoubleLeft,
-  FaAngleDoubleRight,
-  FaAngleLeft,
-  FaAngleRight,
-} from "react-icons/fa";
-
 export default function MoveNavigator({
   currentPly,
   maxPly,
@@ -19,7 +12,7 @@ export default function MoveNavigator({
 
   return (
     <div className="move-navigator">
-      <div className="nav-buttons">
+      <div className="nav-buttons flex-shrink-0">
         <button
           type="button"
           className="btn-nav"
@@ -27,7 +20,7 @@ export default function MoveNavigator({
           disabled={!canGoBackward}
           aria-label="Revenir au début"
         >
-          <FaAngleDoubleLeft />
+          <span className="nav-symbol">⏮</span>
         </button>
         <button
           type="button"
@@ -36,18 +29,23 @@ export default function MoveNavigator({
           disabled={!canGoBackward}
           aria-label="Coup précédent"
         >
-          <FaAngleLeft />
+          <span className="nav-symbol">◀</span>
         </button>
       </div>
-      <div className="navigator-status">
+      <div className="navigator-status flex-grow">
         <span className="ply-count">
           {currentPly}/{maxPly}
         </span>
-        <span className={`status-pill ${isLatest ? "live" : "replay"}`}>
+        <span
+          className={`status-pill whitespace-nowrap flex-shrink-0 ${
+            isLatest ? "live" : "replay"
+          }`}
+          style={{ minWidth: "80px", textAlign: "center" }}
+        >
           {isLatest ? "En direct" : "Replay"}
         </span>
       </div>
-      <div className="nav-buttons">
+      <div className="nav-buttons flex-shrink-0">
         <button
           type="button"
           className="btn-nav"
@@ -55,7 +53,7 @@ export default function MoveNavigator({
           disabled={!canGoForward}
           aria-label="Coup suivant"
         >
-          <FaAngleRight />
+          <span className="nav-symbol">▶</span>
         </button>
         <button
           type="button"
@@ -64,7 +62,7 @@ export default function MoveNavigator({
           disabled={!canGoForward}
           aria-label="Aller au dernier coup"
         >
-          <FaAngleDoubleRight />
+          <span className="nav-symbol">⏭</span>
         </button>
       </div>
     </div>
