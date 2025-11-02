@@ -92,7 +92,7 @@ export default function PlayOnline({ onlineGame }) {
     : null;
 
   return (
-    <div className="content online-content">
+    <>
       <BoardView
         position={position}
         onPieceDrop={handleDrop}
@@ -103,8 +103,6 @@ export default function PlayOnline({ onlineGame }) {
         lastMoveSquares={lastMoveSquares}
         animationDuration={300}
         boardThemeColors={boardThemeConfig}
-        statusMessage={statusMessage}
-        hintMessage={hintMessage ?? messages.onlineTitle}
         topContent={
           <PlayerInfoPanel
             position="top"
@@ -121,28 +119,13 @@ export default function PlayOnline({ onlineGame }) {
             black={blackPlayer}
           />
         }
-      >
-        <MoveNavigator
-          currentPly={currentPly}
-          maxPly={maxPly}
-          onStart={goToStart}
-          onPrev={stepBackward}
-          onNext={stepForward}
-          onEnd={goToEnd}
-          isLatest={Boolean(isOnLatestPly)}
-        />
-        <GameHistoryPanel
-          history={history}
-          activePly={currentPly}
-          onSelectMove={goToPly}
-        />
-      </BoardView>
+      />
 
       <GameOverlay
         result={gameResult}
         perspective={selfPlayer?.color ?? colorKey(boardOrientation)}
         primaryAction={primaryOverlayAction}
       />
-    </div>
+    </>
   );
 }
