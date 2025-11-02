@@ -3,7 +3,9 @@ export default function TrainingRightMenuContent() {
     <>
       <div className="ai-title">Mode Entraînement</div>
       <div className="panel">
-        <div className="history-empty">Le coach apparaîtra ici.</div>
+        <div className="history-empty">
+          Les conseils du coach seront bientôt disponibles ici.
+        </div>
       </div>
     </>
   );

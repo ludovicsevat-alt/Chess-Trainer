@@ -1,0 +1,69 @@
+{
+  "opening": {
+    "id": "london-system",
+    "name": "Système de Londres",
+    "eco": "D02",
+    "description": "Le Système de Londres est une ouverture solide et flexible pour les Blancs. Elle repose sur une structure stable, permettant un développement rapide et une transition fluide vers le milieu de jeu."
+  },
+  "principles": {
+    "core_ideas": [
+      "Développer rapidement le fou en f4 avant de fermer la diagonale avec e3.",
+      "Établir une structure de pions solide d4–e3–c3.",
+      "Jouer souvent Cf3 puis Fd3 et roquer rapidement du côté roi.",
+      "Contenir les poussées centrales des Noirs (d5 et e5)."
+    ],
+    "typical_structure": "Les Blancs visent une structure de pions d4-e3-c3, avec le fou actif en f4 et les cavaliers en f3 et d2. Le plan est de contrôler le centre sans le sur-occuper."
+  },
+  "variants": [
+    {
+      "id": "main-line",
+      "name": "Ligne principale",
+      "moves": [
+        { "san": "d4", "explanation": "Contrôle du centre et libère le fou de cases blanches." },
+        { "san": "Nf3", "explanation": "Prépare e3 et soutient d4." },
+        { "san": "Bf4", "explanation": "Coup clé du système : le fou sort avant e3." },
+        { "san": "e3", "explanation": "Renforce la structure centrale." },
+        { "san": "c3", "explanation": "Stabilise le centre et prépare Fd3 ou Cbd2." },
+        { "san": "Bd3", "explanation": "Met la pression sur le futur roque noir." },
+        { "san": "O-O", "explanation": "Roque rapide pour la sécurité du roi." }
+      ],
+      "objective": "Atteindre une position équilibrée et solide, prête à attaquer sur l'aile roi."
+    },
+    {
+      "id": "jobava-attack",
+      "name": "Variante Jobava (Nc3 avant e3)",
+      "moves": [
+        { "san": "d4" },
+        { "san": "Nc3" },
+        { "san": "Bf4" },
+        { "san": "e3" },
+        { "san": "Nf3" }
+      ],
+      "explanation": "Une version agressive qui met rapidement la pression sur e4 et crée des déséquilibres tactiques.",
+      "objective": "Créer des opportunités offensives tout en gardant la structure londonienne."
+    },
+    {
+      "id": "kingside-attack",
+      "name": "Plan d'attaque sur l'aile roi",
+      "moves": [
+        { "san": "d4" },
+        { "san": "Nf3" },
+        { "san": "Bf4" },
+        { "san": "e3" },
+        { "san": "Bd3" },
+        { "san": "Nbd2" },
+        { "san": "h3" },
+        { "san": "O-O" },
+        { "san": "Ne5" },
+        { "san": "f4" }
+      ],
+      "explanation": "Une approche offensive où les Blancs regroupent leurs forces pour lancer une attaque directe sur le roi noir.",
+      "objective": "Créer une pression croissante sur l'aile roi avec un plan typique : Ce5–f4–Df3–g4."
+    }
+  ],
+  "training_modes": {
+    "guided": true,
+    "interactive": true,
+    "scenario": true
+  }
+}

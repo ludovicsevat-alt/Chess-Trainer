@@ -11,6 +11,8 @@ import OpeningTrainer from "./components/OpeningTrainer";
 import Puzzles from "./components/Puzzles";
 import Stats from "./components/Stats";
 import Settings from "./components/Settings";
+import LondonTheory from './pages/openings/LondonTheory';
+import LondonTheoryRightMenu from './components/LondonTheoryRightMenu';
 
 function renderContent(
   menu,
@@ -53,6 +55,12 @@ function renderContent(
       };
     case "training":
       if (trainingSelection) {
+        if (trainingSelection.type === 'theory' && trainingSelection.slug === 'london-system') {
+          return {
+            center: <LondonTheory />,
+            right: <LondonTheoryRightMenu setTrainingSelection={setTrainingSelection} />,
+          };
+        }
         return {
           center: (
             <OpeningTrainer
@@ -78,7 +86,6 @@ function renderContent(
       return { center: <StaticBoard />, right: <RightMenu selectedMenu={menu} /> };
   }
 }
-
 export default function MainLayout({
   left,
   center,

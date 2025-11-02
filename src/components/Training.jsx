@@ -1,4 +1,4 @@
-﻿import OpeningCard from "./OpeningCard";
+import OpeningCard from "./OpeningCard";
 import CardGrid from "./CardGrid";
 
 const openings = [
@@ -34,4 +34,3 @@ export default function Training({ onSelect }) {
     </div>
   );
 }
-
