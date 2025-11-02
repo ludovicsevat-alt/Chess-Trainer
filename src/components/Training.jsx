@@ -1,4 +1,5 @@
 ﻿import OpeningCard from "./OpeningCard";
+import CardGrid from "./CardGrid";
 
 const openings = [
   {
@@ -24,11 +25,12 @@ export default function Training({ onSelect }) {
       <h1 className="text-3xl font-bold text-amber-300/90 text-center mb-8">
         Choisissez une ouverture
       </h1>
-      <div className="grid grid-cols-3 gap-8">
-        {openings.map((op) => (
+      <CardGrid
+        items={openings}
+        renderItem={(op) => (
           <OpeningCard key={op.slug} opening={op} onSelect={onSelect} />
-        ))}
-      </div>
+        )}
+      />
     </div>
   );
 }
