@@ -807,3 +807,75 @@ h1, h2, h3, .brand-text, .btn, .menu-item { font-family: 'Cinzel', serif; }
 
 
 
+.game-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+}
+
+.game-overlay-card {
+  background: linear-gradient(160deg, #1c1c1c, #0f0f0f);
+  border: 1px solid var(--color-accent);
+  padding: 32px;
+  border-radius: 16px;
+  width: min(90vw, 480px);
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+.game-overlay-card.win {
+  border-color: #3ecf8e;
+  box-shadow: 0 0 24px rgba(62, 207, 142, 0.4);
+}
+
+.game-overlay-card.lose {
+  border-color: #ff647c;
+  box-shadow: 0 0 24px rgba(255, 100, 124, 0.4);
+}
+
+.game-overlay-card.draw {
+  border-color: var(--color-accent-light);
+}
+
+.game-overlay-title {
+  margin: 0 0 12px 0;
+  font-size: 1.8rem;
+  color: var(--color-accent-light);
+}
+
+.game-overlay-subtitle {
+  margin: 0 0 16px 0;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.game-overlay-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+.history-item-button {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.history-item-button.inline-history {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.history-item-button:hover {
+  opacity: 0.85;
+}

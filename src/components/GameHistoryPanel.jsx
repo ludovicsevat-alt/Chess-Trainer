@@ -28,6 +28,7 @@ export default function GameHistoryPanel({
   emptyMessage,
   className,
   activePly,
+  onSelectMove,
 }) {
   const { messages } = useSettings();
   const movesContainerRef = useRef(null);
@@ -84,47 +85,85 @@ export default function GameHistoryPanel({
         {history.length === 0 ? (
           <div className="history-empty">{resolvedEmpty}</div>
         ) : typeof history[0] === "string" ? (
-          history.map((entry, idx) => (
-            <div
-              key={idx}
-              className={`history-item${
-                idx === activeMoveIndex ? " history-active" : ""
-              }`}
-            >
-              {entry}
-            </div>
-          ))
+          history.map((entry, idx) => {
+            const isActive = idx === activeMoveIndex;
+            if (!onSelectMove) {
+              return (
+                <div
+                  key={idx}
+                  className={`history-item${isActive ? " history-active" : ""}`}
+                >
+                  {entry}
+                </div>
+              );
+            }
+            return (
+              <button
+                key={idx}
+                type="button"
+                className={`history-item history-item-button${
+                  isActive ? " history-active" : ""
+                }`}
+                onClick={() => onSelectMove(idx + 1)}
+              >
+                {entry}
+              </button>
+            );
+          })
         ) : (
           <table className="w-full text-sm">
             <tbody>
-              {movePairs.map(([whiteMove, blackMove], index) => (
-                <tr key={index} className="hover:bg-gray-700 rounded">
-                  <td className="py-1 text-gray-400 text-right pr-2 w-8 align-top">
-                    {index + 1}.
-                  </td>
-                  <td
-                    className={`py-1 font-semibold pr-4 rounded${
-                      activeRow === index && activeIsBlack === false
-                        ? " history-active"
-                        : ""
-                    }`}
-                  >
-                    {formatMove(
-                      whiteMove,
-                      index > 0 ? movePairs[index - 1][1] : null
-                    )}
-                  </td>
-                  <td
-                    className={`py-1 rounded${
-                      activeRow === index && activeIsBlack
-                        ? " history-active"
-                        : ""
-                    }`}
-                  >
-                    {formatMove(blackMove, whiteMove)}
-                  </td>
-                </tr>
-              ))}
+              {movePairs.map(([whiteMove, blackMove], index) => {
+                const whitePly = index * 2 + 1;
+                const blackPly = index * 2 + 2;
+                const whiteText = formatMove(
+                  whiteMove,
+                  index > 0 ? movePairs[index - 1][1] : null
+                );
+                const blackText = formatMove(blackMove, whiteMove);
+                const whiteActive =
+                  activeRow === index && activeIsBlack === false;
+                const blackActive =
+                  activeRow === index && activeIsBlack === true;
+
+                const renderCell = (content, ply, isActive) => {
+                  if (!content) return null;
+                  if (!onSelectMove) return content;
+                  return (
+                    <button
+                      type="button"
+                      className={`history-item-button inline-history${
+                        isActive ? " history-active" : ""
+                      }`}
+                      onClick={() => onSelectMove(ply)}
+                    >
+                      {content}
+                    </button>
+                  );
+                };
+
+                return (
+                  <tr key={index} className="hover:bg-gray-700 rounded">
+                    <td className="py-1 text-gray-400 text-right pr-2 w-8 align-top">
+                      {index + 1}.
+                    </td>
+                    <td
+                      className={`py-1 font-semibold pr-4 rounded${
+                        whiteActive ? " history-active" : ""
+                      }`}
+                    >
+                      {renderCell(whiteText, whitePly, whiteActive)}
+                    </td>
+                    <td
+                      className={`py-1 rounded${
+                        blackActive ? " history-active" : ""
+                      }`}
+                    >
+                      {renderCell(blackText, blackPly, blackActive)}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}

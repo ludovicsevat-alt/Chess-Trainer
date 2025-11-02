@@ -1,20 +1,25 @@
-import LocalGamePanel from "./LocalGamePanel";
+﻿import LocalGamePanel from "./LocalGamePanel";
 import { useSettings } from "../contexts/SettingsContext";
 import AiRightMenuContent from "./AiRightMenuContent";
 import OnlineRightMenuContent from "./OnlineRightMenuContent";
 
-export default function RightMenu({ selectedMenu = "overview", aiGame, gameStatus }) {
+export default function RightMenu({
+  selectedMenu = "overview",
+  aiGame,
+  onlineGame,
+  gameStatus,
+}) {
   const { messages } = useSettings();
 
   const isAi = selectedMenu === "ai" && Boolean(aiGame);
-  const isOnline = selectedMenu === "online";
+  const isOnline = selectedMenu === "online" && Boolean(onlineGame);
 
   return (
     <div className="aside right-menu">
       {!isAi && !isOnline && selectedMenu === "overview" && (
         <div className="panel" style={{ padding: 16, textAlign: "center" }}>
           <img
-            src="/assets/icons/logo-horse.png"
+            src="/assets/images/titre.png"
             alt="Chess Trainer"
             style={{ width: 64, marginBottom: 12 }}
           />
@@ -28,11 +33,11 @@ export default function RightMenu({ selectedMenu = "overview", aiGame, gameStatu
         </div>
       )}
 
-      {isAi && <AiRightMenuContent aiGame={aiGame} gameStatus={gameStatus} />}
+      {isAi && <AiRightMenuContent aiGame={aiGame} />}
 
       {selectedMenu === "local" && <LocalGamePanel gameStatus={gameStatus} />}
 
-      {isOnline && <OnlineRightMenuContent gameStatus={gameStatus} />}
+      {isOnline && <OnlineRightMenuContent onlineGame={onlineGame} />}
     </div>
   );
 }

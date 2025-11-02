@@ -3,26 +3,47 @@ import RightMenu from "./components/RightMenu";
 import StaticBoard from "./components/StaticBoard";
 import PlayVsAI from "./components/PlayVsAI";
 import PlayLocal from "./components/PlayLocal";
+import PlayOnline from "./components/PlayOnline";
 import { useLocalGame } from "./contexts/LocalGameContext";
 import Training from "./components/Training";
 import Puzzles from "./components/Puzzles";
 import Stats from "./components/Stats";
 import Settings from "./components/Settings";
 
-function renderContent(menu, aiGame, gameStatus) {
+function renderContent(menu, { aiGame, localGame, onlineGame }) {
   switch (menu) {
     case "ai":
       return {
         center: <PlayVsAI aiGame={aiGame} />,
-        right: <RightMenu selectedMenu={menu} aiGame={aiGame} gameStatus={gameStatus} />,
+        right: (
+          <RightMenu
+            selectedMenu={menu}
+            aiGame={aiGame}
+            gameStatus={aiGame?.gameStatus}
+          />
+        ),
       };
     case "online":
       return {
-        center: <PlayLocal />,
-        right: <RightMenu selectedMenu={menu} gameStatus={gameStatus} />,
+        center: <PlayOnline onlineGame={onlineGame} />,
+        right: (
+          <RightMenu
+            selectedMenu={menu}
+            onlineGame={onlineGame}
+            gameStatus={onlineGame?.gameStatus}
+          />
+        ),
       };
     case "local":
-      return { center: <PlayLocal />, right: <RightMenu selectedMenu={menu} gameStatus={gameStatus} /> };
+      return {
+        center: <PlayLocal />,
+        right: (
+          <RightMenu
+            selectedMenu={menu}
+            gameStatus={localGame?.gameStatus}
+          />
+        ),
+      };
     case "training":
       return { center: <Training />, right: <RightMenu selectedMenu={menu} /> };
     case "puzzle":
@@ -44,9 +65,14 @@ export default function MainLayout({
   selectedMenu = "overview",
   onSelectMenu,
   aiGame,
+  onlineGame,
 }) {
-  const { gameStatus } = useLocalGame();
-  const content = renderContent(selectedMenu, aiGame, gameStatus);
+  const localGame = useLocalGame();
+  const content = renderContent(selectedMenu, {
+    aiGame,
+    localGame,
+    onlineGame,
+  });
 
   return (
     <div className="layout">
