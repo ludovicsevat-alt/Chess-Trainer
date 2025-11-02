@@ -1,4 +1,5 @@
-﻿import LeftMenu from "./components/LeftMenu";
+﻿import { useState } from "react";
+import LeftMenu from "./components/LeftMenu";
 import RightMenu from "./components/RightMenu";
 import StaticBoard from "./components/StaticBoard";
 import PlayVsAI from "./components/PlayVsAI";
@@ -6,11 +7,17 @@ import PlayLocal from "./components/PlayLocal";
 import PlayOnline from "./components/PlayOnline";
 import { useLocalGame } from "./contexts/LocalGameContext";
 import Training from "./components/Training";
+import OpeningTrainer from "./components/OpeningTrainer";
 import Puzzles from "./components/Puzzles";
 import Stats from "./components/Stats";
 import Settings from "./components/Settings";
 
-function renderContent(menu, { aiGame, localGame, onlineGame }) {
+function renderContent(
+  menu,
+  { aiGame, localGame, onlineGame },
+  trainingSelection,
+  setTrainingSelection
+) {
   switch (menu) {
     case "ai":
       return {
@@ -45,7 +52,21 @@ function renderContent(menu, { aiGame, localGame, onlineGame }) {
         ),
       };
     case "training":
-      return { center: <Training />, right: <RightMenu selectedMenu={menu} /> };
+      if (trainingSelection) {
+        return {
+          center: (
+            <OpeningTrainer
+              selection={trainingSelection}
+              onExit={() => setTrainingSelection(null)}
+            />
+          ),
+          right: <RightMenu selectedMenu={menu} />,
+        };
+      }
+      return {
+        center: <Training onSelect={setTrainingSelection} />,
+        right: <RightMenu selectedMenu={menu} />,
+      };
     case "puzzle":
       return { center: <Puzzles />, right: <RightMenu selectedMenu={menu} /> };
     case "stats":
@@ -67,17 +88,21 @@ export default function MainLayout({
   aiGame,
   onlineGame,
 }) {
+  const [trainingSelection, setTrainingSelection] = useState(null);
   const localGame = useLocalGame();
-  const content = renderContent(selectedMenu, {
-    aiGame,
-    localGame,
-    onlineGame,
-  });
+  const content = renderContent(
+    selectedMenu,
+    { aiGame, localGame, onlineGame },
+    trainingSelection,
+    setTrainingSelection
+  );
+
+  const isTrainingContent = selectedMenu === "training" && !trainingSelection;
 
   return (
     <div className="layout">
       {left ?? <LeftMenu selected={selectedMenu} onSelect={onSelectMenu} />}
-      {center ?? content.center}
+      <div className={`layout-center ${isTrainingContent ? 'is-grid-content' : ''}`}>{center ?? content.center}</div>
       {right ?? content.right}
     </div>
   );

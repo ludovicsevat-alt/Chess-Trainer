@@ -2,6 +2,7 @@
 import { useSettings } from "../contexts/SettingsContext";
 import AiRightMenuContent from "./AiRightMenuContent";
 import OnlineRightMenuContent from "./OnlineRightMenuContent";
+import TrainingRightMenuContent from "./TrainingRightMenuContent";
 
 export default function RightMenu({
   selectedMenu = "overview",
@@ -38,6 +39,8 @@ export default function RightMenu({
       {selectedMenu === "local" && <LocalGamePanel gameStatus={gameStatus} />}
 
       {isOnline && <OnlineRightMenuContent onlineGame={onlineGame} />}
+
+      {selectedMenu === "training" && <TrainingRightMenuContent />}
     </div>
   );
 }

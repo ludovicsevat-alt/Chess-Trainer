@@ -108,14 +108,38 @@ h1, h2, h3, .brand-text, .btn, .menu-item { font-family: 'Cinzel', serif; }
 
 /* Layout */
 .layout {
-  display: grid;
-  /* Colonnes contrôlées par variables pour calculer la largeur du board */
-  grid-template-columns: var(--left-col) 1fr var(--right-col);
+  display: flex;
   gap: var(--gap);
   height: 100vh;
+  width: 100%;
   box-sizing: border-box;
-  width: 100vw;
+  padding: var(--gap);
 }
+
+.layout-center {
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  min-width: 0; /* Empêche le dépassement de flexbox */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centre les enfants horizontalement */
+}
+
+.layout-center.is-grid-content {
+  display: block; /* Annule le flex pour permettre à la grille enfant de fonctionner */
+  /* flex-direction est annulé par display: block */
+  align-items: initial; /* Réinitialise l'alignement */
+}
+
+.left-menu,
+.right-menu {
+  flex-shrink: 0;
+}
+
+.left-menu { width: var(--left-col); }
+.right-menu { width: var(--right-col); }
+
 
 .sidebar,
 .aside,
@@ -878,4 +902,74 @@ h1, h2, h3, .brand-text, .btn, .menu-item { font-family: 'Cinzel', serif; }
 
 .history-item-button:hover {
   opacity: 0.85;
+}
+
+.btn-tertiary {
+  width: 100%; /* Défaut à pleine largeur */
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-input-border);
+  background: transparent;
+  color: var(--color-muted);
+  transition: all 0.2s ease;
+}
+
+.btn-tertiary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* --- Card-specific Buttons --- */
+.card-btn {
+  width: 280px;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.card-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+.card-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Primary Card Button */
+.card-btn-primary {
+  border: 1px solid var(--color-accent);
+  background: linear-gradient(145deg, #b07c2f, #f0c674);
+  color: #1b1b1b;
+}
+.card-btn-primary:hover:not(:disabled) {
+  box-shadow: 0 0 18px rgba(244, 205, 141, 0.6);
+}
+
+/* Secondary Card Button */
+.card-btn-secondary {
+  border: 1px solid var(--color-input-border);
+  background: var(--color-input-bg);
+  color: var(--color-text);
+}
+.card-btn-secondary:hover:not(:disabled) {
+  border-color: var(--color-accent-light);
+  box-shadow: 0 0 10px rgba(202, 167, 92, 0.3);
+}
+
+/* Tertiary Card Button */
+.card-btn-tertiary {
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-muted);
+  font-weight: 600;
+}
+.card-btn-tertiary:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  box-shadow: 0 0 10px rgba(202, 167, 92, 0.2);
 }
