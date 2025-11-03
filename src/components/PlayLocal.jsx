@@ -10,13 +10,8 @@ export default function PlayLocal() {
     onPieceDrop,
     gameStatus,
     history,
-    positions,
     currentPly,
     isOnLatestPly,
-    stepBackward,
-    stepForward,
-    goToStart,
-    goToEnd,
     capturedPieces,
     materialAdvantage,
   } = useLocalGame();
@@ -34,12 +29,6 @@ export default function PlayLocal() {
   const animationDuration = settings.animationEnabled
     ? settings.animationDuration
     : 0;
-  const liveStatus = gameStatus.message;
-  const replayStatus = `Mode replay - coup ${currentPly}/${Math.max(
-    positions.length - 1,
-    0
-  )}`;
-  const statusMessage = isOnLatestPly ? liveStatus : replayStatus;
   const orientation = "white";
   const isLive = isOnLatestPly;
   const activeColor = isLive ? gameStatus.turn : null;

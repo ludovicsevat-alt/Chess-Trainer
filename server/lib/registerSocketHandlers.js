@@ -8,11 +8,11 @@ export function registerSocketHandlers(io, rooms) {
 
     socket.on("room:create", (payload = {}, ack) => {
       try {
-        const room = rooms.createRoom(socket.id, payload);
-        socket.join(room.id);
-        const serialized = rooms.serialize(room.id);
+        const createdRoom = rooms.createRoom(socket.id, payload);
+        socket.join(createdRoom.id);
+        const serialized = rooms.serialize(createdRoom.id);
         safeAck(ack, { ok: true, room: serialized, playerId: socket.id });
-        io.to(room.id).emit("room:update", { room: serialized });
+        io.to(createdRoom.id).emit("room:update", { room: serialized });
       } catch (error) {
         safeAck(ack, { ok: false, error: error.message });
       }
@@ -20,7 +20,7 @@ export function registerSocketHandlers(io, rooms) {
 
     socket.on("room:join", ({ roomId, playerName } = {}, ack) => {
       try {
-        const room = rooms.addPlayer(roomId, socket.id, { playerName });
+        rooms.addPlayer(roomId, socket.id, { playerName });
         socket.join(roomId);
         const serialized = rooms.serialize(roomId);
         safeAck(ack, { ok: true, room: serialized, playerId: socket.id });
@@ -32,7 +32,7 @@ export function registerSocketHandlers(io, rooms) {
 
     socket.on("room:leave", ({ roomId } = {}, ack) => {
       try {
-        const room = rooms.leaveRoom(roomId, socket.id);
+        rooms.leaveRoom(roomId, socket.id);
         socket.leave(roomId);
         const serialized = rooms.serialize(roomId);
         safeAck(ack, { ok: true });

@@ -1,3 +1,6 @@
+/* eslint-env node */
+/* global process */
+
 export const SERVER_PORT = Number(process.env.SERVER_PORT ?? 4000);
 export const CLIENT_ORIGINS = process.env.CLIENT_ORIGINS
   ? process.env.CLIENT_ORIGINS.split(",").map((origin) => origin.trim())

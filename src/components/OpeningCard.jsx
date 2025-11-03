@@ -5,7 +5,7 @@ export default function OpeningCard({ opening, onSelect }) {
     if (slug === "london-system") {
       onSelect({ type: "theory", slug: "london-system" });
     } else {
-      alert("Cours détaillé disponible bientôt pour cette ouverture.");
+      alert("Cours detaille disponible bientot pour cette ouverture.");
     }
   };
 
@@ -17,7 +17,7 @@ export default function OpeningCard({ opening, onSelect }) {
       <div className="mb-4">
         <img
           src={image}
-          alt={`Position clé pour ${name}`}
+          alt={`Position cle pour ${name}`}
           className="rounded-lg shadow-md h-40 w-[280px] object-cover mx-auto"
         />
       </div>
@@ -32,7 +32,7 @@ export default function OpeningCard({ opening, onSelect }) {
           onClick={() => onSelect({ type: "trainer", slug, side: "black" })}
           className="card-btn card-btn-secondary"
         >
-          Apprendre à contrer
+          Apprendre a contrer
         </button>
         <button onClick={handleCourseClick} className="card-btn card-btn-tertiary">
           Cours

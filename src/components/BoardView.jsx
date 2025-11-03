@@ -1,4 +1,4 @@
-import { Chessboard } from "react-chessboard";
+import ChessboardAdapter from "../adapters/ChessboardAdapter";
 
 export default function BoardView({
   position,
@@ -41,7 +41,7 @@ export default function BoardView({
       <div className="board-area">
         <div className="board-wrap">
           <div className="board-inner">
-            <Chessboard
+            <ChessboardAdapter
               position={position}
               onPieceDrop={onPieceDrop}
               boardOrientation={boardOrientation}

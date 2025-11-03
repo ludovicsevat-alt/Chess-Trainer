@@ -3,12 +3,12 @@ import CardGrid from "./CardGrid";
 
 const openings = [
   {
-    name: "Système de Londres",
+    name: "Systeme de Londres",
     slug: "london-system",
     image: "/assets/images/ouvertures/default.jpg",
   },
   {
-    name: "Défense Sicilienne",
+    name: "Defense Sicilienne",
     slug: "sicilian-defense",
     image: "/assets/images/ouvertures/default.jpg",
   },

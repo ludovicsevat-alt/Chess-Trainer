@@ -1,8 +1,7 @@
-﻿import LocalGamePanel from "./LocalGamePanel";
+import LocalGamePanel from "./LocalGamePanel";
 import { useSettings } from "../contexts/SettingsContext";
 import AiRightMenuContent from "./AiRightMenuContent";
 import OnlineRightMenuContent from "./OnlineRightMenuContent";
-import TrainingRightMenuContent from "./TrainingRightMenuContent";
 
 export default function RightMenu({
   selectedMenu = "overview",
@@ -40,7 +39,14 @@ export default function RightMenu({
 
       {isOnline && <OnlineRightMenuContent onlineGame={onlineGame} />}
 
-      {selectedMenu === "training" && <TrainingRightMenuContent />}
+      {selectedMenu === "training" && (
+        <div className="panel" style={{ padding: 16, textAlign: "center" }}>
+          <div className="panel-title">Mode entrainement</div>
+          <div className="muted">
+            Choisissez une ouverture pour lancer un module guide.
+          </div>
+        </div>
+      )}
     </div>
   );
 }

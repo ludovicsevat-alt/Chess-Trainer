@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import getHumanizedMove from "../engine/HumanizedStockfish";
+import {
+  createStockfishWorker,
+  ensureReady as ensureStockfishReady,
+} from "../engine/stockfishWorker";
 import { play as playSound } from "../audio/SoundManager";
 import { getLevelLabel } from "../constants/levels";
 
@@ -39,6 +43,8 @@ export default function useAiGame() {
   const [boardOrientation, setBoardOrientation] = useState("white");
   const [colorChoice, setColorChoice] = useState("white");
   const [elo, setElo] = useState(1200);
+  const initialEloRef = useRef(elo);
+  initialEloRef.current = elo;
   const [history, setHistory] = useState([]);
   const [modal, setModal] = useState({ open: false, title: "", message: "" });
   const [positions, setPositions] = useState([initialFen]);
@@ -135,8 +141,13 @@ export default function useAiGame() {
 
   const makeEngineMove = async () => {
     try {
+      const engineControl = engineRef.current;
+      if (!engineControl?.worker) {
+        throw new Error("Stockfish non initialise");
+      }
+      await ensureStockfishReady(engineControl);
       const suggestion = await getHumanizedMove(
-        engineRef.current,
+        engineControl.worker,
         gameRef.current,
         elo
       );
@@ -165,27 +176,34 @@ export default function useAiGame() {
   };
 
   useEffect(() => {
-    const worker = new Worker("/engine/stockfish-17.1-lite-single-03e3232.js");
-    engineRef.current = worker;
+    const control = createStockfishWorker({
+      multiPV: 3,
+      skillLevel: 20,
+      limitStrength: true,
+      initialElo: initialEloRef.current,
+    });
 
-    const listener = (event) => {
-      const line = event.data;
-      if (typeof line !== "string") return;
-      if (line.includes("readyok")) {
-        setEngineReady(true);
-      }
-    };
-
-    worker.addEventListener("message", listener);
-    worker.postMessage("uci");
-    worker.postMessage("isready");
+    engineRef.current = control;
+    ensureStockfishReady(control)
+      .then(() => setEngineReady(true))
+      .catch((error) => {
+        console.error("Stockfish n'a pas repondu correctement :", error);
+      });
 
     return () => {
-      worker.removeEventListener("message", listener);
-      worker.terminate();
+      setEngineReady(false);
+      control.terminate();
       engineRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    const control = engineRef.current;
+    if (!control) return;
+    control
+      .setElo(elo)
+      .catch((error) => console.warn("Impossible d'appliquer l'ELO sur Stockfish :", error));
+  }, [elo]);
 
   const handleDrop = (sourceSquare, targetSquare) => {
     if (!locked) return false;

@@ -1,23 +1,7 @@
 ﻿import BoardView from "./BoardView";
 import PlayerInfoPanel from "./PlayerInfoPanel";
-import MoveNavigator from "./MoveNavigator";
-import GameHistoryPanel from "./GameHistoryPanel";
 import GameOverlay from "./GameOverlay.jsx";
 import { useSettings } from "../contexts/SettingsContext";
-
-const buildHintMessage = (state, hasOpponent) => {
-  if (!state?.connected) return "Connexion au serveur en cours...";
-  if (state.status === "waiting") {
-    return "Partagez l'identifiant de salle pour inviter un adversaire.";
-  }
-  if (!state.roomId) {
-    return "Creez ou rejoignez une salle via le panneau de droite.";
-  }
-  if (!hasOpponent || state.status !== "ready") {
-    return "En attente d'un adversaire. Partagez votre identifiant.";
-  }
-  return null;
-};
 
 const colorKey = (color) => (color === "white" ? "white" : "black");
 
@@ -34,7 +18,6 @@ export default function PlayOnline({ onlineGame }) {
 
   const {
     position,
-    positions = [],
     history = [],
     currentPly,
     isOnLatestPly,
@@ -43,11 +26,6 @@ export default function PlayOnline({ onlineGame }) {
     onlineState = {},
     capturedPieces = { w: [], b: [] },
     materialAdvantage = 0,
-    goToStart,
-    stepBackward,
-    stepForward,
-    goToEnd,
-    goToPly,
     gameStatus,
     gameResult,
     leaveRoom,
@@ -55,8 +33,6 @@ export default function PlayOnline({ onlineGame }) {
 
   const players = onlineState.players ?? [];
   const selfPlayer = players.find((player) => player.id === onlineState.playerId);
-  const opponentPlayer = players.find((player) => player.id !== onlineState.playerId);
-  const hasOpponent = Boolean(opponentPlayer);
 
   const orientation = boardOrientation ?? (selfPlayer?.color === "black" ? "black" : "white");
   const activeMove = currentPly > 0 ? history[currentPly - 1] : null;
@@ -79,10 +55,6 @@ export default function PlayOnline({ onlineGame }) {
     advantage: materialAdvantage,
     active: activeTurn === "b",
   };
-
-  const hintMessage = buildHintMessage(onlineState, hasOpponent);
-  const statusMessage = gameStatus?.message;
-  const maxPly = Math.max(positions.length - 1, 0);
 
   const primaryOverlayAction = onlineState.roomId
     ? {

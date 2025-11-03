@@ -52,7 +52,6 @@ export default function OnlineRightMenuContent({ onlineGame }) {
   const result = onlineState.result;
   const players = onlineState.players ?? [];
   const selfPlayer = players.find((player) => player.id === onlineState.playerId);
-  const opponentPlayer = players.find((player) => player.id !== onlineState.playerId);
 
   const preferredColor = colorPreference ?? "white";
   const [timeChoice, timeIncrement] = ["none", "0"]; // timers geres ulterieurement

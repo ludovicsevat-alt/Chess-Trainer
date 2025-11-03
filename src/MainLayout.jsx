@@ -7,12 +7,14 @@ import PlayLocal from "./components/PlayLocal";
 import PlayOnline from "./components/PlayOnline";
 import { useLocalGame } from "./contexts/LocalGameContext";
 import Training from "./components/Training";
-import OpeningTrainer from "./components/OpeningTrainer";
 import Puzzles from "./components/Puzzles";
 import Stats from "./components/Stats";
 import Settings from "./components/Settings";
-import LondonTheory from './pages/openings/LondonTheory';
-import LondonTheoryRightMenu from './components/LondonTheoryRightMenu';
+import LondonTheory from "./pages/openings/LondonTheory";
+import LondonTheoryRightMenu from "./components/LondonTheoryRightMenu";
+import { TrainingSessionProvider } from "./contexts/TrainingSessionContext";
+import TrainingBoard from "./components/TrainingBoard";
+import TrainingRightMenuContent from "./components/TrainingRightMenuContent";
 
 function renderContent(
   menu,
@@ -55,21 +57,16 @@ function renderContent(
       };
     case "training":
       if (trainingSelection) {
-        if (trainingSelection.type === 'theory' && trainingSelection.slug === 'london-system') {
+        if (
+          trainingSelection.type === "theory" &&
+          trainingSelection.slug === "london-system"
+        ) {
           return {
             center: <LondonTheory />,
             right: <LondonTheoryRightMenu setTrainingSelection={setTrainingSelection} />,
           };
         }
-        return {
-          center: (
-            <OpeningTrainer
-              selection={trainingSelection}
-              onExit={() => setTrainingSelection(null)}
-            />
-          ),
-          right: <RightMenu selectedMenu={menu} />,
-        };
+        return { center: null, right: null };
       }
       return {
         center: <Training onSelect={setTrainingSelection} />,
@@ -97,6 +94,29 @@ export default function MainLayout({
 }) {
   const [trainingSelection, setTrainingSelection] = useState(null);
   const localGame = useLocalGame();
+
+  if (
+    selectedMenu === "training" &&
+    trainingSelection &&
+    trainingSelection.type === "trainer"
+  ) {
+    return (
+      <TrainingSessionProvider
+        openingSlug={trainingSelection.slug}
+        side={trainingSelection.side ?? "white"}
+        onExit={() => setTrainingSelection(null)}
+      >
+        <div className="layout">
+          {left ?? <LeftMenu selected={selectedMenu} onSelect={onSelectMenu} />}
+          <div className="layout-center">
+            {center ?? <TrainingBoard />}
+          </div>
+          <TrainingRightMenuContent />
+        </div>
+      </TrainingSessionProvider>
+    );
+  }
+
   const content = renderContent(
     selectedMenu,
     { aiGame, localGame, onlineGame },
