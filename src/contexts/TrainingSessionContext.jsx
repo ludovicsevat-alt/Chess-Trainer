@@ -136,11 +136,14 @@ export function TrainingSessionProvider({
     ((mode === "guided" && guidedScript) ||
       (mode === "semi" && semiScript));
 
-  const startTraining = useCallback(() => {
+  const startTraining = useCallback((subOpeningFile) => {
+    if (subOpeningFile) {
+      setSubOpeningFile(subOpeningFile);
+    }
     if (!canStartTraining || trainingActive) return;
     setTrainingActive(true);
     resetGuardRef.current.trigger(mode, true);
-  }, [canStartTraining, trainingActive, mode]);
+  }, [canStartTraining, trainingActive, mode, setSubOpeningFile]);
 
   const resetTraining = useCallback(() => {
     if (!trainingActive) return;

@@ -73,7 +73,7 @@ export default function TrainingRightMenuContent() {
         </div>
       </div>
 
-      {openingData && openingData.subOpenings && (
+      {mode !== "semi" && openingData && openingData.subOpenings && (
         <div className="panel">
           <div className="panel-title">Variante</div>
           <select
@@ -110,7 +110,14 @@ export default function TrainingRightMenuContent() {
           <button
             type="button"
             className="btn-primary"
-            onClick={startTraining}
+            onClick={() => {
+              if (mode === "semi") {
+                const randomSubOpening = openingData.subOpenings[Math.floor(Math.random() * openingData.subOpenings.length)];
+                startTraining(randomSubOpening.file);
+              } else {
+                startTraining();
+              }
+            }}
             disabled={!canStartTraining || trainingActive}
           >
             Commencer
