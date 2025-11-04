@@ -14,12 +14,22 @@ import TrainingSessionResetGuard from "./trainingSessionResetGuard";
 
 const TrainingSessionContext = createContext(undefined);
 
-async function fetchOpeningData(slug, signal) {
-  const response = await fetch(`/data/openings/${slug}.json`, { signal });
-  if (!response.ok) {
-    throw new Error(`Impossible de charger les donnees pour ${slug} (${response.status})`);
+async function fetchOpeningData(slug, subOpeningFile, signal) {
+  const mainResponse = await fetch(`/data/openings/${slug}.json`, { signal });
+  if (!mainResponse.ok) {
+    throw new Error(`Impossible de charger les donnees pour ${slug} (${mainResponse.status})`);
   }
-  return response.json();
+  const mainData = await mainResponse.json();
+
+  const file = subOpeningFile || mainData.subOpenings[0].file;
+
+  const subResponse = await fetch(`/data/openings/${file}`, { signal });
+  if (!subResponse.ok) {
+    throw new Error(`Impossible de charger les donnees pour ${file} (${subResponse.status})`);
+  }
+  const subData = await subResponse.json();
+
+  return { ...mainData, ...subData };
 }
 
 function pickGuidedScript(data, side) {
@@ -53,6 +63,7 @@ export function TrainingSessionProvider({
   const [mode, setMode] = useState(initialMode);
   const [elo, setElo] = useState(1200);
   const [trainingActive, setTrainingActive] = useState(false);
+  const [subOpeningFile, setSubOpeningFile] = useState(null);
   const abortRef = useRef();
 
   useEffect(() => {
@@ -64,7 +75,7 @@ export function TrainingSessionProvider({
     }
     const controller = new AbortController();
     abortRef.current = controller;
-    fetchOpeningData(openingSlug, controller.signal)
+    fetchOpeningData(openingSlug, subOpeningFile, controller.signal)
       .then((data) => {
         setOpeningData(data);
         setLoading(false);
@@ -78,7 +89,7 @@ export function TrainingSessionProvider({
     return () => {
       controller.abort();
     };
-  }, [openingSlug]);
+  }, [openingSlug, subOpeningFile]);
 
   const guidedScript = useMemo(
     () => (openingData ? pickGuidedScript(openingData, side) : null),
@@ -158,6 +169,7 @@ export function TrainingSessionProvider({
       semiScript,
       guidedSession,
       semiSession,
+      setSubOpeningFile,
     }),
     [
       loading,
@@ -178,6 +190,7 @@ export function TrainingSessionProvider({
       semiScript,
       guidedSession,
       semiSession,
+      setSubOpeningFile,
     ]
   );
 

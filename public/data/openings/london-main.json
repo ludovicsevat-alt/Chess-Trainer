@@ -1,0 +1,170 @@
+{
+  "opening": {
+    "id": "london-system",
+    "name": "Système de Londres",
+    "eco": "D02",
+    "description": "Le Système de Londres est une ouverture solide et flexible pour les Blancs. Elle repose sur une structure stable, permettant un développement rapide et une transition fluide vers le milieu de jeu."
+  },
+  "principles": {
+    "core_ideas": [
+      "Développer rapidement le fou en f4 avant de fermer la diagonale avec e3.",
+      "Établir une structure de pions solide d4-e3-c3.",
+      "Jouer souvent Cf3 puis Fd3 et roquer rapidement du côté roi.",
+      "Contenir les poussées centrales des Noirs (d5 et e5)."
+    ],
+    "typical_structure": "Les Blancs visent une structure de pions d4-e3-c3, avec le fou actif en f4 et les cavaliers en f3 et d2. Le plan est de contrôler le centre sans le sur-occuper."
+  },
+  "variants": [
+    {
+      "id": "main-line",
+      "name": "Ligne principale",
+      "moves": [
+        { "san": "d4", "explanation": "Contrôle du centre et libère le fou de cases blanches." },
+        { "san": "Nf3", "explanation": "Prépare e3 et soutient d4." },
+        { "san": "Bf4", "explanation": "Coup clé du système : le fou sort avant e3." },
+        { "san": "e3", "explanation": "Renforce la structure centrale." },
+        { "san": "c3", "explanation": "Stabilise le centre et prépare Bd3 ou Nbd2." },
+        { "san": "Bd3", "explanation": "Met la pression sur le futur roque noir." },
+        { "san": "O-O", "explanation": "Roque rapide pour la sécurité du roi." }
+      ],
+      "objective": "Atteindre une position équilibrée et solide, prête à attaquer sur l’aile roi."
+    },
+    {
+      "id": "jobava-attack",
+      "name": "Variante Jobava (Nc3 avant e3)",
+      "moves": [
+        { "san": "d4" },
+        { "san": "Nc3" },
+        { "san": "Bf4" },
+        { "san": "e3" },
+        { "san": "Nf3" }
+      ],
+      "explanation": "Une version agressive qui met rapidement la pression sur e4 et crée des déséquilibres tactiques.",
+      "objective": "Créer des opportunités offensives tout en gardant la structure londonienne."
+    },
+    {
+      "id": "kingside-attack",
+      "name": "Plan d’attaque sur l’aile roi",
+      "moves": [
+        { "san": "d4" },
+        { "san": "Nf3" },
+        { "san": "Bf4" },
+        { "san": "e3" },
+        { "san": "Bd3" },
+        { "san": "Nbd2" },
+        { "san": "h3" },
+        { "san": "O-O" },
+        { "san": "Ne5" },
+        { "san": "f4" }
+      ],
+      "explanation": "Une approche offensive où les Blancs regroupent leurs forces pour lancer une attaque directe sur le roi noir.",
+      "objective": "Créer une pression croissante sur l’aile roi avec un plan typique : Ne5-f4-Qf3-g4."
+    }
+  ],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-main-white",
+        "name": "Plan principal côté Blancs",
+        "side": "white",
+        "description": "Rejouez la ligne de base du Système de Londres avec les plans principaux.",
+        "sequence": [
+          { "san": "d4", "coach": "Commencez par occuper le centre et libérer votre fou de cases blanches.", "tags": ["contrôle du centre", "développement"] },
+          { "san": "Nf6", "tags": ["réponse standard"] },
+          { "san": "Bf4", "coach": "Le fou sort avant e3 : c’est la signature du Londres.", "tags": ["développement du fou", "plan principal"] },
+          { "san": "e6", "tags": ["solide"] },
+          { "san": "Nf3", "coach": "Développez votre cavalier vers f3 pour soutenir d4 et préparer e3.", "tags": ["développement", "préparation du roque"] },
+          { "san": "c5", "tags": ["poussée centrale"] },
+          { "san": "e3", "coach": "Verrouillez la case e4 et sécurisez votre structure.", "tags": ["structure de pions"] },
+          { "san": "Nc6", "tags": ["pression centrale"] },
+          { "san": "Nbd2", "coach": "Repositionnez le cavalier pour soutenir e4 et renforcer f3.", "tags": ["flexibilité"] },
+          { "san": "Be7", "tags": ["préparation du roque"] },
+          { "san": "c3", "coach": "Stabilisez d4 et gardez la case b4 sous contrôle avant de roquer.", "tags": ["structure de pions"] },
+          { "san": "O-O", "tags": ["sécurité du roi"] },
+          { "san": "Bd3", "coach": "Visez h7 et préparez un éventuel h4-h5 selon la configuration.", "tags": ["initiative", "attaque"] }
+        ]
+      }
+    ],
+    "semiGuided": [
+      {
+        "id": "semi-main-white",
+        "name": "Libre contrôle - plan principal",
+        "side": "white",
+        "description": "Jouez la ligne principale du Système de Londres avec validation coup par coup.",
+        "outOfBookMessage": "Tu es sorti du système de Londres, reprenons à partir du plan principal.",
+        "lines": [
+          {
+            "variantTag": "main",
+            "moves": [
+              { "actor": "player", "san": "d4", "idea": "Commence par installer un pion au centre pour libérer la diagonale de ton fou.", "hint1": "Occupe le centre avec le pion d pour contrer ...d5 ou ...c5.", "hint2": "Libère ton fou de cases blanches avant de fermer la diagonale.", "explain": "Sans d4, le système de Londres perd son schéma de base.", "success": "Excellent, le pion d contrôle le centre et ouvre la diagonale c1-h6." },
+              { "actor": "opponent", "san": "Nf6" },
+              { "actor": "player", "san": "Bf4", "idea": "Sors ton fou de cases blanches avant de jouer e3.", "hint1": "Place ton fou en f4 pour viser c7 et h6.", "hint2": "Sortir le fou maintenant évite de le coincer derrière e3.", "explain": "Le plan clé est de sortir le fou en f4 avant e3.", "success": "Parfait, le fou en f4 est la signature du Londres." },
+              { "actor": "opponent", "san": "e6" },
+              { "actor": "player", "san": "Nf3", "idea": "Développe un cavalier vers f3 pour soutenir d4 et contrôler e5.", "hint1": "Un cavalier en f3 soutient d4 et prépare le roque.", "hint2": "Nf3 empêche ...e5 et garde un œil sur g5.", "explain": "Le développement harmonieux passe par Nf3 dans le plan principal.", "success": "Bien joué, le cavalier soutient d4 et prépare ton roque." },
+              { "actor": "opponent", "san": "c5" },
+              { "actor": "player", "san": "e3", "idea": "Solidifie le centre et prépare Cbd2 ainsi que le roque.", "hint1": "e3 renforce d4 et ouvre la route au fou de cases noires.", "hint2": "Ta structure cible est d4-e3-c3.", "explain": "Reste fidèle au schéma : e3 consolide le centre avant de jouer c3.", "success": "Solide, tu verrouilles e4 tout en préparant le roque." },
+              { "actor": "opponent", "san": "Nc6" },
+              { "actor": "player", "san": "Nbd2", "idea": "Rajoute une pièce de soutien sur d4 et prépare le saut vers e5.", "hint1": "Cavalier b1-d2 soutient e4 et facilite un futur Ne5.", "hint2": "Nbd2 complète la structure triangulaire caractéristique.", "explain": "Le cavalier doit passer par d2 pour soutenir le centre.", "success": "Très bien, la coordination des cavaliers est en place." }
+            ]
+          },
+
+         
+          {
+            "variantTag": "main-line-symmetrical",
+            "moves": [
+              { "actor": "player", "san": "d4", "idea": "Occupez le centre et préparez le développement du fou.", "hint1": "Le premier coup le plus courant pour le Système de Londres.", "hint2": "Contrôlez la case e5 et ouvrez la diagonale pour votre fou en c1.", "explain": "d4 est le fondement du Londres.", "success": "Parfait. Le contrôle du centre est la première étape." },
+              { "actor": "opponent", "san": "d5" },
+              { "actor": "player", "san": "Bf4", "idea": "Développez votre 'bon' fou avant de jouer e3.", "hint1": "C'est le coup signature du Système de Londres.", "hint2": "Placez votre fou sur une diagonale active.", "explain": "Sortir le fou en f4 est essentiel pour ne pas l'enfermer.", "success": "Excellent. Votre fou de Londres est maintenant actif." },
+              { "actor": "opponent", "san": "Nf6" },
+              { "actor": "player", "san": "e3", "idea": "Solidifiez votre pion d4.", "hint1": "Maintenant que le fou est sorti, vous pouvez construire votre pyramide de pions.", "hint2": "Ce coup ouvre la diagonale pour votre fou en f1.", "explain": "e3 soutient d4 et prépare un développement harmonieux.", "success": "Structure solide." },
+              { "actor": "opponent", "san": "e6" },
+              { "actor": "player", "san": "Nf3", "idea": "Développez votre cavalier-roi et préparez le roque.", "hint1": "Un coup de développement naturel.", "hint2": "Ce cavalier est essentiel pour contrôler le centre.", "explain": "Cf3 développe une pièce, contrôle le centre, et prépare le roque.", "success": "Développement parfait." },
+              { "actor": "opponent", "san": "c5" },
+              { "actor": "player", "san": "c3", "idea": "Renforcez votre pion d4.", "hint1": "Les noirs attaquent votre centre. Solidifiez-le.", "hint2": "Créez la structure d4-e3-c3.", "explain": "Face à la poussée ...c5, c3 est la réponse la plus solide.", "success": "Très bien. Votre centre est maintenant un véritable bastion." },
+              { "actor": "opponent", "san": "Nc6" },
+              { "actor": "player", "san": "Nbd2", "idea": "Développez votre dernier cavalier.", "hint1": "Ce cavalier soutient e4 et peut aller sur f1 ou e5.", "hint2": "Ne bloque pas le pion c.", "explain": "Cbd2 est plus flexible que Cc3.", "success": "Bonne coordination." },
+              { "actor": "opponent", "san": "Bd6" },
+              { "actor": "player", "san": "Bd3", "idea": "Placez votre fou sur la meilleure case, visant l’aile-roi.", "hint1": "Votre fou doit viser le roi ennemi.", "hint2": "Préparez le roque.", "explain": "Fd3 prépare le roque et contrôle h7.", "success": "Excellent. Le dispositif est prêt." },
+              { "actor": "opponent", "san": "O-O" },
+              { "actor": "player", "san": "O-O", "idea": "Mettez votre roi en sécurité.", "hint1": "Le développement est terminé.", "hint2": "Les tours sont connectées.", "explain": "Le roque conclut le développement de base.", "success": "Développement terminé ! Vous êtes prêt pour le milieu de jeu." }
+            ]
+          },
+          {
+            "variantTag": "kings-indian-setup",
+            "moves": [
+              { "actor": "player", "san": "d4", "idea": "Occupez le centre.", "hint1": "Coup clé du Système de Londres.", "hint2": "Contrôlez la case e5.", "explain": "d4 est le fondement du Londres.", "success": "Parfait. Le contrôle du centre est la première étape." },
+              { "actor": "opponent", "san": "Nf6" },
+              { "actor": "player", "san": "Bf4", "idea": "Développez votre 'bon' fou avant e3.", "hint1": "C'est le coup signature du Système de Londres.", "hint2": "Placez votre fou sur une diagonale active.", "explain": "Sortir le fou en f4 est essentiel.", "success": "Excellent. Votre fou de Londres est actif." },
+              { "actor": "opponent", "san": "g6" },
+              { "actor": "player", "san": "e3", "idea": "Solidifiez votre pion d4.", "hint1": "Construisez votre pyramide de pions.", "hint2": "Ouvrez la diagonale pour le fou f1.", "explain": "e3 soutient d4 et prépare un développement harmonieux.", "success": "Structure solide." },
+              { "actor": "opponent", "san": "Bg7" },
+              { "actor": "player", "san": "Nf3", "idea": "Développez votre cavalier-roi et préparez le roque.", "hint1": "Un coup naturel.", "hint2": "Ce cavalier contrôle le centre.", "explain": "Cf3 prépare la sécurité du roi.", "success": "Développement parfait." },
+              { "actor": "opponent", "san": "O-O" },
+              { "actor": "player", "san": "Be2", "idea": "Adoptez un développement solide face au fianchetto noir.", "hint1": "Contre ...g6, Fe2 est plus sûr que Fd3.", "hint2": "Prépare le roque rapidement.", "explain": "Fe2 évite les échanges rapides et prépare un jeu plus positionnel.", "success": "Très sûr. Vous êtes prêt à roquer." },
+              { "actor": "opponent", "san": "d6" },
+              { "actor": "player", "san": "O-O", "idea": "Mettez votre roi en sécurité.", "hint1": "Le développement est presque terminé.", "hint2": "Les tours sont prêtes à s'activer.", "explain": "Le roque est la dernière étape du développement de base.", "success": "Développement terminé ! Prêt pour le milieu de jeu." }
+            ]
+          },
+          {
+            "variantTag": "early-c5-challenge",
+            "moves": [
+              { "actor": "player", "san": "d4", "idea": "Occupez le centre.", "hint1": "Coup clé du Système de Londres.", "hint2": "Contrôlez e5.", "explain": "d4 est la base du Londres.", "success": "Parfait. Le contrôle du centre est la première étape." },
+              { "actor": "opponent", "san": "d5" },
+              { "actor": "player", "san": "Bf4", "idea": "Développez votre fou avant e3.", "hint1": "C'est le coup signature du Système de Londres.", "hint2": "Placez le fou sur une diagonale active.", "explain": "Sortir le fou en f4 est essentiel pour ne pas l'enfermer.", "success": "Excellent. Votre fou de Londres est maintenant actif." },
+              { "actor": "opponent", "san": "c5" },
+              { "actor": "player", "san": "e3", "idea": "Soutenez votre pion d4 qui est sous pression.", "hint1": "Votre centre est attaqué, renforcez-le.", "hint2": "Ce coup maintient votre structure.", "explain": "Face à la pression immédiate de ...c5, e3 est la meilleure façon de défendre d4.", "success": "Bien défendu. Votre centre est maintenant stable." },
+              { "actor": "opponent", "san": "Nc6" },
+              { "actor": "player", "san": "c3", "idea": "Ajoutez un défenseur à d4.", "hint1": "La pression sur d4 continue. Ajoutez un pion pour le défendre.", "hint2": "Ceci complète votre pyramide de pions.", "explain": "c3 est la réponse thématique à la pression sur d4.", "success": "Structure de fer ! Votre centre est surprotégé." },
+              { "actor": "opponent", "san": "Nf6" },
+              { "actor": "player", "san": "Nf3", "idea": "Développez une pièce et préparez le roque.", "hint1": "Un coup de développement naturel.", "hint2": "Contrôlez e5.", "explain": "Cf3 améliore votre contrôle du centre et prépare le roque.", "success": "Développement fluide." },
+              { "actor": "opponent", "san": "Qb6" },
+              { "actor": "player", "san": "Qb3", "idea": "Défendez le pion b2 en opposant les dames.", "hint1": "La dame noire attaque votre pion b2.", "hint2": "Proposez un échange de dames.", "explain": "Db3 est la réponse moderne à ...Db6.", "success": "Excellente réaction ! Vous avez neutralisé la menace." }
+            ]
+          }
+        ]
+      }
+    ],
+    "scenario": []
+  },
+  "training_modes": { "guided": true, "interactive": true, "scenario": true }
+}

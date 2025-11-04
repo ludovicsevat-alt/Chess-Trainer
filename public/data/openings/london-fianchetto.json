@@ -1,0 +1,67 @@
+{
+  "opening": {
+    "id": "london-fianchetto",
+    "name": "Système de Londres contre Fianchetto",
+    "eco": "A48",
+    "description": "Cette variante du Système de Londres est spécifiquement conçue pour contrer la structure en fianchetto des Noirs, où ils développent leur fou en g7 ou b7."
+  },
+  "principles": {
+    "core_ideas": [
+      "Maintenir le fou f4 pour contrôler les cases centrales et mettre la pression sur la structure noire.",
+      "Utiliser la structure de pions d4-e3-c3 pour créer une base solide.",
+      "Préparer une attaque sur l'aile-roi si les Noirs roquent de ce côté."
+    ],
+    "typical_structure": "Les Blancs cherchent à exploiter les faiblesses potentielles créées par le fianchetto noir, tout en maintenant leur propre structure solide."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-fianchetto-white",
+        "name": "Contre le Fianchetto Roi",
+        "side": "white",
+        "description": "Apprenez à jouer contre la mise en place du fianchetto côté roi des Noirs.",
+        "sequence": [
+          { "san": "d4", "coach": "Occupez le centre.", "tags": ["contrôle du centre", "développement"] },
+          { "san": "Nf6", "tags": ["réponse standard"] },
+          { "san": "Bf4", "coach": "Développez votre 'bon' fou avant e3.", "tags": ["développement du fou", "plan principal"] },
+          { "san": "g6", "tags": ["fianchetto"] },
+          { "san": "e3", "coach": "Solidifiez votre pion d4.", "tags": ["structure de pions"] },
+          { "san": "Bg7", "tags": ["fianchetto"] },
+          { "san": "Nf3", "coach": "Développez votre cavalier-roi et préparez le roque.", "tags": ["développement", "préparation du roque"] },
+          { "san": "O-O", "tags": ["sécurité du roi"] },
+          { "san": "Be2", "coach": "Adoptez un développement solide face au fianchetto noir.", "tags": ["développement", "plan principal"] },
+          { "san": "d6", "tags": ["réponse standard"] },
+          { "san": "O-O", "coach": "Mettez votre roi en sécurité.", "tags": ["sécurité du roi"] }
+        ]
+      }
+    ],
+    "semiGuided": [
+      {
+        "id": "semi-fianchetto-white",
+        "name": "Contre le Fianchetto Roi",
+        "side": "white",
+        "description": "Apprenez à jouer contre la mise en place du fianchetto côté roi des Noirs.",
+        "outOfBookMessage": "Vous êtes sorti de la théorie. Essayez de suivre la ligne principale.",
+        "lines": [
+          {
+            "variantTag": "kings-indian-setup",
+            "moves": [
+              { "actor": "player", "san": "d4", "idea": "Occupez le centre.", "hint1": "Coup clé du Système de Londres.", "hint2": "Contrôlez la case e5.", "explain": "d4 est le fondement du Londres.", "success": "Parfait. Le contrôle du centre est la première étape." },
+              { "actor": "opponent", "san": "Nf6" },
+              { "actor": "player", "san": "Bf4", "idea": "Développez votre 'bon' fou avant e3.", "hint1": "C'est le coup signature du Système de Londres.", "hint2": "Placez votre fou sur une diagonale active.", "explain": "Sortir le fou en f4 est essentiel.", "success": "Excellent. Votre fou de Londres est actif." },
+              { "actor": "opponent", "san": "g6" },
+              { "actor": "player", "san": "e3", "idea": "Solidifiez votre pion d4.", "hint1": "Construisez votre pyramide de pions.", "hint2": "Ouvrez la diagonale pour le fou f1.", "explain": "e3 soutient d4 et prépare un développement harmonieux.", "success": "Structure solide." },
+              { "actor": "opponent", "san": "Bg7" },
+              { "actor": "player", "san": "Nf3", "idea": "Développez votre cavalier-roi et préparez le roque.", "hint1": "Un coup naturel.", "hint2": "Ce cavalier contrôle le centre.", "explain": "Cf3 prépare la sécurité du roi.", "success": "Développement parfait." },
+              { "actor": "opponent", "san": "O-O" },
+              { "actor": "player", "san": "Be2", "idea": "Adoptez un développement solide face au fianchetto noir.", "hint1": "Contre ...g6, Fe2 est plus sûr que Fd3.", "hint2": "Prépare le roque rapidement.", "explain": "Fe2 évite les échanges rapides et prépare un jeu plus positionnel.", "success": "Très sûr. Vous êtes prêt à roquer." },
+              { "actor": "opponent", "san": "d6" },
+              { "actor": "player", "san": "O-O", "idea": "Mettez votre roi en sécurité.", "hint1": "Le développement est presque terminé.", "hint2": "Les tours sont prêtes à s'activer.", "explain": "Le roque est la dernière étape du développement de base.", "success": "Développement terminé ! Prêt pour le milieu de jeu." }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

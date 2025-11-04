@@ -17,6 +17,8 @@ export default function TrainingRightMenuContent() {
     canStartTraining,
     startTraining,
     resetTraining,
+    openingData,
+    setSubOpeningFile,
   } = useTrainingSession();
 
   const session =
@@ -50,26 +52,42 @@ export default function TrainingRightMenuContent() {
             type="button"
             onClick={() => setMode("guided")}
           >
-            Guide
+            Apprendre
           </button>
           <button
             className={mode === "semi" ? "btn-primary" : "btn-secondary"}
             type="button"
             onClick={() => setMode("semi")}
           >
-            Semi-guide
+            Appliquer
           </button>
           <button
             className="btn-secondary"
             type="button"
-            onClick={() => setMode("scenario")}
+            onClick={() => setMode("exercises")}
             disabled
             title="Bientot disponible"
           >
-            Scenario
+            Exercices
           </button>
         </div>
       </div>
+
+      {openingData && openingData.subOpenings && (
+        <div className="panel">
+          <div className="panel-title">Variante</div>
+          <select
+            className="w-full p-2 bg-gray-800 border border-gray-700 rounded-md"
+            onChange={(e) => setSubOpeningFile(e.target.value)}
+          >
+            {openingData.subOpenings.map((subOpening) => (
+              <option key={subOpening.id} value={subOpening.file}>
+                {subOpening.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="panel">
         <div className="panel-title">Adversaire IA</div>
