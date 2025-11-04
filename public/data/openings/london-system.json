@@ -1,132 +1,213 @@
 {
   "opening": {
     "id": "london-system",
-    "name": "Systeme de Londres",
+    "name": "Syst\u00e8me de Londres",
     "eco": "D02",
-    "description": "Le Systeme de Londres est une ouverture solide et flexible pour les Blancs. Elle repose sur une structure stable, permettant un developpement rapide et une transition fluide vers le milieu de jeu."
+    "description": "Le Syst\u00e8me de Londres est une ouverture solide et flexible pour les Blancs. Elle repose sur une structure stable, permettant un d\u00e9veloppement rapide et une transition fluide vers le milieu de jeu."
   },
   "principles": {
     "core_ideas": [
-      "Developper rapidement le fou en f4 avant de fermer la diagonale avec e3.",
-      "Etablir une structure de pions solide d4-e3-c3.",
-      "Jouer souvent Cf3 puis Fd3 et roquer rapidement du cote roi.",
-      "Contenir les poussees centrales des Noirs (d5 et e5)."
+      "D\u00e9velopper rapidement le fou en f4 avant de fermer la diagonale avec e3.",
+      "\u00c9tablir une structure de pions solide d4-e3-c3.",
+      "Jouer souvent Cf3 puis Fd3 et roquer rapidement du c\u00f4t\u00e9 roi.",
+      "Contenir les pouss\u00e9es centrales des Noirs (d5 et e5)."
     ],
-    "typical_structure": "Les Blancs visent une structure de pions d4-e3-c3, avec le fou actif en f4 et les cavaliers en f3 et d2. Le plan est de controler le centre sans le sur-occuper."
+    "typical_structure": "Les Blancs visent une structure de pions d4-e3-c3, avec le fou actif en f4 et les cavaliers en f3 et d2. Le plan est de contr\u00f4ler le centre sans le sur-occuper."
   },
   "variants": [
     {
       "id": "main-line",
       "name": "Ligne principale",
       "moves": [
-        { "san": "d4", "explanation": "Controle du centre et libere le fou de cases blanches." },
-        { "san": "Nf3", "explanation": "Prepare e3 et soutient d4." },
-        { "san": "Bf4", "explanation": "Coup cle du systeme : le fou sort avant e3." },
-        { "san": "e3", "explanation": "Renforce la structure centrale." },
-        { "san": "c3", "explanation": "Stabilise le centre et prepare Bd3 ou Nbd2." },
-        { "san": "Bd3", "explanation": "Met la pression sur le futur roque noir." },
-        { "san": "O-O", "explanation": "Roque rapide pour la securite du roi." }
+        {
+          "san": "d4",
+          "explanation": "Contr\u00f4le du centre et lib\u00e8re le fou de cases blanches."
+        },
+        {
+          "san": "Nf3",
+          "explanation": "Pr\u00e9pare e3 et soutient d4."
+        },
+        {
+          "san": "Bf4",
+          "explanation": "Coup cl\u00e9 du syst\u00e8me : le fou sort avant e3."
+        },
+        {
+          "san": "e3",
+          "explanation": "Renforce la structure centrale."
+        },
+        {
+          "san": "c3",
+          "explanation": "Stabilise le centre et pr\u00e9pare Bd3 ou Nbd2."
+        },
+        {
+          "san": "Bd3",
+          "explanation": "Met la pression sur le futur roque noir."
+        },
+        {
+          "san": "O-O",
+          "explanation": "Roque rapide pour la s\u00e9curit\u00e9 du roi."
+        }
       ],
-      "objective": "Atteindre une position equilibree et solide, prete a attaquer sur l'aile roi."
+      "objective": "Atteindre une position \u00e9quilibr\u00e9e et solide, pr\u00eate \u00e0 attaquer sur l\u2019aile roi."
     },
     {
       "id": "jobava-attack",
       "name": "Variante Jobava (Nc3 avant e3)",
       "moves": [
-        { "san": "d4" },
-        { "san": "Nc3" },
-        { "san": "Bf4" },
-        { "san": "e3" },
-        { "san": "Nf3" }
+        {
+          "san": "d4"
+        },
+        {
+          "san": "Nc3"
+        },
+        {
+          "san": "Bf4"
+        },
+        {
+          "san": "e3"
+        },
+        {
+          "san": "Nf3"
+        }
       ],
-      "explanation": "Une version agressive qui met rapidement la pression sur e4 et cree des desequilibres tactiques.",
-      "objective": "Creer des opportunites offensives tout en gardant la structure londonienne."
+      "explanation": "Une version agressive qui met rapidement la pression sur e4 et cr\u00e9e des d\u00e9s\u00e9quilibres tactiques.",
+      "objective": "Cr\u00e9er des opportunit\u00e9s offensives tout en gardant la structure londonienne."
     },
     {
       "id": "kingside-attack",
-      "name": "Plan d'attaque sur l'aile roi",
+      "name": "Plan d\u2019attaque sur l\u2019aile roi",
       "moves": [
-        { "san": "d4" },
-        { "san": "Nf3" },
-        { "san": "Bf4" },
-        { "san": "e3" },
-        { "san": "Bd3" },
-        { "san": "Nbd2" },
-        { "san": "h3" },
-        { "san": "O-O" },
-        { "san": "Ne5" },
-        { "san": "f4" }
+        {
+          "san": "d4"
+        },
+        {
+          "san": "Nf3"
+        },
+        {
+          "san": "Bf4"
+        },
+        {
+          "san": "e3"
+        },
+        {
+          "san": "Bd3"
+        },
+        {
+          "san": "Nbd2"
+        },
+        {
+          "san": "h3"
+        },
+        {
+          "san": "O-O"
+        },
+        {
+          "san": "Ne5"
+        },
+        {
+          "san": "f4"
+        }
       ],
-      "explanation": "Une approche offensive ou les Blancs regroupent leurs forces pour lancer une attaque directe sur le roi noir.",
-      "objective": "Creer une pression croissante sur l'aile roi avec un plan typique : Ne5-f4-Qf3-g4."
+      "explanation": "Une approche offensive o\u00f9 les Blancs regroupent leurs forces pour lancer une attaque directe sur le roi noir.",
+      "objective": "Cr\u00e9er une pression croissante sur l\u2019aile roi avec un plan typique : Ne5-f4-Qf3-g4."
     }
   ],
   "trainingScripts": {
     "guided": [
       {
         "id": "guided-main-white",
-        "name": "Plan principal cote Blancs",
+        "name": "Plan principal c\u00f4t\u00e9 Blancs",
         "side": "white",
-        "description": "Rejouez la ligne de base du Systeme de Londres avec les plans principaux.",
+        "description": "Rejouez la ligne de base du Syst\u00e8me de Londres avec les plans principaux.",
         "sequence": [
           {
             "san": "d4",
-            "coach": "Commencez par occuper le centre et liberer votre fou de cases blanches.",
-            "tags": ["controle du centre", "developpement"]
+            "coach": "Commencez par occuper le centre et lib\u00e9rer votre fou de cases blanches.",
+            "tags": [
+              "contr\u00f4le du centre",
+              "d\u00e9veloppement"
+            ]
           },
           {
             "san": "Nf6",
-            "tags": ["reponse standard"]
+            "tags": [
+              "r\u00e9ponse standard"
+            ]
           },
           {
             "san": "Bf4",
-            "coach": "Le fou sort avant e3 : c'est la signature du Londres.",
-            "tags": ["developpement du fou", "plan principal"]
+            "coach": "Le fou sort avant e3 : c\u2019est la signature du Londres.",
+            "tags": [
+              "d\u00e9veloppement du fou",
+              "plan principal"
+            ]
           },
           {
             "san": "e6",
-            "tags": ["solide"]
+            "tags": [
+              "solide"
+            ]
           },
           {
             "san": "Nf3",
-            "coach": "Developpez votre cavalier vers f3 pour soutenir d4 et preparer e3.",
-            "tags": ["developpement", "preparation du roque"]
+            "coach": "D\u00e9veloppez votre cavalier vers f3 pour soutenir d4 et pr\u00e9parer e3.",
+            "tags": [
+              "d\u00e9veloppement",
+              "pr\u00e9paration du roque"
+            ]
           },
           {
             "san": "c5",
-            "tags": ["poussee centrale"]
+            "tags": [
+              "pouss\u00e9e centrale"
+            ]
           },
           {
             "san": "e3",
-            "coach": "Verrouillez la case e4 et securisez votre structure.",
-            "tags": ["structure de pions"]
+            "coach": "Verrouillez la case e4 et s\u00e9curisez votre structure.",
+            "tags": [
+              "structure de pions"
+            ]
           },
           {
             "san": "Nc6",
-            "tags": ["pression centrale"]
+            "tags": [
+              "pression centrale"
+            ]
           },
           {
             "san": "Nbd2",
             "coach": "Repositionnez le cavalier pour soutenir e4 et renforcer f3.",
-            "tags": ["flexibilite"]
+            "tags": [
+              "flexibilit\u00e9"
+            ]
           },
           {
             "san": "Be7",
-            "tags": ["preparation du roque"]
+            "tags": [
+              "pr\u00e9paration du roque"
+            ]
           },
           {
             "san": "c3",
-            "coach": "Stabilisez d4 et gardez la case b4 sous controle avant de roquer.",
-            "tags": ["structure de pions"]
+            "coach": "Stabilisez d4 et gardez la case b4 sous contr\u00f4le avant de roquer.",
+            "tags": [
+              "structure de pions"
+            ]
           },
           {
             "san": "O-O",
-            "tags": ["securite du roi"]
+            "tags": [
+              "s\u00e9curit\u00e9 du roi"
+            ]
           },
           {
             "san": "Bd3",
-            "coach": "Visez h7 et preparez un eventuel h4-h5 selon la configuration.",
-            "tags": ["initiative", "attaque"]
+            "coach": "Visez h7 et pr\u00e9parez un \u00e9ventuel h4-h5 selon la configuration.",
+            "tags": [
+              "initiative",
+              "attaque"
+            ]
           }
         ]
       }
@@ -136,66 +217,75 @@
         "id": "semi-main-white",
         "name": "Libre controle - plan principal",
         "side": "white",
-        "description": "Jouez la ligne principale du Systeme de Londres tout en laissant le coach commenter vos choix.",
-        "referenceLine": [
+        "description": "Jouez la ligne principale du Systeme de Londres avec validation coup par coup.",
+        "outOfBookMessage": "Tu es sorti du systeme de Londres, reprenons a partir du plan principal.",
+        "lines": [
           {
-            "actor": "player",
-            "san": "d4",
-            "plan": "Commence par installer un pion au centre pour liberer la diagonale de ton fou.",
-            "hints": [
-              "Occupe le centre avec le pion d pour contrer ...d5 ou ...c5.",
-              "Libere ton fou de cases blanches avant de fermer la diagonale."
-            ],
-            "success": "Excellent, le pion d controle le centre et ouvre la diagonale c1-h6.",
-            "mistake": "Sans d4, le Systeme de Londres perd son schema de base."
-          },
-          { "actor": "opponent", "san": "Nf6" },
-          {
-            "actor": "player",
-            "san": "Bf4",
-            "plan": "Sors ton fou de cases noires avant de fermer la diagonale e3.",
-            "hints": [
-              "Place ton fou en f4 pour viser c7 et h6.",
-              "Sortir le fou maintenant evite de le coincer derriere e3."
-            ],
-            "success": "Parfait, le fou en f4 est la signature du Londres.",
-            "mistake": "Le plan cle est de sortir le fou en f4 avant e3."
-          },
-          { "actor": "opponent", "san": "e6" },
-          {
-            "actor": "player",
-            "san": "Nf3",
-            "plan": "Developpe un cavalier vers f3 pour soutenir d4 et controler e5.",
-            "hints": [
-              "Un cavalier en f3 soutient d4 et prepare le roque.",
-              "Nf3 empeche ...e5 et garde un oeil sur g5."
-            ],
-            "success": "Bien joue, le cavalier soutient d4 et prepare ton roque.",
-            "mistake": "Le developpement harmonieux passe par Nf3 dans le plan principal."
-          },
-          { "actor": "opponent", "san": "c5" },
-          {
-            "actor": "player",
-            "san": "e3",
-            "plan": "Solidifie le centre et prepare Cbd2 ainsi que le roque.",
-            "hints": [
-              "e3 renforce d4 et ouvre la route au fou de cases blanches.",
-              "Ta structure cible est d4-e3-c3."
-            ],
-            "success": "Solide, tu verrouilles e4 tout en preparant le roque.",
-            "mistake": "Reste fidele au schema : e3 consolide le centre avant de jouer c3."
-          },
-          { "actor": "opponent", "san": "Nc6" },
-          {
-            "actor": "player",
-            "san": "Nbd2",
-            "plan": "Rajoute une piece de soutien sur d4 et prepare le saut vers e5.",
-            "hints": [
-              "Cavalier b1-d2 soutient e4 et facilite un futur Ne5.",
-              "Nbd2 complete la structure triangulaire caracteristique."
-            ],
-            "success": "Tres bien, la coordination des cavaliers est en place.",
-            "mistake": "Le cavalier doit passer par d2 pour soutenir le centre."
+            "variantTag": "main",
+            "moves": [
+              {
+                "actor": "player",
+                "san": "d4",
+                "idea": "Commence par installer un pion au centre pour liberer la diagonale de ton fou.",
+                "hint1": "Occupe le centre avec le pion d pour contrer ...d5 ou ...c5.",
+                "hint2": "Libere ton fou de cases blanches avant de fermer la diagonale.",
+                "explain": "Sans d4, le systeme de Londres perd son schema de base.",
+                "success": "Excellent, le pion d controle le centre et ouvre la diagonale c1-h6.",
+                "variantTag": "main"
+              },
+              {
+                "actor": "opponent",
+                "san": "Nf6"
+              },
+              {
+                "actor": "player",
+                "san": "Bf4",
+                "idea": "Sors ton fou de cases blanches avant de jouer e3.",
+                "hint1": "Place ton fou en f4 pour viser c7 et h6.",
+                "hint2": "Sortir le fou maintenant evite de le coincer derriere e3.",
+                "explain": "Le plan cle est de sortir le fou en f4 avant e3.",
+                "success": "Parfait, le fou en f4 est la signature du Londres."
+              },
+              {
+                "actor": "opponent",
+                "san": "e6"
+              },
+              {
+                "actor": "player",
+                "san": "Nf3",
+                "idea": "Developpe un cavalier vers f3 pour soutenir d4 et controler e5.",
+                "hint1": "Un cavalier en f3 soutient d4 et prepare le roque.",
+                "hint2": "Nf3 empeche ...e5 et garde un oeil sur g5.",
+                "explain": "Le developpement harmonieux passe par Nf3 dans le plan principal.",
+                "success": "Bien joue, le cavalier soutient d4 et prepare ton roque."
+              },
+              {
+                "actor": "opponent",
+                "san": "c5"
+              },
+              {
+                "actor": "player",
+                "san": "e3",
+                "idea": "Solidifie le centre et prepare Cbd2 ainsi que le roque.",
+                "hint1": "e3 renforce d4 et ouvre la route au fou de cases noires.",
+                "hint2": "Ta structure cible est d4-e3-c3.",
+                "explain": "Reste fidele au schema : e3 consolide le centre avant de jouer c3.",
+                "success": "Solide, tu verrouilles e4 tout en preparant le roque."
+              },
+              {
+                "actor": "opponent",
+                "san": "Nc6"
+              },
+              {
+                "actor": "player",
+                "san": "Nbd2",
+                "idea": "Rajoute une piece de soutien sur d4 et prepare le saut vers e5.",
+                "hint1": "Cavalier b1-d2 soutient e4 et facilite un futur Ne5.",
+                "hint2": "Nbd2 complete la structure triangulaire caracteristique.",
+                "explain": "Le cavalier doit passer par d2 pour soutenir le centre.",
+                "success": "Tres bien, la coordination des cavaliers est en place."
+              }
+            ]
           }
         ]
       }
