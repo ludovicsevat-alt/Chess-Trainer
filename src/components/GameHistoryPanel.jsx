@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSettings } from "../contexts/SettingsContext";
+import { FaBookOpen } from "react-icons/fa";
+import PgnViewerModal from "./PgnViewerModal";
 
 const PIECE_SYMBOLS = {
   w: {
@@ -29,9 +31,11 @@ export default function GameHistoryPanel({
   className,
   activePly,
   onSelectMove,
+  game,
 }) {
   const { messages } = useSettings();
   const movesContainerRef = useRef(null);
+  const [showPgnModal, setShowPgnModal] = useState(false);
   const resolvedTitle = title ?? messages.movesTitle;
   const resolvedEmpty = emptyMessage ?? messages.movesEmpty;
 
@@ -80,7 +84,19 @@ export default function GameHistoryPanel({
 
   return (
     <div className={containerClass}>
-      <div className="section-label">{resolvedTitle}</div>
+      <div className="flex justify-between items-center section-label">
+        <span>{resolvedTitle}</span>
+        {game && (
+          <button
+            type="button"
+            className="text-gray-400 hover:text-white"
+            onClick={() => setShowPgnModal(true)}
+            title="Afficher PGN/SAN"
+          >
+            <FaBookOpen size={18} />
+          </button>
+        )}
+      </div>
       <div className="history-list" ref={movesContainerRef}>
         {history.length === 0 ? (
           <div className="history-empty">{resolvedEmpty}</div>
@@ -168,6 +184,11 @@ export default function GameHistoryPanel({
           </table>
         )}
       </div>
+      <PgnViewerModal
+        game={game}
+        open={showPgnModal}
+        onClose={() => setShowPgnModal(false)}
+      />
     </div>
   );
 }

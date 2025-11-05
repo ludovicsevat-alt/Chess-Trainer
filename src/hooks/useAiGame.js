@@ -344,5 +344,6 @@ export default function useAiGame() {
     capturedPieces: captureInfo.capturedPieces,
     materialAdvantage: captureInfo.materialAdvantage,
     invalidMoveSquare,
+    game: gameRef.current,
   };
 }

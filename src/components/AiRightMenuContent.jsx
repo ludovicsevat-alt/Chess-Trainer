@@ -94,7 +94,7 @@ export default function AiRightMenuContent({ aiGame }) {
         </button>
       </div>
 
-      <GameHistoryPanel history={history} activePly={currentPly} />
+      <GameHistoryPanel history={history} activePly={currentPly} game={aiGame.game} />
 
       {locked && (
         <MoveNavigator
