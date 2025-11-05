@@ -1,76 +1,172 @@
-🏰 Chess Trainer — Golden King Edition
-======================================
+# 🏰 Chess-Trainer – Golden King Edition
 
-**FR :** Application d’entraînement et de jeu d’échecs construite avec **React**, mêlant esthétique médiévale dorée, moteur **Stockfish**, sons immersifs et interface moderne.  
-**EN :** Chess training & playing app built with **React**, blending a “Golden King” aesthetic, **Stockfish AI**, immersive sound design, and a modern responsive UI.
-
----
-
-⚙️ Fonctionnalités principales / Main Features
----------------------------------------------
-
-- 💡 **Modes de jeu** : Pass & Play local, duel contre l’IA Stockfish, et bases du mode en ligne (joueurs, horloges).  
-- 🧠 **Historique unifié** : notation SAN, icônes de pièces Unicode, surlignage du coup courant et navigation (◀▶).  
-- 🔊 **Gestion sonore centralisée** : `SoundManager` (move, capture, check, checkmate, roque) avec persistance volume/mute.  
-- 🎨 **Thèmes visuels** : marbre clair et marbre noir veiné d’or, accents dorés “Golden King”, sélectionnable dans Paramètres.  
-- 🪶 **Interface fluide** : animations configurables, coins arrondis, panneau IA/local harmonisés, navigation responsive.  
-- ⚔️ **Entraînement en préparation** : fondations pour un futur mode “coach” (analyse de coups, score matériel).
+## 🎯 Objectif du projet
+Chess-Trainer est une plateforme d’entraînement aux échecs construite avec **React**, **Stockfish**, et **React-Chessboard**, combinant pédagogie, immersion et analyse avancée.  
+Elle propose plusieurs modes de jeu (local, IA, en ligne, entraînement guidé…) dans une atmosphère **médiévale dorée** inspirée du thème “Golden King”.
 
 ---
 
-🧩 Structure du projet / Project Structure
------------------------------------------
+## ⚙️ Stack technique
+- **Frontend :** React 18 (CRA), TailwindCSS, ShadCN/UI, Framer Motion  
+- **Moteur d’échecs :** Stockfish (WASM + worker)  
+- **Librairies clés :**  
+  - `chess.js` – logique des coups  
+  - `react-chessboard` – rendu interactif du plateau  
+  - `socket.io` – multijoueur temps réel  
+- **Audio & UI :** sons personnalisés, thème doré, ambiance médiévale  
+- **Langage principal :** JavaScript (ES2022)
+
+---
+
+## 🧩 Modes de jeu
+| Mode | Description |
+|------|--------------|
+| **Jouer localement** | Deux joueurs humains sur le même appareil |
+| **Contre l’IA** | Affrontez Stockfish « humanisé » selon un ELO choisi |
+| **En ligne** | Jouez contre un adversaire distant via Socket.IO |
+| **Mode entraînement** | Apprentissage guidé des ouvertures, avec un “coach” qui explique les coups |
+| **Mode scénario** | Rejouez des ouvertures ou positions pré-définies (système JSON pédagogique) |
+
+---
+
+## 🧠 Intelligence artificielle « humanisée »
+L’IA **Humanized Stockfish** adapte son comportement au niveau ELO :
+
+- Joue avec **erreurs progressives** et **probabilités de gaffes** selon le niveau.  
+- Utilise un système de **pondération aléatoire** pour choisir des coups non optimaux.  
+- Est calibrée sur les performances observées sur **Chess.com** (≈ comparable à un joueur humain de même ELO).  
+- Chaque niveau ajuste : `skillLevel`, `depth`, `noise`, et sélection de coups via un tirage pondéré.
+
+---
+
+## 🧮 Évaluation des performances (Phase 8)
+Une fois la partie terminée, le moteur analyse :
+- Les coups du joueur et de l’IA via Stockfish.  
+- Le **ACPL** (Average Centipawn Loss = perte moyenne en centièmes de pion).  
+- Une **estimation d’ELO** basée sur la précision moyenne du joueur.  
+- Une comparaison entre le niveau configuré et la performance réelle de l’IA.  
+
+Affichage prévu :
+- Score de performance (“Performance estimée : 1275 ELO”)  
+- Graphique des erreurs, blunders et bonnes séquences.  
+- Option d’analyse automatique dans les paramètres.
+
+---
+
+## 🧰 Phases du projet
+
+### 1. Audio & ambiance ✅
+- Intégration des sons (déplacement, roque, échec, victoire, etc.)  
+- Nettoyage des assets et cohérence thématique.
+
+### 2. Interface & affichage ✅
+- Refonte complète du layout (RightMenu, MoveNavigator).  
+- Thème doré, responsive, suppression des barres de scroll inutiles.
+
+### 3. Mode entraînement (en cours)
+- Lecture des **scénarios JSON d’ouvertures** : coups attendus, indices, explications.  
+- IA humanisée selon ELO choisi.  
+- Coach : indique, corrige et explique les coups.  
+- Système de progression visuelle et indices graduels.
+
+### 4. Mode en ligne (en cours)
+- Restauration du backend Socket.IO.  
+- Gestion des connexions/déconnexions :  
+  - Attente 10 s avant défaite automatique.  
+  - Statut “déconnecté” affiché.  
+- Synchronisation propre des états de partie.
+
+### 5. UX/UI polish (à venir)
+- Ajustement des colonnes et tailles.  
+- Texte du coach, animations légères.  
+- Accessibilité et feedback visuel (erreurs, invalides, etc.).  
+
+### 6. Bilan de partie (à venir)
+- Barre d’avantage verticale (type Lichess).  
+- Relecture commentée avec évaluations Stockfish.  
+- Annotation couleur (blunder, inaccuracy, good move).  
+- Mode **Analyse interactive** : rejouer une position clé comme exercice.
+
+### 7. Maintenance & automatisation (à venir)
+- Script `npm run context` pour générer la synthèse du projet via Code2Prompt.  
+- ESLint / Prettier.  
+- Intégration CI GitHub Actions.
+
+### 8. Évaluation des performances (en cours de design)
+- Calcul automatique d’un ELO estimé pour le joueur et pour l’IA.  
+- Analyse rétrospective des parties.  
+- Indicateurs dans GameModal.jsx.
+
+### 9. Bonus & tests (futur)
+- IA vs humain : performance comparative.  
+- Mode local humain vs humain.  
+- Tests unitaires et vérifications WASM.
+
+---
+
+## 🧱 Architecture simplifiée
 
 ```
 src/
-├── audio/         # SoundManager, mapping des effets sonores
-├── components/    # UI principale : menus, panneaux, échiquier, navigation
-├── contexts/      # LocalGameContext, SettingsContext (thème, langue, son…)
-├── hooks/         # useAiGame (Stockfish), useLocalGame (pass & play)
-├── i18n/          # Textes FR/EN avec bascule dans Paramètres
-├── styles/        # theme.css (thèmes marbre, layout, boutons)
-└── App.jsx        # Entrée de l’app, sélection et rendu des modes
+ ├── components/
+ │    ├── PlayLocal.jsx
+ │    ├── PlayVsAI.jsx
+ │    ├── RightMenu.jsx
+ │    ├── BoardView.jsx
+ │    ├── GameModal.jsx
+ │    └── ...
+ ├── engine/
+ │    ├── stockfishWorker.js
+ │    ├── HumanizedStockfish.js
+ │    └── ...
+ ├── hooks/
+ │    ├── useAiGame.js
+ │    ├── useOnlineGame.js
+ │    └── useLocalGame.js
+ ├── assets/
+ │    ├── sounds/
+ │    ├── images/
+ │    └── themes/
+ └── constants/
+      └── levels.js
 ```
 
 ---
 
-🧱 Technologies / Stack
------------------------
-
-- React 19 + Vite  
-- CSS custom (`src/styles/theme.css`)  
-- chess.js & react-chessboard  
-- Stockfish (WebAssembly)  
-- ESLint 9 (config moderne)
+## 🎨 Thème « Golden King »
+- Palette : or, noir profond, et parchemin.  
+- Sons : bois, métal, ambiance médiévale.  
+- Fonts : *Cinzel*, *MedievalSharp* ou variantes gothiques.  
+- Icônes : boucliers, couronnes, parchemins.
 
 ---
 
-🎵 Ambiance & Immersion
------------------------
-
-> « Chaque coup résonne sur le marbre froid.  
-> Les pièces d’or s’affrontent sous l’œil du Roi. »
-
-Jeu de sons différenciés (déplacement, capture, échec, mat, roque), préchargement et persistance via `localStorage`. Les panneaux adoptent automatiquement le thème clair ou sombre pour conserver l’ambiance.
-
----
-
-🛠️ Installation / Setup
------------------------
+## 🧪 Commandes utiles
 
 ```bash
-npm install
-npm run dev
-```
+# Lancer le projet
+npm start
 
-Serveur Vite : [http://localhost:5173](http://localhost:5173)
+# Générer le contexte pour Codex (résumé du code)
+npm run context
+
+# Lancer les tests
+npm test
+
+# Build de production
+npm run build
+```
 
 ---
 
-🚀 Roadmap
-----------
+## 🏗️ Déploiement
+- Hébergement sur **GitHub Pages**.  
+- Action GitHub automatique pour build et push.  
+- Branche de travail : `work`  
+- Branche stable : `main`
 
-- Finaliser le mode entraînement (analyse coach, score matériel).  
-- Étendre le mode en ligne (synchro horloges, réseau temps réel).  
-- Export PGN/FEN, relecture détaillée et partage des parties.  
-- Couverture de tests (unitaires / end-to-end).
+---
+
+## 🧾 Licence
+Projet open-source sous licence MIT.  
+Créé par **Ludovic Sévat (Aspion)**, 2025.
