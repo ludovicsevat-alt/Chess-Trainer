@@ -15,7 +15,8 @@ import TrainingSessionResetGuard from "./trainingSessionResetGuard";
 const TrainingSessionContext = createContext(undefined);
 
 async function fetchOpeningData(slug, subOpeningFile, signal) {
-  const mainResponse = await fetch(`/data/openings/${slug}.json`, { signal });
+  const openingDir = slug.replace("-system", "");
+  const mainResponse = await fetch(`/data/openings/${openingDir}/${slug}.json`, { signal });
   if (!mainResponse.ok) {
     throw new Error(`Impossible de charger les donnees pour ${slug} (${mainResponse.status})`);
   }
@@ -23,7 +24,7 @@ async function fetchOpeningData(slug, subOpeningFile, signal) {
 
   const file = subOpeningFile || mainData.subOpenings[0].file;
 
-  const subResponse = await fetch(`/data/openings/${file}`, { signal });
+  const subResponse = await fetch(`/data/openings/${openingDir}/${file}`, { signal });
   if (!subResponse.ok) {
     throw new Error(`Impossible de charger les donnees pour ${file} (${subResponse.status})`);
   }
@@ -65,6 +66,20 @@ export function TrainingSessionProvider({
   const [trainingActive, setTrainingActive] = useState(false);
   const [subOpeningFile, setSubOpeningFile] = useState(null);
   const abortRef = useRef();
+  const _startAfterLoad = useRef(false);
+  const resetGuardRef = useRef(new TrainingSessionResetGuard());
+
+  const startTraining = useCallback((fileToLoad) => {
+    if (fileToLoad) {
+      setSubOpeningFile(fileToLoad);
+    }
+    if (loading) {
+      _startAfterLoad.current = true;
+    } else {
+      setTrainingActive(true);
+      resetGuardRef.current.trigger(mode, true);
+    }
+  }, [loading, mode]);
 
   useEffect(() => {
     setLoading(true);
@@ -79,11 +94,18 @@ export function TrainingSessionProvider({
       .then((data) => {
         setOpeningData(data);
         setLoading(false);
+        if (_startAfterLoad.current) {
+          startTraining();
+          _startAfterLoad.current = false;
+        }
       })
       .catch((err) => {
         if (controller.signal.aborted) return;
         setError(err);
         setLoading(false);
+        if (_startAfterLoad.current) {
+          _startAfterLoad.current = false;
+        }
       });
 
     return () => {
@@ -100,8 +122,6 @@ export function TrainingSessionProvider({
     () => (openingData ? pickSemiScript(openingData, side) : null),
     [openingData, side]
   );
-
-  const resetGuardRef = useRef(new TrainingSessionResetGuard());
 
   const guidedSession = useGuidedTrainingGame({
     script: mode === "guided" ? guidedScript : null,
@@ -135,15 +155,6 @@ export function TrainingSessionProvider({
     !error &&
     ((mode === "guided" && guidedScript) ||
       (mode === "semi" && semiScript));
-
-  const startTraining = useCallback((subOpeningFile) => {
-    if (subOpeningFile) {
-      setSubOpeningFile(subOpeningFile);
-    }
-    if (!canStartTraining || trainingActive) return;
-    setTrainingActive(true);
-    resetGuardRef.current.trigger(mode, true);
-  }, [canStartTraining, trainingActive, mode, setSubOpeningFile]);
 
   const resetTraining = useCallback(() => {
     if (!trainingActive) return;

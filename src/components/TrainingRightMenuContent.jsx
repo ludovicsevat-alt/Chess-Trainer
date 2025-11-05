@@ -118,7 +118,7 @@ export default function TrainingRightMenuContent() {
                 startTraining();
               }
             }}
-            disabled={!canStartTraining || trainingActive}
+            disabled={!canStartTraining || trainingActive || loading}
           >
             Commencer
           </button>
