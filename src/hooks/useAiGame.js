@@ -159,8 +159,8 @@ export default function useAiGame() {
         promotion: suggestion.promotion || "q",
       });
       triggerSound(move);
-    } catch (error) {
-      console.warn("Humanized move failed, fallback random", error);
+    } catch (_error) {
+      console.warn("Humanized move failed, fallback random", _error);
       const moves = gameRef.current.moves();
       if (!moves.length) return;
       const move = gameRef.current.move(
@@ -222,7 +222,7 @@ export default function useAiGame() {
         to: targetSquare,
         promotion: "q",
       });
-    } catch (error) {
+    } catch {
       move = null;
     }
 
