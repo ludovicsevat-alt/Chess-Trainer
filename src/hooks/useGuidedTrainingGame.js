@@ -63,25 +63,34 @@ function preprocessScript(script) {
   const result = [];
 
   script.sequence.forEach((item, index) => {
-    const parsed = parser.move(item.san, { sloppy: true });
-    if (!parsed) {
-      console.warn(
-        `Coup invalide dans le script ${script.id} a l'index ${index}:`,
-        item.san
+    try {
+      const parsed = parser.move(item.san, { sloppy: true });
+      if (!parsed) {
+        console.warn(
+          `Coup invalide dans le script ${script.id} a l'index ${index}:`,
+          item.san
+        );
+        parser.undo();
+        return;
+      }
+      result.push({
+        index,
+        san: parsed.san,
+        color: parsed.color,
+        from: parsed.from,
+        to: parsed.to,
+        uci: `${parsed.from}${parsed.to}${parsed.promotion ?? ""}`,
+        coach: item.coach ?? null,
+        tags: Array.isArray(item.tags) ? item.tags : [],
+      });
+    } catch (error) {
+      console.error(
+        `Erreur lors du traitement du coup dans le script ${script.id} a l'index ${index}:`,
+        item.san,
+        error
       );
-      parser.undo();
       return;
     }
-    result.push({
-      index,
-      san: parsed.san,
-      color: parsed.color,
-      from: parsed.from,
-      to: parsed.to,
-      uci: `${parsed.from}${parsed.to}${parsed.promotion ?? ""}`,
-      coach: item.coach ?? null,
-      tags: Array.isArray(item.tags) ? item.tags : [],
-    });
   });
 
   return result;

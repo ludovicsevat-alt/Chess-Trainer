@@ -14,6 +14,18 @@
       "name": "Contre le Fianchetto",
       "description": "Une approche spécifique pour contrer le développement du fou noir en fianchetto.",
       "file": "london-fianchetto.json"
+    },
+    {
+      "id": "jobava-main",
+      "name": "Jobava-London (variante principale)",
+      "description": "Le Jobava-London est une version plus agressive du Système de Londres, combinant Nc3 et Bf4 pour exercer une pression rapide sur le centre et la case c7.",
+      "file": "london-jobava-main.json"
+    },
+    {
+      "id": "jobava-fourchette-c7",
+      "name": "Jobava-London (Fourchette c7)",
+      "description": "Une variante agressive du Jobava-London, visant une fourchette sur c7 après un sacrifice de dame.",
+      "file": "london-jobava-fourchette-c7.json"
     }
   ]
 }

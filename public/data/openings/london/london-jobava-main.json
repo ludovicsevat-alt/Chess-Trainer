@@ -1,0 +1,89 @@
+{
+  "opening": {
+    "id": "london-jobava-main",
+    "name": "Jobava-London (variante principale)",
+    "eco": "D00",
+    "description": "Le Jobava-London combine la solidité du Système de Londres avec une approche plus agressive grâce au développement précoce du cavalier en c3. Il vise une pression rapide sur le centre et la case c7."
+  },
+  "principles": {
+    "core_ideas": [
+      "Associer le fou f4 et le cavalier c3 pour contrôler le centre et menacer des percées rapides.",
+      "Développer rapidement les pièces légères avant de fermer la structure.",
+      "Créer une pression constante sur la case c7 et l’aile-dame noire.",
+      "Garder le plan de roque court pour la sécurité du roi, puis activer les tours."
+    ],
+    "typical_structure": "Les Blancs établissent une structure solide avec d4–e3–c3 et cherchent des plans tactiques impliquant Nb5 ou Qf3 pour exploiter les faiblesses noires."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-main",
+        "name": "Apprendre le Jobava-London",
+        "side": "white",
+        "description": "Apprenez les idées clés du Jobava-London étape par étape.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre avec votre pion de dame.", "tags": ["centre", "classique"] },
+          { "san": "d5", "tags": ["réponse standard"] },
+          { "san": "Nc3", "coach": "Développez rapidement votre cavalier pour viser e4 et c7.", "tags": ["développement", "jobava"] },
+          { "san": "Nf6", "tags": ["réponse standard"] },
+          { "san": "Bf4", "coach": "Le coup signature du système de Londres, mais ici avec des intentions plus offensives.", "tags": ["développement", "plan principal"] },
+          { "san": "e6", "tags": ["défense solide"] },
+          { "san": "e3", "coach": "Renforcez votre centre avant d’engager le combat.", "tags": ["structure de pions"] },
+          { "san": "c5", "tags": ["contre-attaque centrale"] },
+          { "san": "Nb5", "coach": "Voilà la marque du Jobava : pression directe sur c7 et menace de cavalier actif.", "tags": ["attaque", "tactique clé"] },
+          { "san": "Na6", "tags": ["défense du pion c7"] },
+          { "san": "c3", "coach": "Stabilisez votre centre et préparez Bd3 ou Nf3.", "tags": ["stabilité", "préparation"] },
+          { "san": "Be7", "tags": ["développement noir"] },
+          { "san": "h3", "coach": "Empêchez Bg4 et préparez un développement libre.", "tags": ["prévention", "sécurité du roi"] },
+          { "san": "O-O", "tags": ["roque noir"] },
+          { "san": "Nf3", "coach": "Développez votre cavalier.", "tags": ["développement"] },
+          { "san": "Bd7", "tags": ["développement noir"] },
+          { "san": "Qd3", "coach": "Développez votre dame et visez l'aile roi.", "tags": ["développement", "attaque"] },
+          { "san": "Qb6", "tags": ["pression sur b2"] },
+          { "san": "a4", "coach": "Avancez le pion a pour créer de l'espace sur l'aile dame.", "tags": ["plan de jeu"] }
+        ]
+      }
+    ],
+    "semiGuided": [
+      {
+        "id": "semi-jobava-main",
+        "name": "Appliquer le Jobava-London",
+        "side": "white",
+        "description": "Mettez en pratique le Jobava-London dans une partie.",
+        "outOfBookMessage": "Vous êtes sorti du plan principal du Jobava-London. Essayez de suivre la logique de la ligne.",
+        "lines": [
+          {
+            "variantTag": "jobava-mainline",
+            "moves": [
+              { "actor": "player", "san": "d4", "idea": "Occupez le centre.", "hint1": "Le pilier du Jobava-London.", "hint2": "Ce pion prépare Nc3 et Bf4.", "explain": "Le centre est la base de votre jeu.", "success": "Très bien. Vous commencez avec un centre solide." },
+              { "actor": "opponent", "san": "d5" },
+              { "actor": "player", "san": "Nc3", "idea": "Développez votre cavalier tôt.", "hint1": "C’est la particularité du Jobava.", "hint2": "Il soutient e4 et vise c7.", "explain": "Nc3 prépare une pression dynamique sur le camp noir.", "success": "Parfait, le Jobava commence à prendre forme." },
+              { "actor": "opponent", "san": "Nf6" },
+              { "actor": "player", "san": "Bf4", "idea": "Activez votre fou avant de bloquer sa diagonale.", "hint1": "Le fou f4 est la clé du Londres.", "hint2": "Avec le cavalier c3, la combinaison est très agressive.", "explain": "Bf4 crée la tension et prépare e3.", "success": "Excellent, le duo Bf4–Nc3 est prêt." },
+              { "actor": "opponent", "san": "e6" },
+              { "actor": "player", "san": "e3", "idea": "Renforcez votre centre.", "hint1": "Construisez la base solide du Jobava.", "hint2": "Préparez le développement du fou de cases blanches.", "explain": "e3 solidifie la position et libère Bd3.", "success": "Structure exemplaire." },
+              { "actor": "opponent", "san": "c5" },
+              { "actor": "player", "san": "Nb5", "idea": "Attaquez la case c7.", "hint1": "Le coup emblématique du Jobava.", "hint2": "Un cavalier sur b5 est souvent très dangereux.", "explain": "Cette menace crée une pression immédiate.", "success": "Très bien, votre adversaire doit se défendre." },
+              { "actor": "opponent", "san": "Na6" },
+              { "actor": "player", "san": "c3", "idea": "Stabilisez votre centre.", "hint1": "Préparez Bd3 ou Nf3.", "hint2": "Ce coup contrôle les cases centrales.", "explain": "Une base solide avant l’assaut.", "success": "Structure parfaite." },
+              { "actor": "opponent", "san": "Be7" },
+              { "actor": "player", "san": "h3", "idea": "Empêchez Bg4.", "hint1": "Préparez un développement fluide.", "hint2": "Vous gagnerez du temps plus tard.", "explain": "Empêcher le fou noir de venir vous gêner est un petit coup utile.", "success": "Bon réflexe positionnel." },
+              { "actor": "opponent", "san": "O-O" },
+              { "actor": "player", "san": "Nf3", "idea": "Développez votre cavalier.", "hint1": "Le cavalier f3 protège d4.", "hint2": "Préparez le roque.", "explain": "Nf3 soutient le centre et le futur roque.", "success": "Développement fluide." },
+              { "actor": "opponent", "san": "Bd7" },
+              { "actor": "player", "san": "Qd3", "idea": "Développez votre dame et visez l'aile roi.", "hint1": "La dame en d3 peut soutenir l'attaque sur l'aile roi.", "hint2": "Prépare le roque.", "explain": "Qd3 est un coup de développement actif.", "success": "Très bien, votre dame est bien placée." },
+              { "actor": "opponent", "san": "Qb6" },
+              { "actor": "player", "san": "a4", "idea": "Avancez le pion a pour créer de l'espace sur l'aile dame.", "hint1": "Créez de l'espace et préparez des plans sur l'aile dame.", "hint2": "Empêchez les pions noirs d'avancer sur l'aile dame.", "explain": "a4 est un coup utile pour contrôler l'aile dame et préparer des attaques.", "success": "Bon coup de pion." }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "training_modes": {
+    "guided": true,
+    "interactive": true,
+    "scenario": true
+  }
+}

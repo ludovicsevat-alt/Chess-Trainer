@@ -1,0 +1,85 @@
+{
+  "opening": {
+    "id": "london-jobava-fourchette-c7",
+    "name": "Jobava-London – Fourchette c7",
+    "eco": "D00",
+    "description": "Une variante agressive du Jobava-London, visant une fourchette sur c7 après un sacrifice de dame."
+  },
+  "principles": {
+    "core_ideas": [
+      "Développer rapidement le cavalier en c3 et le fou en f4.",
+      "Exercer une pression immédiate sur la case c7.",
+      "Exploiter les erreurs de développement des Noirs par des sacrifices tactiques.",
+      "Récupérer le matériel sacrifié avec un avantage positionnel ou matériel."
+    ],
+    "typical_structure": "Les Blancs visent une structure solide avec d4-e3-c3, tout en cherchant des opportunités tactiques avec le cavalier en b5 et le fou en f4."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-fourchette-c7",
+        "name": "Apprendre la Fourchette c7",
+        "side": "white",
+        "description": "Apprenez la séquence tactique de la fourchette en c7 dans le Jobava-London.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre avec votre pion de dame.", "tags": ["centre", "classique"] },
+          { "san": "d5", "tags": ["réponse standard"] },
+          { "san": "Nc3", "coach": "Développez rapidement votre cavalier pour viser e4 et c7.", "tags": ["développement", "jobava"] },
+          { "san": "Nf6", "tags": ["réponse standard"] },
+          { "san": "Bf4", "coach": "Le coup signature du système de Londres, mais ici avec des intentions plus offensives.", "tags": ["développement", "plan principal"] },
+          { "san": "Nc6", "coach": "Les Noirs développent, mais affaiblissent c7.", "tags": ["développement noir"] },
+          { "san": "Nb5", "coach": "Pression immédiate sur c7 et d6. Une menace tactique se prépare.", "tags": ["attaque", "tactique clé"] },
+          { "san": "e5", "coach": "Les Noirs repoussent le cavalier, mais laissent un pion suspendu.", "tags": ["erreur noire"] },
+          { "san": "Bxe5", "coach": "Capturez le pion central avec le fou.", "tags": ["capture", "avantage matériel"] },
+          { "san": "Nxe5", "coach": "Les Noirs tentent de reprendre l'équilibre.", "tags": ["réponse noire"] },
+          { "san": "dxe5", "coach": "Capturez le cavalier central avec le pion.", "tags": ["capture", "avantage matériel"] },
+          { "san": "Ne4", "coach": "Les Noirs développent leur cavalier et attaquent le pion e5.", "tags": ["développement noir"] },
+          { "san": "Qxd5", "coach": "Sacrifice de dame ! Calme, on la récupérera. La menace sur e5 et c7 est énorme.", "tags": ["sacrifice", "tactique clé"] },
+          { "san": "Qxd5", "coach": "Les Noirs capturent la dame.", "tags": ["capture noire"] },
+          { "san": "Nxc7+", "coach": "Fourchette ! Roi, tour et dame menacés. Promis, on récupère notre dame.", "tags": ["fourchette", "tactique clé"] },
+          { "san": "Kd7", "coach": "Le roi noir est forcé au centre. Mauvais signe pour lui.", "tags": ["roi exposé"] },
+          { "san": "Nxd5", "coach": "Magnifique conclusion : la dame est récupérée et on sort de la séquence avec trois pions d’avance.", "tags": ["récupération", "avantage matériel"] }
+        ]
+      }
+    ],
+    "semiGuided": [
+      {
+        "id": "semi-jobava-fourchette-c7",
+        "name": "Appliquer la Fourchette c7",
+        "side": "white",
+        "description": "Mettez en pratique la séquence tactique de la fourchette en c7 dans le Jobava-London.",
+        "outOfBookMessage": "Vous êtes sorti du plan de la fourchette en c7. Essayez de suivre la logique de la ligne.",
+        "lines": [
+          {
+            "variantTag": "fourchette-c7-mainline",
+            "moves": [
+              { "actor": "player", "san": "d4", "idea": "Occupez le centre.", "hint1": "Le pilier du Jobava-London.", "hint2": "Ce pion prépare Nc3 et Bf4.", "explain": "Le centre est la base de votre jeu.", "success": "Très bien. Vous commencez avec un centre solide." },
+              { "actor": "opponent", "san": "d5" },
+              { "actor": "player", "san": "Nc3", "idea": "Développez votre cavalier tôt.", "hint1": "C’est la particularité du Jobava.", "hint2": "Il soutient e4 et vise c7.", "explain": "Nc3 prépare une pression dynamique sur le camp noir.", "success": "Parfait, le Jobava commence à prendre forme." },
+              { "actor": "opponent", "san": "Nf6" },
+              { "actor": "player", "san": "Bf4", "idea": "Activez votre fou avant de bloquer sa diagonale.", "hint1": "Le fou f4 est la clé du Londres.", "hint2": "Avec le cavalier c3, la combinaison est très agressive.", "explain": "Bf4 crée la tension et prépare e3.", "success": "Excellent, le duo Bf4–Nc3 est prêt." },
+              { "actor": "opponent", "san": "Nc6" },
+              { "actor": "player", "san": "Nb5", "idea": "Attaquez la case c7 et d6.", "hint1": "Le coup emblématique du Jobava.", "hint2": "Un cavalier sur b5 est souvent très dangereux.", "explain": "Cette menace crée une pression immédiate.", "success": "Très bien, votre adversaire doit se défendre." },
+              { "actor": "opponent", "san": "e5" },
+              { "actor": "player", "san": "Bxe5", "idea": "Capturez le pion central.", "hint1": "Prenez le pion avec le fou.", "hint2": "Maintenez la pression au centre.", "explain": "La capture du pion ouvre des lignes et maintient l'initiative.", "success": "Bonne capture." },
+              { "actor": "opponent", "san": "Nxe5" },
+              { "actor": "player", "san": "dxe5", "idea": "Capturez le cavalier central.", "hint1": "Prenez le cavalier avec le pion.", "hint2": "Renforcez votre centre.", "explain": "La recapture du cavalier renforce votre position centrale.", "success": "Excellente recapture." },
+              { "actor": "opponent", "san": "Ne4" },
+              { "actor": "player", "san": "Qxd5", "idea": "Sacrifiez la dame pour une attaque décisive.", "hint1": "La dame est sacrifiée pour une fourchette.", "hint2": "Ne craignez pas la perte temporaire de la dame.", "explain": "Ce sacrifice mène à un avantage matériel et positionnel.", "success": "Coup audacieux et correct !" },
+              { "actor": "opponent", "san": "Qxd5" },
+              { "actor": "player", "san": "Nxc7+", "idea": "Exécutez la fourchette sur le roi et la dame.", "hint1": "Le cavalier attaque le roi et la dame.", "hint2": "Récupérez la dame avec un avantage.", "explain": "La fourchette est la clé de cette tactique.", "success": "Fourchette réussie !" },
+              { "actor": "opponent", "san": "Kd7" },
+              { "actor": "player", "san": "Nxd5", "idea": "Récupérez la dame et consolidez votre avantage.", "hint1": "Le cavalier capture la dame.", "hint2": "Vous avez maintenant un avantage matériel.", "explain": "La récupération de la dame vous assure un avantage décisif.", "success": "Victoire tactique !" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "training_modes": {
+    "guided": true,
+    "interactive": true,
+    "scenario": true
+  }
+}
