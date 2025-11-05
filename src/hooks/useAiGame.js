@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+
 import { Chess } from "chess.js";
 import getHumanizedMove from "../engine/HumanizedStockfish";
 import {
@@ -54,6 +55,7 @@ export default function useAiGame() {
     message: "Tour des blancs",
     isGameOver: false,
   });
+  const [invalidMoveSquare, setInvalidMoveSquare] = useState(null);
 
   const updateStatus = () => {
     const turn = gameRef.current.turn();
@@ -206,19 +208,30 @@ export default function useAiGame() {
   }, [elo]);
 
   const handleDrop = (sourceSquare, targetSquare) => {
+    if (sourceSquare === targetSquare) return false;
     if (!locked) return false;
     if (currentPly !== positions.length - 1) return false;
     const game = gameRef.current;
     const playerTurn = playerColor === "white" ? "w" : "b";
     if (game.turn() !== playerTurn) return false;
 
-    const move = game.move({
-      from: sourceSquare,
-      to: targetSquare,
-      promotion: "q",
-    });
+    let move = null;
+    try {
+      move = game.move({
+        from: sourceSquare,
+        to: targetSquare,
+        promotion: "q",
+      });
+    } catch (error) {
+      move = null;
+    }
 
-    if (move === null) return false;
+    if (move === null) {
+      playSound("error");
+      setInvalidMoveSquare(sourceSquare);
+      setTimeout(() => setInvalidMoveSquare(null), 2500);
+      return false;
+    }
 
     triggerSound(move);
     setPosition(game.fen());
@@ -330,5 +343,6 @@ export default function useAiGame() {
     stepForward,
     capturedPieces: captureInfo.capturedPieces,
     materialAdvantage: captureInfo.materialAdvantage,
+    invalidMoveSquare,
   };
 }

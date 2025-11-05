@@ -5,6 +5,7 @@ export const soundFiles = {
   check: "/assets/sounds/chess/check.mp3",
   checkmate: "/assets/sounds/chess/checkmate.mp3",
   castle: "/assets/sounds/chess/castle.mp3",
+  error: "/assets/sounds/chess/error.mp3",
   hover: "/assets/sounds/hover.mp3",
   scroll: "/assets/sounds/scroll.mp3",
 };

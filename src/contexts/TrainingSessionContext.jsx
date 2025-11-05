@@ -111,7 +111,7 @@ export function TrainingSessionProvider({
     return () => {
       controller.abort();
     };
-  }, [openingSlug, subOpeningFile]);
+  }, [openingSlug, subOpeningFile, startTraining]);
 
   const guidedScript = useMemo(
     () => (openingData ? pickGuidedScript(openingData, side) : null),

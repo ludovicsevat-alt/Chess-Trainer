@@ -24,6 +24,7 @@ export default function PlayVsAI({ aiGame }) {
     capturedPieces,
     materialAdvantage,
     playerColor,
+    invalidMoveSquare,
   } = aiGame;
   const lastMove =
     history && currentPly > 0 && history[currentPly - 1]
@@ -85,6 +86,7 @@ export default function PlayVsAI({ aiGame }) {
       }
       animationDuration={animationDuration}
       boardThemeColors={boardThemeConfig}
+      invalidMoveSquare={invalidMoveSquare}
     />
   );
 }

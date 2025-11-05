@@ -8,26 +8,24 @@ const PIECE_VALUE = {
 };
 
 function depthByElo(elo) {
-  if (elo < 800) return 2;
-  if (elo < 1200) return 3;
-  if (elo < 1600) return 4;
-  if (elo < 2000) return 5;
-  return 6 + Math.floor((elo - 2000) / 400);
+  if (elo < 800) return 1;
+  if (elo < 1200) return 2;
+  if (elo < 1600) return 3;
+  if (elo < 2000) return 4;
+  return 5 + Math.floor((elo - 2000) / 400);
 }
 
 function noiseByElo(elo) {
-  if (elo < 800) return 0.3;
-  if (elo < 1200) return 0.2;
-  if (elo < 1600) return 0.1;
+  if (elo < 1600) return 0.3;
   return 0;
 }
 
+// This is now only for high-elo inaccuracies
 function mistakesByElo(elo) {
-  return {
-    winningCapture: elo < 2000 ? 0.25 : 0.1,
-    ignoreThreat: elo < 1600 ? 0.15 : 0.05,
-    positional: elo < 1200 ? 0.25 : 0.12,
-  };
+  if (elo < 1600) {
+    return { positional: 0.15 };
+  }
+  return { positional: 0.05 };
 }
 
 function delayForMove(depth, isTactical) {
@@ -111,31 +109,66 @@ function annotateCandidate(candidate, game) {
   return moveData;
 }
 
+function pickWeightedRandom(items, weightFunc) {
+  if (!items || items.length === 0) {
+    return null;
+  }
+  const weightedItems = items.map((item, index) => ({
+    item,
+    weight: weightFunc(item, index, items.length),
+  }));
+
+  const totalWeight = weightedItems.reduce((sum, current) => sum + current.weight, 0);
+  let random = Math.random() * totalWeight;
+
+  for (const weightedItem of weightedItems) {
+    random -= weightedItem.weight;
+    if (random <= 0) {
+      return weightedItem.item;
+    }
+  }
+  return weightedItems[weightedItems.length - 1].item;
+}
+
 function pickCandidate(candidates, elo) {
-  const noise = noiseByElo(elo);
-  const mistakes = mistakesByElo(elo);
-  const adjusted = candidates.map((cand) => {
-    const jitter = (Math.random() * 2 - 1) * noise * 100;
-    return { ...cand, adjustedScore: cand.score + jitter };
+  // For high ELO, use a logic of adding noise and picking the best.
+  // This simulates a strong player who makes small inaccuracies.
+  if (elo > 1200) {
+    const noise = noiseByElo(elo);
+    const mistakes = mistakesByElo(elo);
+    const adjusted = candidates.map((cand) => {
+      const jitter = (Math.random() * 2 - 1) * noise * 100;
+      return { ...cand, adjustedScore: cand.score + jitter };
+    });
+    adjusted.sort((a, b) => b.adjustedScore - a.adjustedScore);
+
+    let chosen = adjusted[0];
+
+    // Small chance of picking the second best move
+    if (Math.random() < mistakes.positional && adjusted[1]) {
+      chosen = adjusted[1];
+    }
+    return chosen || candidates[0];
+  }
+
+  // For low ELO (<1200), use a weighted random selection.
+  // This simulates a player who doesn't know what the best move is.
+
+  // The 'temperature' controls how random the choice is.
+  // Low temp = more random (flatter weights). High temp = more deterministic (steeper weights).
+  const temperature = (elo - 400) / 800; // Ranges from 0 (400 ELO) to 1 (1200 ELO)
+
+  const chosen = pickWeightedRandom(candidates, (candidate, index, total) => {
+    // We use an exponential decay function for the weights.
+    // The base of the exponent is determined by the temperature.
+    // A lower ELO (lower temp) results in a slower decay, making bad moves more likely.
+    const base = 1 + temperature * 4; // base ranges from 1 to 5
+    const weight = Math.pow(base, total - index - 1);
+    return weight;
   });
-  adjusted.sort((a, b) => b.adjustedScore - a.adjustedScore);
 
-  let chosen = adjusted[0];
-
-  if (chosen?.winningCapture && Math.random() < mistakes.winningCapture) {
-    chosen = adjusted[1] || chosen;
-  }
-
-  if (chosen && chosen.isCheck && Math.random() < mistakes.ignoreThreat) {
-    chosen = adjusted[1] || chosen;
-  }
-
-  if (Math.random() < mistakes.positional && adjusted[1]) {
-    const idx = Math.random() < 0.5 ? 1 : 2;
-    chosen = adjusted[idx] || chosen;
-  }
-
-  return chosen || candidates[0];
+  console.log(`!!! LOW ELO PICK (ELO ${elo}): Choosing ${chosen.san}`);
+  return chosen;
 }
 
 function listenOnce(stockfish, handler) {
@@ -146,7 +179,7 @@ function listenOnce(stockfish, handler) {
   return () => stockfish.removeEventListener("message", listener);
 }
 
-function analysePosition(stockfish, fen, depth) {
+function analysePosition(stockfish, fen, depth, multiPV = 3) {
   return new Promise((resolve, reject) => {
     const results = {};
     const cleanup = listenOnce(stockfish, (event) => {
@@ -161,7 +194,7 @@ function analysePosition(stockfish, fen, depth) {
         cleanup();
         const list = Object.values(results)
           .sort((a, b) => a.multipv - b.multipv)
-          .slice(0, 3);
+          .slice(0, multiPV);
         resolve(list);
       }
     });
@@ -189,18 +222,27 @@ function delay(ms) {
  */
 export async function getHumanizedMove(stockfish, game, eloLevel = 1200) {
   const depth = depthByElo(eloLevel);
-  setMultiPV(stockfish, 3);
+  
+  let multiPV = 3;
+  if (eloLevel < 1600) multiPV = 5;
+  if (eloLevel < 1000) multiPV = 7;
+
+  setMultiPV(stockfish, multiPV);
   const fen = game.fen();
-  let candidates = await analysePosition(stockfish, fen, depth);
+  let candidates = await analysePosition(stockfish, fen, depth, multiPV);
   if (!candidates.length) {
     throw new Error("Aucun coup retourné par Stockfish");
   }
   candidates = candidates.map((cand) => annotateCandidate(cand, game));
+  
+  // Sort candidates by score (best first) before picking
+  candidates.sort((a, b) => b.score - a.score);
+
   const chosen = pickCandidate(candidates, eloLevel);
   await delay(delayForMove(depth, chosen?.isCapture || chosen?.isCheck));
   console.log(
     `IA (ELO ${eloLevel}) choisit coup: ${chosen?.san} ` +
-      `avec évaluation bruitée ${chosen?.adjustedScore?.toFixed?.(2) ?? ""} à depth ${depth}`
+      `avec évaluation ${chosen?.score} à depth ${depth}`
   );
   return {
     from: chosen.from,

@@ -14,6 +14,7 @@ export default function BoardView({
   boardThemeColors,
   topContent,
   bottomContent,
+  invalidMoveSquare,
   children,
 }) {
   const boardColors = boardThemeColors ?? {
@@ -32,6 +33,19 @@ export default function BoardView({
       }, {})
     : undefined;
 
+  const invalidMoveStyle = invalidMoveSquare
+    ? {
+        [invalidMoveSquare]: {
+          backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3cpath d='M20 20 L80 80 M20 80 L80 20' stroke='%23dc3545' stroke-width='24' stroke-linecap='round'/%3e%3c/svg%3e")`,
+          backgroundSize: '30% 30%',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'top right',
+        },
+      }
+    : undefined;
+
+  const customSquareStyles = { ...lastMoveStyles, ...invalidMoveStyle };
+
   const hasFooterContent =
     bottomContent || statusMessage || hintMessage || children;
 
@@ -47,7 +61,7 @@ export default function BoardView({
               boardOrientation={boardOrientation}
               arePiecesDraggable={arePiecesDraggable}
               animationDuration={animationDuration}
-              customSquareStyles={lastMoveStyles}
+              customSquareStyles={customSquareStyles}
               customLightSquareStyle={{ backgroundColor: boardColors.light }}
               customDarkSquareStyle={{ backgroundColor: boardColors.dark }}
               customBoardStyle={{

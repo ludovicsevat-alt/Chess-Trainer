@@ -31,10 +31,24 @@ export function createStockfishWorker({
   initialElo = null,
 } = {}) {
   const worker = new Worker(ENGINE_PATH);
-  let disposed = false;
-  let limitStrengthEnabled = Boolean(limitStrength);
-  let desiredElo = limitStrengthEnabled ? clampElo(initialElo) : null;
+
+  let limitStrengthEnabled = limitStrength;
+  let desiredElo = clampElo(initialElo);
   let appliedElo = null;
+  let disposed = false;
+  let desiredSkillLevel = skillLevel;
+
+  if (limitStrengthEnabled && desiredElo !== null) {
+    if (desiredElo < 800) {
+      desiredSkillLevel = 0;
+    } else if (desiredElo < 1200) {
+      desiredSkillLevel = 5;
+    } else if (desiredElo < 1600) {
+      desiredSkillLevel = 10;
+    } else {
+      desiredSkillLevel = 20;
+    }
+  }
 
   let resolveReady;
   const readyPromise = new Promise((resolve) => {
@@ -67,8 +81,8 @@ export function createStockfishWorker({
       multiPV !== null && multiPV !== undefined
         ? `setoption name MultiPV value ${multiPV}`
         : null,
-      skillLevel !== null && skillLevel !== undefined
-        ? `setoption name Skill Level value ${skillLevel}`
+      desiredSkillLevel !== null && desiredSkillLevel !== undefined
+        ? `setoption name Skill Level value ${desiredSkillLevel}`
         : null,
       `setoption name UCI_LimitStrength value ${limitStrengthEnabled ? "true" : "false"}`,
     ];
@@ -93,6 +107,7 @@ export function createStockfishWorker({
         "stop",
         `setoption name UCI_LimitStrength value true`,
         `setoption name UCI_Elo value ${desiredElo}`,
+        `setoption name Skill Level value ${desiredSkillLevel}`,
       ]);
       await waitReadyOk(worker);
       appliedElo = desiredElo;
@@ -122,6 +137,16 @@ export function createStockfishWorker({
       return Promise.resolve();
     }
     desiredElo = clamped;
+    if (desiredElo < 800) {
+      desiredSkillLevel = 0;
+    } else if (desiredElo < 1200) {
+      desiredSkillLevel = 5;
+    } else if (desiredElo < 1600) {
+      desiredSkillLevel = 10;
+    } else {
+      desiredSkillLevel = 20;
+    }
+
     if (!limitStrengthEnabled) {
       return setLimitStrength(true, clamped);
     }
