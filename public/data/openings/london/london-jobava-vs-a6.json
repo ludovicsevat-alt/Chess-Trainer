@@ -1,0 +1,42 @@
+{
+  "opening": {
+    "id": "london-jobava-vs-a6",
+    "name": "Jobava-London (contre 4...a6)",
+    "eco": "D00",
+    "description": "Une variante du Jobava-London où les Noirs jouent 4...a6 pour empêcher Nb5, menant à un développement plus calme."
+  },
+  "principles": {
+    "core_ideas": [
+      "Maintenir la pression centrale et développer les pièces harmonieusement.",
+      "Adapter le développement des Blancs après que les Noirs aient joué ...a6 pour empêcher Nb5.",
+      "Chercher à exploiter les faiblesses sur l'aile dame ou à lancer une attaque sur l'aile roi."
+    ],
+    "typical_structure": "Les Blancs établissent un centre solide et développent leurs pièces, cherchant à exploiter l'espace sur l'aile dame ou à lancer une attaque sur l'aile roi, en fonction des réponses des Noirs."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-vs-a6",
+        "name": "Apprendre le Jobava-London (vs a6)",
+        "side": "white",
+        "description": "Apprenez la séquence de coups du Jobava-London contre le coup 4...a6.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre et ouvrez des lignes pour vos pièces.", "tags": ["centre", "développement"] },
+          { "san": "Nf6", "coach": "Réponse standard des Noirs, développant un cavalier.", "tags": ["réponse standard"] },
+          { "san": "Bf4", "coach": "Développez votre fou en f4, une pièce clé du système de Londres.", "tags": ["développement", "londres"] },
+          { "san": "d5", "coach": "Les Noirs contestent le centre.", "tags": ["centre"] },
+          { "san": "Nc3", "coach": "Développez votre cavalier en c3, caractéristique du Jobava-London, pour soutenir d4 et viser e4.", "tags": ["développement", "jobava"] },
+          { "san": "a6", "coach": "Les Noirs jouent ...a6 pour empêcher la menace Nb5.", "tags": ["prévention"] },
+          { "san": "e3", "coach": "Renforcez votre centre et ouvrez la diagonale pour votre fou de cases blanches.", "tags": ["structure de pions", "développement"] }
+        ]
+      }
+    ],
+    "semiGuided": [],
+    "training_modes": {
+      "guided": true,
+      "interactive": false,
+      "scenario": false
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "opening": {
+    "id": "london-jobava-vs-Nc6-Nb5",
+    "name": "Jobava-London (contre 4...Nc6 - idée Nb5)",
+    "eco": "D00",
+    "description": "Une variante du Jobava-London où les Blancs exploitent le développement précoce du cavalier noir en c6 avec la menace Nb5."
+  },
+  "principles": {
+    "core_ideas": [
+      "Exploiter le développement précoce du cavalier noir en c6 avec la menace Nb5.",
+      "Créer des menaces tactiques sur la case c7.",
+      "Forcer les Noirs à des concessions positionnelles ou à des échanges."
+    ],
+    "typical_structure": "Les Blancs visent une position agressive avec une pression sur l'aile dame, cherchant à exploiter la faiblesse potentielle de la case c7 et à perturber le développement des Noirs."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-vs-Nc6-Nb5",
+        "name": "Apprendre le Jobava-London (vs Nc6 Nb5)",
+        "side": "white",
+        "description": "Apprenez la séquence de coups du Jobava-London contre 4...Nc6, avec l'idée de la menace Nb5.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre et ouvrez des lignes pour vos pièces.", "tags": ["centre", "développement"] },
+          { "san": "Nf6", "coach": "Réponse standard des Noirs, développant un cavalier.", "tags": ["réponse standard"] },
+          { "san": "Bf4", "coach": "Développez votre fou en f4, une pièce clé du système de Londres.", "tags": ["développement", "londres"] },
+          { "san": "d5", "coach": "Les Noirs contestent le centre.", "tags": ["centre"] },
+          { "san": "Nc3", "coach": "Développez votre cavalier en c3, caractéristique du Jobava-London, pour soutenir d4 et viser e4.", "tags": ["développement", "jobava"] },
+          { "san": "Nc6", "coach": "Les Noirs développent leur cavalier en c6, soutenant le centre.", "tags": ["développement"] },
+          { "san": "Nb5", "coach": "Attaquez la case c7 et créez une menace tactique.", "tags": ["attaque", "tactique", "menace"] }
+        ]
+      }
+    ],
+    "semiGuided": [],
+    "training_modes": {
+      "guided": true,
+      "interactive": false,
+      "scenario": false
+    }
+  }
+}

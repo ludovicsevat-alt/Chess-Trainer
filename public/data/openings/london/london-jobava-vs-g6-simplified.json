@@ -1,0 +1,40 @@
+{
+  "opening": {
+    "id": "london-jobava-vs-g6-simplified",
+    "name": "Jobava-London (contre ...g6 - simplifié)",
+    "eco": "A40",
+    "description": "Une variante simplifiée du Jobava-London contre le développement ...g6 des Noirs, où les Blancs maintiennent une approche flexible."
+  },
+  "principles": {
+    "core_ideas": [
+      "Répondre au développement ...g6 par un développement rapide des pièces et un contrôle central.",
+      "Maintenir la flexibilité et la capacité à s'adapter aux plans des Noirs.",
+      "Préparer des attaques sur l'aile roi ou des percées centrales."
+    ],
+    "typical_structure": "Les Blancs établissent un centre solide et développent leurs pièces de manière harmonieuse, cherchant à exploiter les faiblesses potentielles créées par le fianchetto des Noirs."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-vs-g6-simplified",
+        "name": "Apprendre le Jobava-London (vs g6 simplifié)",
+        "side": "white",
+        "description": "Apprenez la séquence de coups du Jobava-London contre le développement ...g6.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre et ouvrez des lignes pour vos pièces.", "tags": ["centre", "développement"] },
+          { "san": "Nf6", "coach": "Réponse standard des Noirs, développant un cavalier.", "tags": ["réponse standard"] },
+          { "san": "Nc3", "coach": "Développez votre cavalier en c3, caractéristique du Jobava-London, pour soutenir d4 et viser e4.", "tags": ["développement", "jobava"] },
+          { "san": "g6", "coach": "Les Noirs préparent le fianchetto de leur fou de cases noires.", "tags": ["fianchetto", "développement"] },
+          { "san": "Bf4", "coach": "Développez votre fou en f4, une pièce clé du système de Londres, et maintenez la pression sur le centre.", "tags": ["développement", "londres"] }
+        ]
+      }
+    ],
+    "semiGuided": [],
+    "training_modes": {
+      "guided": true,
+      "interactive": false,
+      "scenario": false
+    }
+  }
+}

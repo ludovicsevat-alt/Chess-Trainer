@@ -26,6 +26,66 @@
       "name": "Jobava-London (Fourchette c7)",
       "description": "Une variante agressive du Jobava-London, visant une fourchette sur c7 après un sacrifice de dame.",
       "file": "london-jobava-fourchette-c7.json"
+    },
+    {
+      "id": "jobava-9e4",
+      "name": "Jobava-London (variante 9.e4)",
+      "description": "Une variante du Jobava-London où les Blancs poussent e4 au 9ème coup pour ouvrir le centre et créer des opportunités tactiques.",
+      "file": "london-jobava-9e4.json"
+    },
+    {
+      "id": "jobava-kings-indian",
+      "name": "Jobava-London (contre King's Indian Defense)",
+      "description": "Une variante du Jobava-London adaptée pour faire face à la Défense Est-Indienne (King's Indian Defense) des Noirs, avec un développement rapide et une pression sur l'aile roi.",
+      "file": "london-jobava-kings-indian.json"
+    },
+    {
+      "id": "jobava-c5-niemann",
+      "name": "Jobava-London (vs. c5 - Niemann-Artemiev)",
+      "description": "Une ligne agressive du Jobava-London contre un ...c5 précoce, illustrée par la partie Niemann-Artemiev.",
+      "file": "london-jobava-c5-niemann.json"
+    },
+    {
+      "id": "jobava-vs-Bd6",
+      "name": "Jobava-London (contre 4...Bd6)",
+      "description": "Une variante du Jobava-London où les Noirs développent le fou en d6, menant souvent à un échange et un jeu central.",
+      "file": "london-jobava-vs-Bd6.json"
+    },
+    {
+      "id": "jobava-vs-e6",
+      "name": "Jobava-London (contre 4...e6)",
+      "description": "Une variante du Jobava-London où les Noirs jouent 4...e6, menant à une structure plus fermée et des plans d'attaque sur l'aile roi pour les Blancs.",
+      "file": "london-jobava-vs-e6.json"
+    },
+    {
+      "id": "jobava-vs-c5-simplified",
+      "name": "Jobava-London (contre 4...c5 - simplifié)",
+      "description": "Une variante simplifiée du Jobava-London contre 4...c5, menant à une finale précoce après l'échange des Dames.",
+      "file": "london-jobava-vs-c5-simplified.json"
+    },
+    {
+      "id": "jobava-vs-Nc6-Nb5",
+      "name": "Jobava-London (contre 4...Nc6 - idée Nb5)",
+      "description": "Une variante du Jobava-London où les Blancs exploitent le développement précoce du cavalier noir en c6 avec la menace Nb5.",
+      "file": "london-jobava-vs-Nc6-Nb5.json"
+    },
+    {
+      "id": "jobava-vs-a6",
+      "name": "Jobava-London (contre 4...a6)",
+      "description": "Une variante du Jobava-London où les Noirs jouent 4...a6 pour empêcher Nb5, menant à un développement plus calme.",
+      "file": "london-jobava-vs-a6.json"
+    },
+    {
+      "id": "jobava-vs-Bf5",
+      "name": "Jobava-London (contre 4...Bf5)",
+      "description": "Une variante du Jobava-London où les Noirs développent le fou en f5, et les Blancs préparent une attaque sur l'aile roi avec f3 et g4.",
+      "file": "london-jobava-vs-Bf5.json"
+    },
+    {
+      "id": "jobava-vs-g6-simplified",
+      "name": "Jobava-London (contre ...g6 - simplifié)",
+      "description": "Une variante simplifiée du Jobava-London contre le développement ...g6 des Noirs, où les Blancs maintiennent une approche flexible.",
+      "file": "london-jobava-vs-g6-simplified.json"
     }
   ]
 }

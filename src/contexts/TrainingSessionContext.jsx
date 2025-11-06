@@ -68,32 +68,70 @@ export function TrainingSessionProvider({
   const abortRef = useRef();
   const _startAfterLoad = useRef(false);
   const resetGuardRef = useRef(new TrainingSessionResetGuard());
+  const lastLoadedRef = useRef({ slug: null, file: null });
+  const loadingRef = useRef(loading);
+  const openingDataRef = useRef(openingData);
+  const errorStateRef = useRef(error);
+
+  useEffect(() => {
+    loadingRef.current = loading;
+  }, [loading]);
+
+  useEffect(() => {
+    openingDataRef.current = openingData;
+  }, [openingData]);
+
+  useEffect(() => {
+    errorStateRef.current = error;
+  }, [error]);
 
   const startTraining = useCallback((fileToLoad) => {
     if (fileToLoad) {
       setSubOpeningFile(fileToLoad);
     }
-    if (loading) {
+    if (loadingRef.current) {
       _startAfterLoad.current = true;
     } else {
       setTrainingActive(true);
       resetGuardRef.current.trigger(mode, true);
     }
-  }, [loading, mode]);
+  }, [mode]);
 
   useEffect(() => {
+    const currentSlug = openingSlug;
+    const currentFile = subOpeningFile;
+
+    // Guard condition: If data is already loaded for the current slug/file, and not currently loading/error, do nothing.
+    // Use refs for state values to avoid putting them in dependencies.
+    if (
+      currentSlug === lastLoadedRef.current.slug &&
+      currentFile === lastLoadedRef.current.file &&
+      openingDataRef.current !== null &&
+      !loadingStateRef.current && !errorStateRef.current
+    ) {
+      return; // Data already loaded for this combination, no need to refetch
+    }
+
+    // If no slug is provided, also return (nothing to fetch)
+    if (!currentSlug) {
+        return;
+    }
+
     setLoading(true);
     setError(null);
-    setOpeningData(null);
+    setOpeningData(null); // Clear previous data only when a new fetch is initiated
+
     if (abortRef.current) {
       abortRef.current.abort();
     }
     const controller = new AbortController();
     abortRef.current = controller;
-    fetchOpeningData(openingSlug, subOpeningFile, controller.signal)
+
+    fetchOpeningData(currentSlug, currentFile, controller.signal)
       .then((data) => {
         setOpeningData(data);
         setLoading(false);
+        lastLoadedRef.current = { slug: currentSlug, file: currentFile }; // Update ref on successful load
         if (_startAfterLoad.current) {
           startTraining();
           _startAfterLoad.current = false;
@@ -103,6 +141,7 @@ export function TrainingSessionProvider({
         if (controller.signal.aborted) return;
         setError(err);
         setLoading(false);
+        // Do not update lastLoadedRef on error, so it tries again
         if (_startAfterLoad.current) {
           _startAfterLoad.current = false;
         }
@@ -111,7 +150,7 @@ export function TrainingSessionProvider({
     return () => {
       controller.abort();
     };
-  }, [openingSlug, subOpeningFile, startTraining]);
+  }, [openingSlug, subOpeningFile]);
 
   const guidedScript = useMemo(
     () => (openingData ? pickGuidedScript(openingData, side) : null),
@@ -148,7 +187,7 @@ export function TrainingSessionProvider({
     setTrainingActive(false);
     resetGuardRef.current.trigger("guided", false);
     resetGuardRef.current.trigger("semi", false);
-  }, [mode, guidedScript, semiScript]);
+  }, [mode]);
 
   const canStartTraining =
     !loading &&

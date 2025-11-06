@@ -1,0 +1,42 @@
+{
+  "opening": {
+    "id": "london-jobava-vs-e6",
+    "name": "Jobava-London (contre 4...e6)",
+    "eco": "D00",
+    "description": "Une variante du Jobava-London où les Noirs jouent 4...e6, menant à une structure plus fermée et des plans d'attaque sur l'aile roi pour les Blancs."
+  },
+  "principles": {
+    "core_ideas": [
+      "Construire une structure solide avec e3 et Bf4.",
+      "Préparer des attaques sur l'aile roi avec des avancées de pions (g4, h4) si les Noirs roquent court.",
+      "Maintenir la flexibilité et la pression centrale."
+    ],
+    "typical_structure": "Les Blancs établissent un centre robuste et développent leurs pièces de manière harmonieuse, cherchant à lancer des attaques sur l'aile roi ou à exploiter les faiblesses positionnelles des Noirs."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-vs-e6",
+        "name": "Apprendre le Jobava-London (vs e6)",
+        "side": "white",
+        "description": "Apprenez la séquence de coups du Jobava-London contre le développement 4...e6.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre et ouvrez des lignes pour vos pièces.", "tags": ["centre", "développement"] },
+          { "san": "Nf6", "coach": "Réponse standard des Noirs, développant un cavalier.", "tags": ["réponse standard"] },
+          { "san": "Bf4", "coach": "Développez votre fou en f4, une pièce clé du système de Londres.", "tags": ["développement", "londres"] },
+          { "san": "d5", "coach": "Les Noirs contestent le centre.", "tags": ["centre"] },
+          { "san": "Nc3", "coach": "Développez votre cavalier en c3, caractéristique du Jobava-London, pour soutenir d4 et viser e4.", "tags": ["développement", "jobava"] },
+          { "san": "e6", "coach": "Les Noirs renforcent leur centre et préparent le développement de leur fou de cases noires.", "tags": ["développement", "centre"] },
+          { "san": "e3", "coach": "Renforcez votre centre et ouvrez la diagonale pour votre fou de cases blanches.", "tags": ["structure de pions", "développement"] }
+        ]
+      }
+    ],
+    "semiGuided": [],
+    "training_modes": {
+      "guided": true,
+      "interactive": false,
+      "scenario": false
+    }
+  }
+}

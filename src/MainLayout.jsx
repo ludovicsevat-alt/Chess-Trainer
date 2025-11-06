@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+﻿import React, { useState } from "react";
 import LeftMenu from "./components/LeftMenu";
 import RightMenu from "./components/RightMenu";
 import StaticBoard from "./components/StaticBoard";
@@ -92,45 +92,45 @@ export default function MainLayout({
   aiGame,
   onlineGame,
 }) {
-  const [trainingSelection, setTrainingSelection] = useState(null);
-  const localGame = useLocalGame();
-
-  if (
-    selectedMenu === "training" &&
-    trainingSelection &&
-    trainingSelection.type === "trainer"
-  ) {
-    return (
-      <TrainingSessionProvider
-        openingSlug={trainingSelection.slug}
-        side={trainingSelection.side ?? "white"}
-        onExit={() => setTrainingSelection(null)}
-      >
-        <div className="layout">
-          {left ?? <LeftMenu selected={selectedMenu} onSelect={onSelectMenu} />}
-          <div className="layout-center">
-            {center ?? <TrainingBoard />}
+    const [trainingSelection, setTrainingSelection] = useState(null);
+    const localGame = useLocalGame();
+  
+    const memoizedContent = React.useMemo(() => renderContent(
+      selectedMenu,
+      { aiGame, localGame, onlineGame },
+      trainingSelection,
+      setTrainingSelection
+    ), [selectedMenu, aiGame, localGame, onlineGame, trainingSelection, setTrainingSelection]);
+  
+    if (
+      selectedMenu === "training" &&
+      trainingSelection &&
+      trainingSelection.type === "trainer"
+    ) {
+      return (
+        <TrainingSessionProvider
+          openingSlug={trainingSelection.slug}
+          side={trainingSelection.side ?? "white"}
+          onExit={() => setTrainingSelection(null)}
+        >
+          <div className="layout">
+            {left ?? <LeftMenu selected={selectedMenu} onSelect={onSelectMenu} />}
+            <div className="layout-center">
+              {center ?? <TrainingBoard />}
+            </div>
+            <TrainingRightMenuContent />
           </div>
-          <TrainingRightMenuContent />
-        </div>
-      </TrainingSessionProvider>
+        </TrainingSessionProvider>
+      );
+    }
+  
+    const isTrainingContent = selectedMenu === "training" && !trainingSelection;
+  
+    return (
+      <div className="layout">
+        {left ?? <LeftMenu selected={selectedMenu} onSelect={onSelectMenu} />}
+        <div className={`layout-center ${isTrainingContent ? 'is-grid-content' : ''}`}>{center ?? memoizedContent.center}</div>
+        {right ?? memoizedContent.right}
+      </div>
     );
   }
-
-  const content = renderContent(
-    selectedMenu,
-    { aiGame, localGame, onlineGame },
-    trainingSelection,
-    setTrainingSelection
-  );
-
-  const isTrainingContent = selectedMenu === "training" && !trainingSelection;
-
-  return (
-    <div className="layout">
-      {left ?? <LeftMenu selected={selectedMenu} onSelect={onSelectMenu} />}
-      <div className={`layout-center ${isTrainingContent ? 'is-grid-content' : ''}`}>{center ?? content.center}</div>
-      {right ?? content.right}
-    </div>
-  );
-}

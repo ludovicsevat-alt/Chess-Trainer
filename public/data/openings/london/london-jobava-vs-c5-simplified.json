@@ -1,0 +1,44 @@
+{
+  "opening": {
+    "id": "london-jobava-vs-c5-simplified",
+    "name": "Jobava-London (contre 4...c5 - simplifié)",
+    "eco": "D00",
+    "description": "Une variante simplifiée du Jobava-London contre 4...c5, menant à une finale précoce après l'échange des Dames."
+  },
+  "principles": {
+    "core_ideas": [
+      "Répondre à ...c5 par un échange central pour simplifier la position.",
+      "Accepter une finale précoce après l'échange des dames.",
+      "Chercher à exploiter les faiblesses de la structure de pions des Noirs en finale."
+    ],
+    "typical_structure": "Les Blancs visent une finale simplifiée avec un avantage positionnel ou structurel, en exploitant les faiblesses créées par l'échange central."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-vs-c5-simplified",
+        "name": "Apprendre le Jobava-London (vs c5 simplifié)",
+        "side": "white",
+        "description": "Apprenez la séquence de coups du Jobava-London contre 4...c5, menant à une finale simplifiée.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre et ouvrez des lignes pour vos pièces.", "tags": ["centre", "développement"] },
+          { "san": "Nf6", "coach": "Réponse standard des Noirs, développant un cavalier.", "tags": ["réponse standard"] },
+          { "san": "Bf4", "coach": "Développez votre fou en f4, une pièce clé du système de Londres.", "tags": ["développement", "londres"] },
+          { "san": "d5", "coach": "Les Noirs contestent le centre.", "tags": ["centre"] },
+          { "san": "Nc3", "coach": "Développez votre cavalier en c3, caractéristique du Jobava-London, pour soutenir d4 et viser e4.", "tags": ["développement", "jobava"] },
+          { "san": "c5", "coach": "Les Noirs attaquent le centre et la chaîne de pions des Blancs.", "tags": ["contre-attaque", "centre"] },
+          { "san": "dxc5", "coach": "Prenez le pion c5 pour ouvrir la position et créer des faiblesses.", "tags": ["échange", "tactique"] },
+          { "san": "Qxd1+", "coach": "Les Noirs échangent les dames, menant à une finale précoce.", "tags": ["échange", "finale"] },
+          { "san": "Rxd1", "coach": "Reprenez la dame avec votre tour, activant la tour et contrôlant la colonne d.", "tags": ["reprise", "développement"] }
+        ]
+      }
+    ],
+    "semiGuided": [],
+    "training_modes": {
+      "guided": true,
+      "interactive": false,
+      "scenario": false
+    }
+  }
+}

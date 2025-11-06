@@ -1,0 +1,53 @@
+{
+  "opening": {
+    "id": "london-jobava-9e4",
+    "name": "Jobava-London (variante 9.e4)",
+    "eco": "D00",
+    "description": "Une variante du Jobava-London où les Blancs poussent e4 au 9ème coup pour ouvrir le centre et créer des opportunités tactiques."
+  },
+  "principles": {
+    "core_ideas": [
+      "Contrôler le centre avec d4 et Nc3.",
+      "Développer le fou en f4 avant e3.",
+      "Pousser e4 pour ouvrir le centre et créer des menaces.",
+      "Exploiter les faiblesses sur l'aile dame après ...c5."
+    ],
+    "typical_structure": "Les Blancs visent une structure solide avec des pions centraux et un développement rapide, cherchant à ouvrir la position avec e4 pour des attaques tactiques."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-9e4",
+        "name": "Apprendre le Jobava-London (9.e4)",
+        "side": "white",
+        "description": "Apprenez la séquence de coups de la variante Jobava-London avec 9.e4.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre et ouvrez des lignes pour vos pièces.", "tags": ["centre", "développement"] },
+          { "san": "Nf6", "coach": "Réponse standard des Noirs, développant un cavalier.", "tags": ["réponse standard"] },
+          { "san": "Nc3", "coach": "Développez votre cavalier en c3, caractéristique du Jobava-London, pour soutenir d4 et viser e4.", "tags": ["développement", "jobava"] },
+          { "san": "d5", "coach": "Les Noirs contestent le centre.", "tags": ["centre"] },
+          { "san": "Bf4", "coach": "Développez votre fou en f4, une pièce clé du système de Londres.", "tags": ["développement", "londres"] },
+          { "san": "a6", "coach": "Les Noirs préparent ...b5 ou empêchent Nb5.", "tags": ["prévention"] },
+          { "san": "e3", "coach": "Renforcez votre centre et ouvrez la diagonale pour votre fou de cases blanches.", "tags": ["structure de pions", "développement"] },
+          { "san": "e6", "coach": "Les Noirs renforcent leur centre et préparent le développement de leur fou.", "tags": ["développement"] },
+          { "san": "Bd3", "coach": "Développez votre fou en d3, une case active pour viser l'aile roi.", "tags": ["développement"] },
+          { "san": "c5", "coach": "Les Noirs attaquent le centre et la chaîne de pions des Blancs.", "tags": ["contre-attaque", "centre"] },
+          { "san": "dxc5", "coach": "Prenez le pion c5 pour ouvrir la position et créer des faiblesses.", "tags": ["échange", "tactique"] },
+          { "san": "Bxc5", "coach": "Les Noirs reprennent le pion avec leur fou.", "tags": ["reprise"] },
+          { "san": "Nf3", "coach": "Développez votre cavalier en f3, contrôlant le centre et préparant le roque.", "tags": ["développement", "roque"] },
+          { "san": "Nc6", "coach": "Les Noirs développent leur cavalier et soutiennent le centre.", "tags": ["développement"] },
+          { "san": "O-O", "coach": "Roquez pour mettre votre roi en sécurité.", "tags": ["roque", "sécurité du roi"] },
+          { "san": "O-O", "coach": "Les Noirs roquent également.", "tags": ["roque"] },
+          { "san": "e4", "coach": "Poussez e4 pour ouvrir le centre, créer des menaces et activer vos pièces.", "tags": ["attaque", "centre", "tactique"] }
+        ]
+      }
+    ],
+    "semiGuided": [],
+    "training_modes": {
+      "guided": true,
+      "interactive": false,
+      "scenario": false
+    }
+  }
+}

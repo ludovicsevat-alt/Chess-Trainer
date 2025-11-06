@@ -1,0 +1,45 @@
+{
+  "opening": {
+    "id": "london-jobava-kings-indian",
+    "name": "Jobava-London (contre King's Indian Defense)",
+    "eco": "A46",
+    "description": "Une variante du Jobava-London adaptée pour faire face à la Défense Est-Indienne (King's Indian Defense) des Noirs, avec un développement rapide et une pression sur l'aile roi."
+  },
+  "principles": {
+    "core_ideas": [
+      "Développer rapidement les pièces et contrôler le centre.",
+      "Adapter le développement des Blancs pour contrer la structure de la Défense Est-Indienne.",
+      "Préparer une attaque sur l'aile roi après le roque des Noirs."
+    ],
+    "typical_structure": "Les Blancs construisent une position solide avec d4, Bf4, Nc3 et e4, visant à exploiter les faiblesses potentielles sur l'aile roi des Noirs après leur roque."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-kings-indian",
+        "name": "Apprendre le Jobava-London (vs King's Indian)",
+        "side": "white",
+        "description": "Apprenez la séquence de coups du Jobava-London contre la Défense Est-Indienne.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre et ouvrez des lignes pour vos pièces.", "tags": ["centre", "développement"] },
+          { "san": "Nf6", "coach": "Réponse standard des Noirs, développant un cavalier.", "tags": ["réponse standard"] },
+          { "san": "Bf4", "coach": "Développez votre fou en f4, une pièce clé du système de Londres.", "tags": ["développement", "londres"] },
+          { "san": "g6", "coach": "Les Noirs préparent le fianchetto de leur fou de cases noires, caractéristique de la Défense Est-Indienne.", "tags": ["défense est-indienne", "fianchetto"] },
+          { "san": "Nc3", "coach": "Développez votre cavalier en c3, soutenant d4 et préparant e4.", "tags": ["développement", "jobava"] },
+          { "san": "Bg7", "coach": "Les Noirs fianchettent leur fou, contrôlant la grande diagonale.", "tags": ["fianchetto", "développement"] },
+          { "san": "e4", "coach": "Poussez e4 pour prendre le contrôle du centre et ouvrir des lignes.", "tags": ["centre", "attaque"] },
+          { "san": "d6", "coach": "Les Noirs renforcent leur centre et préparent le roque.", "tags": ["centre", "développement"] },
+          { "san": "Qd2", "coach": "Développez votre dame et préparez le grand roque, ou soutenez une attaque sur l'aile roi.", "tags": ["développement", "roque"] },
+          { "san": "O-O", "coach": "Les Noirs roquent pour mettre leur roi en sécurité.", "tags": ["roque"] }
+        ]
+      }
+    ],
+    "semiGuided": [],
+    "training_modes": {
+      "guided": true,
+      "interactive": false,
+      "scenario": false
+    }
+  }
+}

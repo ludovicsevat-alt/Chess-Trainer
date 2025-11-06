@@ -1,0 +1,45 @@
+{
+  "opening": {
+    "id": "london-jobava-vs-Bd6",
+    "name": "Jobava-London (contre 4...Bd6)",
+    "eco": "D00",
+    "description": "Une variante du Jobava-London où les Noirs développent le fou en d6, menant souvent à un échange et un jeu central."
+  },
+  "principles": {
+    "core_ideas": [
+      "Maintenir la pression centrale et développer les pièces harmonieusement.",
+      "Accepter l'échange du fou f4 pour ouvrir la colonne e et activer la tour.",
+      "Viser un jeu positionnel avec un centre solide et des plans sur l'aile roi."
+    ],
+    "typical_structure": "Les Blancs établissent un centre solide avec d4 et e3, développent leurs pièces légères et cherchent à exploiter la colonne e après l'échange des fous de cases claires."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-vs-Bd6",
+        "name": "Apprendre le Jobava-London (vs Bd6)",
+        "side": "white",
+        "description": "Apprenez la séquence de coups du Jobava-London contre le développement 4...Bd6.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre et ouvrez des lignes pour vos pièces.", "tags": ["centre", "développement"] },
+          { "san": "Nf6", "coach": "Réponse standard des Noirs, développant un cavalier.", "tags": ["réponse standard"] },
+          { "san": "Bf4", "coach": "Développez votre fou en f4, une pièce clé du système de Londres.", "tags": ["développement", "londres"] },
+          { "san": "d5", "coach": "Les Noirs contestent le centre.", "tags": ["centre"] },
+          { "san": "Nc3", "coach": "Développez votre cavalier en c3, caractéristique du Jobava-London, pour soutenir d4 et viser e4.", "tags": ["développement", "jobava"] },
+          { "san": "Bd6", "coach": "Les Noirs développent leur fou et attaquent votre fou f4.", "tags": ["développement", "attaque"] },
+          { "san": "Nf3", "coach": "Développez votre cavalier en f3, contrôlant le centre et préparant le roque.", "tags": ["développement", "roque"] },
+          { "san": "Bxf4", "coach": "Les Noirs échangent leur fou contre votre fou f4.", "tags": ["échange"] },
+          { "san": "exf4", "coach": "Reprenez le fou avec votre pion, ouvrant la colonne e pour votre tour.", "tags": ["reprise", "structure de pions"] },
+          { "san": "O-O", "coach": "Les Noirs roquent pour mettre leur roi en sécurité.", "tags": ["roque"] }
+        ]
+      }
+    ],
+    "semiGuided": [],
+    "training_modes": {
+      "guided": true,
+      "interactive": false,
+      "scenario": false
+    }
+  }
+}

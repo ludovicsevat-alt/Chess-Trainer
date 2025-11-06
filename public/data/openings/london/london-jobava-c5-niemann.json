@@ -1,0 +1,102 @@
+{
+  "opening": {
+    "id": "london-jobava-c5-niemann",
+    "name": "Jobava-London (vs. c5 - Niemann-Artemiev)",
+    "eco": "A45",
+    "description": "Une ligne agressive du Jobava-London contre un ...c5 précoce, illustrée par la partie Niemann-Artemiev."
+  },
+  "principles": {
+    "core_ideas": [
+      "Répondre agressivement à ...c5 avec e4 pour ouvrir le centre.",
+      "Accepter les complications tactiques et les échanges pour obtenir un avantage positionnel ou matériel.",
+      "Exploiter la position exposée du roi noir après les échanges."
+    ],
+    "typical_structure": "Les Blancs visent une position dynamique avec un centre ouvert, des pièces actives et des menaces constantes sur le roi noir, souvent après des échanges forcés."
+  },
+  "variants": [],
+  "trainingScripts": {
+    "guided": [
+      {
+        "id": "guided-jobava-c5-niemann",
+        "name": "Apprendre le Jobava-London (vs. c5 Niemann)",
+        "side": "white",
+        "description": "Apprenez la séquence de coups de la variante Jobava-London contre ...c5, d'après la partie Niemann-Artemiev.",
+        "sequence": [
+          { "san": "d4", "coach": "Contrôlez le centre et ouvrez des lignes pour vos pièces.", "tags": ["centre", "développement"] },
+          { "san": "Nf6", "coach": "Réponse standard des Noirs, développant un cavalier.", "tags": ["réponse standard"] },
+          { "san": "Nc3", "coach": "Développez votre cavalier en c3, caractéristique du Jobava-London, pour soutenir d4 et viser e4.", "tags": ["développement", "jobava"] },
+          { "san": "d5", "coach": "Les Noirs contestent le centre.", "tags": ["centre"] },
+          { "san": "Bf4", "coach": "Développez votre fou en f4, une pièce clé du système de Londres.", "tags": ["développement", "londres"] },
+          { "san": "c5", "coach": "Les Noirs attaquent le centre et la chaîne de pions des Blancs.", "tags": ["contre-attaque", "centre"] },
+          { "san": "e4", "coach": "Répondez agressivement à ...c5 en ouvrant le centre avec e4.", "tags": ["attaque", "centre", "tactique"] },
+          { "san": "Nxe4", "coach": "Les Noirs prennent le pion e4.", "tags": ["échange"] },
+          { "san": "Nxe4", "coach": "Reprenez le cavalier avec votre cavalier.", "tags": ["reprise"] },
+          { "san": "dxe4", "coach": "Les Noirs reprennent le cavalier avec le pion.", "tags": ["reprise"] },
+          { "san": "dxc5", "coach": "Prenez le pion c5 pour ouvrir la position et créer des faiblesses.", "tags": ["échange", "tactique"] },
+          { "san": "Qa5+", "coach": "Les Noirs attaquent le roi et le pion c5.", "tags": ["attaque", "échec"] },
+          { "san": "c3", "coach": "Bloquez l'échec et protégez le pion c5.", "tags": ["défense"] },
+          { "san": "Qxc5", "coach": "Les Noirs reprennent le pion c5.", "tags": ["reprise"] },
+          { "san": "Qa4+", "coach": "Attaquez le roi noir et forcez une réponse.", "tags": ["attaque", "échec"] },
+          { "san": "Nc6", "coach": "Les Noirs bloquent l'échec avec leur cavalier.", "tags": ["défense"] },
+          { "san": "Qxe4", "coach": "Reprenez le pion e4 et activez votre dame.", "tags": ["reprise", "développement"] },
+          { "san": "e5", "coach": "Les Noirs attaquent votre dame et ouvrent des lignes.", "tags": ["attaque"] },
+          { "san": "Be3", "coach": "Développez votre fou et protégez votre dame.", "tags": ["développement", "défense"] },
+          { "san": "Qd6", "coach": "Les Noirs développent leur dame et protègent le pion e5.", "tags": ["développement"] },
+          { "san": "Nf3", "coach": "Développez votre cavalier et préparez le roque.", "tags": ["développement", "roque"] },
+          { "san": "f5", "coach": "Les Noirs attaquent votre cavalier et renforcent leur centre.", "tags": ["attaque"] },
+          { "san": "Qc2", "coach": "Déplacez votre dame en sécurité et maintenez la pression.", "tags": ["défense", "attaque"] },
+          { "san": "Be7", "coach": "Les Noirs développent leur fou et préparent le roque.", "tags": ["développement"] },
+          { "san": "Bc4", "coach": "Développez votre fou en c4, une case active pour viser l'aile roi.", "tags": ["développement", "attaque"] },
+          { "san": "Be6", "coach": "Les Noirs attaquent votre fou et préparent l'échange.", "tags": ["attaque"] },
+          { "san": "Bxe6", "coach": "Échangez les fous pour simplifier la position.", "tags": ["échange"] },
+          { "san": "Qxe6", "coach": "Les Noirs reprennent le fou avec leur dame.", "tags": ["reprise"] },
+          { "san": "O-O", "coach": "Roquez pour mettre votre roi en sécurité.", "tags": ["roque", "sécurité du roi"] },
+          { "san": "O-O", "coach": "Les Noirs roquent également.", "tags": ["roque"] },
+          { "san": "Rfe1", "coach": "Activez votre tour sur la colonne e.", "tags": ["développement", "attaque"] },
+          { "san": "Rad1", "coach": "Activez votre tour sur la colonne d.", "tags": ["développement", "attaque"] },
+          { "san": "b3", "coach": "Renforcez votre structure de pions et préparez le développement de votre fou de cases blanches.", "tags": ["structure de pions", "développement"] },
+          { "san": "h6", "coach": "Les Noirs créent de l'espace pour leur roi et empêchent les attaques sur l'aile roi.", "tags": ["défense"] },
+          { "san": "c4", "coach": "Poussez c4 pour ouvrir des lignes et créer des menaces sur l'aile dame.", "tags": ["attaque", "centre"] },
+          { "san": "e4", "coach": "Les Noirs attaquent votre cavalier et ouvrent des lignes.", "tags": ["attaque"] },
+          { "san": "Nd2", "coach": "Déplacez votre cavalier en sécurité et préparez son repositionnement.", "tags": ["défense", "développement"] },
+          { "san": "Nb4", "coach": "Les Noirs attaquent votre dame et votre pion c2.", "tags": ["attaque"] },
+          { "san": "Qb1", "coach": "Déplacez votre dame en sécurité.", "tags": ["défense"] },
+          { "san": "Nd3", "coach": "Les Noirs attaquent votre tour et votre pion b2.", "tags": ["attaque"] },
+          { "san": "Re2", "coach": "Déplacez votre tour en sécurité.", "tags": ["défense"] },
+          { "san": "Rd7", "coach": "Les Noirs activent leur tour.", "tags": ["développement"] },
+          { "san": "Nf1", "coach": "Déplacez votre cavalier en sécurité et préparez son repositionnement.", "tags": ["défense", "développement"] },
+          { "san": "Rfd8", "coach": "Les Noirs activent leur tour.", "tags": ["développement"] },
+          { "san": "Red2", "coach": "Activez votre tour sur la colonne d.", "tags": ["développement", "attaque"] },
+          { "san": "f4", "coach": "Les Noirs attaquent votre cavalier et ouvrent des lignes.", "tags": ["attaque"] },
+          { "san": "Bxa7", "coach": "Prenez le pion a7 et attaquez la tour noire.", "tags": ["attaque", "tactique"] },
+          { "san": "b6", "coach": "Les Noirs protègent leur tour.", "tags": ["défense"] },
+          { "san": "Bxb6", "coach": "Prenez le pion b6 et attaquez la dame noire.", "tags": ["attaque", "tactique"] },
+          { "san": "Qxb6", "coach": "Les Noirs reprennent le fou avec leur dame.", "tags": ["reprise"] },
+          { "san": "c5", "coach": "Poussez c5 pour créer un pion passé et attaquer la dame noire.", "tags": ["attaque", "pion passé"] },
+          { "san": "Qb4", "coach": "Les Noirs attaquent votre pion c5.", "tags": ["attaque"] },
+          { "san": "c6", "coach": "Poussez c6 pour créer un pion passé et attaquer la dame noire.", "tags": ["attaque", "pion passé"] },
+          { "san": "Rd6", "coach": "Les Noirs protègent leur pion c6.", "tags": ["défense"] },
+          { "san": "c7", "coach": "Poussez c7 pour créer un pion passé et attaquer la tour noire.", "tags": ["attaque", "pion passé"] },
+          { "san": "Rc8", "coach": "Les Noirs protègent leur tour.", "tags": ["défense"] },
+          { "san": "a3", "coach": "Poussez a3 pour attaquer la dame noire.", "tags": ["attaque"] },
+          { "san": "Qxa3", "coach": "Les Noirs reprennent le pion a3.", "tags": ["reprise"] },
+          { "san": "Rxd3", "coach": "Prenez le pion d3 et attaquez la dame noire.", "tags": ["attaque", "tactique"] },
+          { "san": "exd3", "coach": "Les Noirs reprennent le pion d3.", "tags": ["reprise"] },
+          { "san": "Rxd3", "coach": "Prenez le pion d3 et attaquez la dame noire.", "tags": ["attaque", "tactique"] },
+          { "san": "Rxd3", "coach": "Les Noirs reprennent la tour d3.", "tags": ["reprise"] },
+          { "san": "Qxd3", "coach": "Reprenez la tour d3 et attaquez le roi noir.", "tags": ["attaque", "échec"] },
+          { "san": "Kh8", "coach": "Les Noirs déplacent leur roi en sécurité.", "tags": ["défense"] },
+          { "san": "Qd7", "coach": "Attaquez le roi noir et forcez une réponse.", "tags": ["attaque", "échec"] },
+          { "san": "Qa8", "coach": "Les Noirs déplacent leur dame en sécurité.", "tags": ["défense"] },
+          { "san": "h3", "coach": "Créez de l'espace pour votre roi et empêchez les attaques sur l'aile roi.", "tags": ["défense"] }
+        ]
+      }
+    ],
+    "semiGuided": [],
+    "training_modes": {
+      "guided": true,
+      "interactive": false,
+      "scenario": false
+    }
+  }
+}
